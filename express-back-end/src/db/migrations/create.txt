@@ -1,44 +1,49 @@
-// -- DROP TABLE IF EXISTS rating CASCADE;
-// -- DROP TABLE IF EXISTS inspection CASCADE;
-// -- DROP TABLE IF EXISTS mechanic CASCADE;
-// -- DROP TABLE IF EXISTS user CASCADE;
-knex.schema.dropTable('rating')
-knex.schema.dropTable('inspection')
-knex.schema.dropTable('mechanic')
-knex.schema.dropTable('user')
+// exports.up = knex => {
 
-knex.schema.createTable('user', function (table) {
-  table.increments();
-  table.string('first_name');
-  table.string('last_name');
-  table.text('email');
-  table.text('password_digest');
-  table.integer('phone');
-  table.text('location')
 
-})
 
-knex.schema.createTable('mechanic', function (table) {
-  table.increments();
-  table.string('first_name');
-  table.string('last_name');
-  table.text('email');
-  table.text('password_digest');
-  table.integer('phone');
-  table.text('location');
-  table.boolean('active');
-  table.text('description');
-  table.text("avatar");
-  table.text('location')
-})
+//   knex.schema.createTable('user', function (table) {
+//     table.increments();
+//     table.string('first_name');
+//     table.string('last_name');
+//     table.text('email');
+//     table.text('password_digest');
+//     table.integer('phone');
+//     table.text('location')
 
-knex.schema.createTable('inspection', function (table) {
+//   })
+// }
 
-})
 
-knex.schema.createTable('rating', function (table) {
+// knex.schema.createTable('mechanic', function (table) {
+//   table.increments();
+//   table.string('first_name');
+//   table.string('last_name');
+//   table.text('email');
+//   table.text('password_digest');
+//   table.integer('phone');
+//   table.text('location');
+//   table.boolean('active');
+//   table.text('description');
+//   table.text("avatar");
+//   table.text('location')
+// })
 
-})
+// knex.schema.createTable('inspection', function (table) {
+
+// })
+
+// knex.schema.createTable('rating', function (table) {
+
+// })
+// }
+
+// exports.down = knex => {
+// // knex.schema.dropTableIfExists('rating');
+// // knex.schema.dropTableIfExists('inspection');
+// // knex.schema.dropTableIfExists('mechanic');
+// knex.schema.dropTableIfExists('user');
+// }
 
 // -- CREATE TABLE mechanic (
 // --   id SERIAL PRIMARY KEY NOT NULL,
