@@ -1,2 +1,7 @@
-node_modules/
+.DS_Store
 .env
+.env.development
+.env.test
+
+node_modules/
+coverage/
