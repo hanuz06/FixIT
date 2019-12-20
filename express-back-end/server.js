@@ -15,14 +15,24 @@ App.get('/api/data', (req, res) => res.json({
 }));
 
 // Path 
-App.get('/api/mechanic', async (req, res) => {
-  const mechanic = await db("mechanic"); // making a query to get all todos
-  res.json({ mechanic });
+App.get('/api/mechanics', async (req, res) => {
+  const mechanics = await db("mechanics"); // making a query to get all todos
+  res.json({ mechanics });
 });
 
-App.get('/api/person', async (req, res) => {
-  const person = await db("person"); // making a query to get all todos
-  res.json({ person });
+App.get('/api/users', async (req, res) => {
+  const users = await db("users"); // making a query to get all todos
+  res.json({ users });
+});
+
+App.get('/api/ratings', async (req, res) => {
+  const ratings = await db("ratings"); // making a query to get all todos
+  res.json({ ratings });
+});
+
+App.get('/api/inspections', async (req, res) => {
+  const inspections = await db("inspections"); // making a query to get all todos
+  res.json({ inspections });
 });
 
 

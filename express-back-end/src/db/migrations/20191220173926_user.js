@@ -1,6 +1,6 @@
 
 exports.up = knex =>
-  knex.schema.createTable('person', table => {
+  knex.schema.createTable('users', table => {
     table.increments();
     table.string('first_name');
     table.string('last_name');
@@ -13,4 +13,4 @@ exports.up = knex =>
 
 
 exports.down = knex =>
-  knex.schema.dropTableIfExists('person')
+  knex.schema.dropTableIfExists('users')

@@ -2,7 +2,7 @@
 
 
 exports.up = knex =>
-  knex.schema.createTable('mechanic', table => {
+  knex.schema.createTable('mechanics', table => {
     table.increments();
     table.string('first_name');
     table.string('last_name');
@@ -17,5 +17,5 @@ exports.up = knex =>
   })
 
 exports.down = knex =>
-  knex.schema.dropTableIfExists('mechanic');
+  knex.schema.dropTableIfExists('mechanics');
 
