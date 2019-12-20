@@ -9,22 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import { Link as HyperLink } from 'react-router-dom';
-
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -60,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function Album() {
+export default function LandingPage() {
   const classes = useStyles();
 
   return (
@@ -120,18 +105,7 @@ export default function Album() {
             ))}
           </Grid>
         </Container>
-      </main>
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </footer>
-      {/* End footer */}
+      </main>      
     </React.Fragment>
   );
 }

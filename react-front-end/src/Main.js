@@ -1,7 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-
-import Album from "./Album";
+import LandingPage from "./LandingPage";
 import Login from "./Login";
 import Signup from "./Signup";
 
@@ -15,7 +14,7 @@ class Main extends React.Component {
         <div>
           <Switch>
             {/* Using the `component` prop */}
-            <Route exact path="/" component={Album} ></Route>
+            <Route exact path="/" component={LandingPage} ></Route>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
 
