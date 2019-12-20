@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import Main from './Main.js'
-import Header from './Header.js'
-import Footer from './Footer.js'
+import Header from './components/Header.js'
+import Footer from './components/Footer.js'
 
 
 class App extends Component {
