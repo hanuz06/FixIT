@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import Main from './Main.js'
-import Header from './Header.js'
+import Header from './components/Header.js'
+import Footer from './components/Footer.js'
 
 
 class App extends Component {
@@ -32,7 +33,7 @@ class App extends Component {
         {/* <Header removeSession={this.removeSession} name={this.state.name} /> */}
         < Header />
         < Main name={this.state.name} />
-        {/* <Footer /> */}
+        < Footer /> 
       </div>
     );
   }

@@ -9,22 +9,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import { Link as HyperLink } from 'react-router-dom';
-
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import RatingSize from '../../components/RatingSize';
+import { database } from '../../db/database'
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -60,13 +47,15 @@ const useStyles = makeStyles(theme => ({
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function Album() {
+
+
+export default function LandingPage() {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <CssBaseline />      
-      <main>
+      
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
@@ -91,28 +80,29 @@ export default function Album() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {database.mechanics.map(mechanic => (
+              <Grid item key={mechanic.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
+                    image = {mechanic.avatar}
                     title="Image title"
-                  />
+                  />   
+                  < RatingSize />               
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {mechanic.first_name} {mechanic.last_name}
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      {mechanic.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    {/* <Button size="small" color="primary">
                       View
-                    </Button>
+                    </Button> */}
                     <Button size="small" color="primary">
-                      Edit
+                      Request {mechanic.first_name}
                     </Button>
                   </CardActions>
                 </Card>
@@ -120,18 +110,7 @@ export default function Album() {
             ))}
           </Grid>
         </Container>
-      </main>
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </footer>
-      {/* End footer */}
+           
     </React.Fragment>
   );
 }

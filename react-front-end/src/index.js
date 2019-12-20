@@ -1,22 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// You can choose your kind of history here (e.g. browserHistory)
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-// Your routes.js file
-import routes from './routes';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import Login from './Login';
-import Album from './Album';
-
-// ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(
-  <Router>
+  <BrowserRouter>
     < App />
-  </Router>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
