@@ -50,7 +50,7 @@ export default function SignIn() {
   const classes = useStyles();
 
   return (
-    <box className={classes.paper}>
+    <Box className={classes.paper}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
           <Avatar className={classes.avatar}>
@@ -112,6 +112,6 @@ export default function SignIn() {
           <Copyright />
         </Box>
       </Container>
-    </box>
+    </Box>
   );
 }

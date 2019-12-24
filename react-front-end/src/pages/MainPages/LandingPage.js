@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as HyperLink } from 'react-router-dom';
 import RatingSize from '../../components/RatingSize';
-import { database } from '../../db/database'
+//import { database } from '../../db/database'
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -47,9 +47,9 @@ const useStyles = makeStyles(theme => ({
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function LandingPage() {
+export default function LandingPage({ mechanics }) {
   const classes = useStyles();
-
+console.log('DDDDDDDDD',mechanics)
   return (
     <React.Fragment>
       <CssBaseline />      
@@ -78,7 +78,7 @@ export default function LandingPage() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {database.mechanics.map(mechanic => (
+            {mechanics.map(mechanic => (
               <Grid item key={mechanic.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia

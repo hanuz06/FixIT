@@ -1,11 +1,11 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import MainPages from "./pages/MainPages";
+import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 
-function RoutePage () { 
+function RouterPage () {   
       
     return (
       <main style={{ minHeight: "70vh" }}>
@@ -13,7 +13,7 @@ function RoutePage () {
         <article>
           <Switch>
             {/* Using the `component` prop */}
-            <Route exact path="/" component={MainPages} />
+            <Route exact path="/" component={MainPage} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />  
             
@@ -24,4 +24,4 @@ function RoutePage () {
     );  
 }
 
-export default RoutePage;
+export default RouterPage;
