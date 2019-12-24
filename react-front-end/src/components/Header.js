@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,21 +25,20 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} maxWidth="sm">
+    <Box className={classes.root} maxWidth="sm">
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          <Link to="/"><Button color="inherit">Home</Button> </Link>
+            <MenuIcon />          
+          <Button color="inherit" href="/">Home</Button> 
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          <Button color="inherit">Login</Button> 
-          <Link to="/login"><Button color="inherit">Login</Button> </Link>
-          <Link to="/signup"><Button color="inherit">Signup</Button> </Link>
+          <Button color="inherit" href="/login">Login</Button> 
+          <Button color="inherit" href="/signup">Signup</Button>          
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }

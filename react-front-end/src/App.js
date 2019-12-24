@@ -1,20 +1,24 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css';
-import Main from './Main.js'
+import './App.scss';
+import RoutePage from './RoutePage.js'
 import Header from './components/Header.js'
 import Footer from './components/Footer.js'
+import Loader from './components/Loader'
 
+// class App extends Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       message: 'Click the button to load data!'
+//     }
+//   }
+function App() {
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      message: 'Click the button to load data!'
-    }
-  }
+  const [message, setMessage]=useState();
+  const [loading, setLoading]=useState(true);
 
-  fetchData = () => {
+  const fetchData = () => {
     axios.get('/api/data') // You can simply make your requests to "/api/whatever you want"
     .then((response) => {
       // handle success
@@ -25,18 +29,16 @@ class App extends Component {
         message: response.data.message
       });
     }) 
-  }
-
-  render() {
+  } 
     return (
       <div className="App">
         {/* <Header removeSession={this.removeSession} name={this.state.name} /> */}
         < Header />
-        < Main name={this.state.name} />
+        < RoutePage />
         < Footer /> 
       </div>
     );
-  }
+  
 }
 
 export default App;
