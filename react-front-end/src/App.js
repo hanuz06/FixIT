@@ -5,20 +5,18 @@ import RouterPage from './RouterPage.js'
 import Header from './components/Header.js'
 import Footer from './components/Footer.js'
 import Loader from './components/Loader'
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-// class App extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       message: 'Click the button to load data!'
-//     }
-//   }
 function App() {
+  
+  const [loading, setLoading] = useState(false)
    
     return (
-      <div className="App">
+      <div className="App" >
+        {/* <CssBaseline /> */}
         {/* <Header removeSession={this.removeSession} name={this.state.name} /> */}
         < Header />
+        {loading && <Loader />}
         < RouterPage />
         < Footer /> 
       </div>

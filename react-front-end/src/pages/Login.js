@@ -28,14 +28,17 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    //marginTop: theme.spacing(8),
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'column',    
+    alignItems: 'center',        
+    minHeight: '90vh'    
   },
-  avatar: {    
+  avatar: { 
+    marginTop: theme.spacing(18),   
     backgroundColor: theme.palette.secondary.main,
     margin: 'auto',
+    marginBottom: '10px'
   },  
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -43,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
+  }
 }));
 
 export default function SignIn() {
@@ -51,12 +54,12 @@ export default function SignIn() {
 
   return (
     <Box className={classes.paper}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" align='center' variant="h5">
             Sign in
           </Typography>
           <form className={classes.form} noValidate>
@@ -107,10 +110,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
             </Grid>
-          </form>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
+          </form>        
       </Container>
     </Box>
   );

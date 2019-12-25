@@ -7,12 +7,33 @@ import FolderIcon from '@material-ui/icons/Folder';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles({
-  root: {
-    width: 500,
-  },
+  root: {    
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',       
+    width: '100%',
+    height: '10vh'
+  }
 });
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="#">
+        FixIT
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default function LabelBottomNavigation() {
   const classes = useStyles();
@@ -23,13 +44,10 @@ export default function LabelBottomNavigation() {
   };
 
   return (
-    <footer>
-      <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-        <BottomNavigationAction label="Recents" value="recents" icon={<RestoreIcon />} />
-        <BottomNavigationAction label="Favorites" value="favorites" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Nearby" value="nearby" icon={<LocationOnIcon />} />
-        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-      </BottomNavigation>
+    <footer className={classes.root}>
+      <div maxwidth="xs" >   
+          <Copyright />     
+      </div >
     </footer>
   );
 }

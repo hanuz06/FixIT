@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
+  }
 }));
 
 export default function SignUp() {
@@ -51,7 +51,7 @@ export default function SignUp() {
 
   return (
    
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -164,10 +164,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </form>
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
+        </div>        
       </Container>    
   );
 }

@@ -8,19 +8,20 @@ import Signup from "./pages/Signup";
 function RouterPage () {   
       
     return (
-      <main style={{ minHeight: "70vh" }}>
-        
-        <article>
+      <React.Fragment>       
           <Switch>
             {/* Using the `component` prop */}
-            <Route exact path="/" component={MainPage} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />  
-            
-          </Switch>
-        </article>
-  
-      </main>
+            <Route exact path="/" >
+              < MainPage />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+          </Switch>  
+      </React.Fragment>
     );  
 }
 

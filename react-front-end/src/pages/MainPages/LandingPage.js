@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function LandingPage({ mechanics }) {
   const classes = useStyles();
-console.log('DDDDDDDDD',mechanics)
+
   return (
     <React.Fragment>
       <CssBaseline />      

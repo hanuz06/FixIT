@@ -15,14 +15,29 @@ export default function MainPage(props) {
 
   useEffect(() => { 
     
-      axios.get('http://localhost:3000/mechanics') // You can simply make your requests to "/api/whatever you want"
-      .then((response) => {
-        
-        //console.log(typeof response.data) 
-        // Just the message
+    axios.get('http://localhost:3000/mechanics') 
+      .then((response) => {        
         setMechanics(response.data);
-      })    
-},[]) 
+      })
+    
+    axios.get('http://localhost:3000/ratings') 
+    .then((response) => {        
+      setRatings(response.data);
+    })
+
+    axios.get('http://localhost:3000/users') 
+    .then((response) => {        
+      setUsers(response.data);
+    })
+
+    axios.get('http://localhost:3000/inspections') 
+    .then((response) => {        
+      setInspections(response.data);
+    })
+  
+  },[])
+
+   
 
 return (
   <main>
