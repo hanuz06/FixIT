@@ -10,13 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as HyperLink } from 'react-router-dom';
 import RatingSize from '../../components/RatingSize';
-
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import Zoom from '@material-ui/core/Zoom';
-import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Tooltip from '@material-ui/core/Tooltip';
 import purple from '@material-ui/core/colors/purple';
 import SimpleDialogDemo from '../../components/openDialog';
 
@@ -28,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(8, 0, 6)    
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -71,10 +65,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function LandingPage({ mechanics }) {
   const [loading, setLoading] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [mechanicData, setMechanic] = useState({})
+
   const classes = useStyles();
 
   const LoadingFunction = () => {
      loading? setLoading(false) : setLoading(true)}
+
+  const openModal = (mechanic) => {
+    setModalOpen(true);
+    setMechanic(mechanic);
+  }
+
+  const closeModal = () => {    
+    setModalOpen(false);
+  };
+
+  const mechanicRequest = (event) => {
+    event.stopPropagation();
+    console.log("This is a mechanic request")    
+  }
 
   return (
     <React.Fragment>           
@@ -106,12 +117,14 @@ export default function LandingPage({ mechanics }) {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
+          
+
           <Grid container spacing={4}>
             {mechanics.map(mechanic => ( 
 
-              <Grid item key={mechanic.id} xs={12} sm={6} md={4} >  
-                <Card className={classes.card}>      
-                            
+              <Grid item key={mechanic.id} xs={12} sm={6} md={4} >    
+              {modalOpen && <SimpleDialogDemo mechanic={mechanicData} modalOpen={modalOpen} closeModal={closeModal} />}             
+                <Card className={classes.card} onClick={()=>openModal(mechanic)}>                            
                   <CardMedia
                     className={classes.cardMedia}
                     image = {mechanic.avatar}
@@ -130,15 +143,16 @@ export default function LandingPage({ mechanics }) {
                     {/* <Button size="small" color="primary">
                       View
                     </Button> */}
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={ mechanicRequest }>
                       Request {mechanic.first_name}
                     </Button> 
                     <SimpleDialogDemo mechanic={mechanic}/> 
-                  </CardActions> 
-                </Card>
-              </Grid>              
+                  </CardActions>                  
+                </Card>                
+              </Grid> 
+                         
             ))}
-          </Grid>
+          </Grid>          
         </Container>          
     </React.Fragment>
   );

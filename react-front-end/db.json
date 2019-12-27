@@ -41,7 +41,7 @@
     {
       "id": 4,
       "first_name": "Mike",
-      "last_name": "Smith1",
+      "last_name": "Smith4",
       "email": "granttaylor448@gmail.com",
       "password_digest": "123",
       "phone": 4037000357,
@@ -54,7 +54,7 @@
     {
       "id": 5,
       "first_name": "Mark",
-      "last_name": "Smith2",
+      "last_name": "Smith5",
       "email": "granttaylor448@gmail.com",
       "password_digest": "123",
       "phone": 4037000357,
@@ -67,7 +67,7 @@
     {
       "id": 6,
       "first_name": "Mike",
-      "last_name": "Smith1",
+      "last_name": "Smith6",
       "email": "granttaylor448@gmail.com",
       "password_digest": "123",
       "phone": 4037000357,
@@ -80,7 +80,7 @@
     {
       "id": 7,
       "first_name": "Mark",
-      "last_name": "Smith2",
+      "last_name": "Smith7",
       "email": "granttaylor448@gmail.com",
       "password_digest": "123",
       "phone": 4037000357,

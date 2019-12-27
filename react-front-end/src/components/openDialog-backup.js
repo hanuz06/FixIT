@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -43,41 +43,16 @@ const useStyles = makeStyles(theme => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-  dialog: {
-    opacity: '0.3'
-  }
 }));
 
-SimpleDialogDemo.propTypes = {
-  onClose: PropTypes.func    
-};
+function SimpleDialog(props) {
+  const classes = useStyles();
+  const { onClose, open, mechanic } = props; 
 
-export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
-  const [open, setOpen] = React.useState(false); 
-  const classes = useStyles(); 
-
-  useEffect(() => {
-
-    if (modalOpen === true){
-      setOpen(true)    
-    } 
-  },[]);  
-
-  const handleClose = value => {    
-    setOpen(false);
-    closeModal()
-  };
-
-  const mechanicRequest = (event) => {
-    event.stopPropagation();
-    console.log("This is a mechanic request")    
-  }
-
-  return (    
-  
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={classes.dialog}>
+  return (
+    <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
       <CssBaseline />      
-      <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
+      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
         <CloseIcon />
       </IconButton>
       <DialogTitle id="simple-dialog-title">Best mechanic ever!</DialogTitle>
@@ -100,12 +75,37 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
             {/* <Button size="small" color="primary">
               View
             </Button> */}
-            <Button size="small" color="primary" onClick={ mechanicRequest }>
+            <Button size="small" color="primary">
               Request {mechanic.first_name}
             </Button>                      
           </CardActions> 
         </Card>
     </Dialog>
-  
+  );
+}
+
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired  
+};
+
+export default function SimpleDialogDemo({ mechanic }) {
+  const [open, setOpen] = React.useState(false);  
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = value => {    
+    setOpen(false);
+  };
+
+  return (
+    <div>      
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        More info
+      </Button>
+      <SimpleDialog open={open} onClose={handleClose} mechanic={mechanic}/>
+    </div>
   );
 }

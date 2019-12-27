@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import MainPages from './MainPages';
-import LandingPage from './MainPages/LandingPage';
+// import LandingPage from './MainPages/LandingPage';
 import OrderRequest from './MainPages/OrderRequest';
 import { makeStyles } from '@material-ui/core/styles';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
@@ -12,12 +12,18 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
+const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
+
+const useStyles = makeStyles(theme  => ({
   backToTopButton: {
     position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
     opacity: '0.7'
+  },
+  loading: {    
+    marginTop: '15vh',
+    textAlign: 'center'    
   }
 }));
 
@@ -62,7 +68,7 @@ ScrollTop.propTypes = {
 
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
-  
+  const classes = useStyles();
 
   const [mechanics, setMechanics]=useState([]);
   const [loading, setLoading]=useState(true);
@@ -73,7 +79,7 @@ export default function MainPage(props) {
   useEffect(() => { 
     
     axios.get('http://localhost:3000/mechanics') 
-      .then((response) => {        
+      .then((response) => {                
         setMechanics(response.data);
       })
     
@@ -92,15 +98,19 @@ export default function MainPage(props) {
       setInspections(response.data);
     })
   
-  },[])
-
-   
+  },[])  
 
 return (
   <React.Fragment>
   <main id='back-to-top'>
-    {/* < OrderRequest mechanics={mechanics}/> */}
-    < LandingPage mechanics={mechanics} /> 
+    {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }> 
+      < OrderRequest mechanics={mechanics}/> 
+    </Suspense>   */}
+
+    <Suspense fallback={<h2 className={classes.loading}>Loading...</h2>}>  
+      <LandingPage mechanics={mechanics} />
+    </Suspense>  
+
     {/* < MainPages /> */}
   </main>
    <ScrollTop >
