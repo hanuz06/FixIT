@@ -13,7 +13,7 @@ function App() {
    
     return (
       <div className="App" >
-        {/* <CssBaseline /> */}
+        <CssBaseline />
         {/* <Header removeSession={this.removeSession} name={this.state.name} /> */}
         < Header />
         {loading && <Loader />}

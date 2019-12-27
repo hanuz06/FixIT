@@ -1,7 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -28,12 +27,14 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    //marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    minHeight: '90vh' 
   },
   avatar: {
+    marginTop: theme.spacing(9),
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
@@ -51,8 +52,7 @@ export default function SignUp() {
 
   return (
    
-      <Container component="main" maxWidth="xs" >
-        <CssBaseline />
+      <Container component="main" maxWidth="xs" >        
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
