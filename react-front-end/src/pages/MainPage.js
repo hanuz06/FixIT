@@ -13,6 +13,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
+const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
+
 
 const useStyles = makeStyles(theme  => ({
   backToTopButton: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles(theme  => ({
   },
   loading: {    
     marginTop: '15vh',
-    textAlign: 'center'    
+    textAlign: 'center'  
   }
 }));
 
@@ -64,6 +66,8 @@ ScrollTop.propTypes = {
    */
   window: PropTypes.func,
 };
+
+
 
 
 //This file contains all functions and global state for SPA. 
@@ -107,9 +111,17 @@ return (
       < OrderRequest mechanics={mechanics}/> 
     </Suspense>   */}
 
-    <Suspense fallback={<h2 className={classes.loading}>Loading...</h2>}>  
+    <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
       <LandingPage mechanics={mechanics} />
     </Suspense>  
+
+    {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
+      <ConfirmPage mechanics={mechanics} />
+    </Suspense>  */}
+
+    {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
+      <ConfirmPage inspection={inspections} />
+    </Suspense>  */}
 
     {/* < MainPages /> */}
   </main>

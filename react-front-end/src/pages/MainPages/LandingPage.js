@@ -6,13 +6,17 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as HyperLink } from 'react-router-dom';
 import RatingSize from '../../components/RatingSize';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import SimpleDialogDemo from '../../components/openDialog';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import TypeSentence from '../../components/TypedSentence'
+
 
 //import { database } from '../../db/database'
 
@@ -44,8 +48,7 @@ const useStyles = makeStyles(theme => ({
     ), 
     '&:hover':{
       height: '101%',
-      width: '101%',
-      cursor: 'pointer',  
+      width: '101%',      
       boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'    
     }
   },  
@@ -58,20 +61,55 @@ const useStyles = makeStyles(theme => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
+  },
+  search: {
+    position: 'relative',
+    border: 'solid grey 1px',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 7),
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 200,
+    },
   }
 }));
-
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+ 
 export default function LandingPage({ mechanics }) {
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [mechanicData, setMechanic] = useState({})
 
-  const classes = useStyles();
+  const classes = useStyles(); 
 
-  const LoadingFunction = () => {
-     loading? setLoading(false) : setLoading(true)}
+  // var options = {
+  // const LoadingFunction = () => {
+  //    loading? setLoading(false) : setLoading(true)}
 
   const openModal = (mechanic) => {
     setModalOpen(true);
@@ -93,14 +131,25 @@ export default function LandingPage({ mechanics }) {
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm" >
-          { loading && <CircularProgress color="secondary" /> }
+          {/* { loading && <CircularProgress color="secondary" /> } */}
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               FIXit
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Connecting you with Calgary's best mechanics. Simply sign in or sign up and start using the application today!
-            </Typography>
-            <div className={classes.heroButtons}>
+            </Typography>            
+            <TypeSentence />            
+            <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+            {/* <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <HyperLink to="/login"><Button color="inherit">Login</Button> </HyperLink>
@@ -112,7 +161,7 @@ export default function LandingPage({ mechanics }) {
                   <Button color="inherit" onClick={LoadingFunction}>Loading</Button> 
                 </Grid>                
               </Grid>
-            </div>
+            </div> */}
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -122,8 +171,9 @@ export default function LandingPage({ mechanics }) {
           <Grid container spacing={4}>
             {mechanics.map(mechanic => ( 
 
-              <Grid item key={mechanic.id} xs={12} sm={6} md={4} >    
-              {modalOpen && <SimpleDialogDemo mechanic={mechanicData} modalOpen={modalOpen} closeModal={closeModal} />}             
+              <Grid item key={mechanic.id} xs={12} sm={6} md={4} >      
+              { modalOpen && 
+              <SimpleDialogDemo mechanic={mechanicData} modalOpen={modalOpen} closeModal={closeModal} /> }              
                 <Card className={classes.card} onClick={()=>openModal(mechanic)}>                            
                   <CardMedia
                     className={classes.cardMedia}
@@ -143,7 +193,7 @@ export default function LandingPage({ mechanics }) {
                     {/* <Button size="small" color="primary">
                       View
                     </Button> */}
-                    <Button size="small" color="primary" onClick={ mechanicRequest }>
+                    <Button size="small" color="primary" onClick={ mechanicRequest } style={{cursor:'pointer'}}>
                       Request {mechanic.first_name}
                     </Button> 
                     <SimpleDialogDemo mechanic={mechanic}/> 
