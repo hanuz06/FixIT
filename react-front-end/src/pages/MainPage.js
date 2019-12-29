@@ -67,9 +67,6 @@ ScrollTop.propTypes = {
   window: PropTypes.func,
 };
 
-
-
-
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
   const classes = useStyles();

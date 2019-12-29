@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -11,19 +11,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -48,7 +35,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignUp() {
+  const [item, setItem] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    phone: '',
+    location: ''
+  });
+
   const classes = useStyles();
+
+  const changeVal = (e) => {
+    setItem({[e.target.name]:e.target.value})
+  }
 
   return (
    
@@ -71,6 +72,8 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  defaultValue={item.firstName}
+                  onChange={changeVal}
                   autoFocus
                 />
               </Grid>
@@ -81,6 +84,8 @@ export default function SignUp() {
                   fullWidth
                   id="lastName"
                   label="Last Name"
+                  defaultValue={item.lastName}
+                  onChange={changeVal}
                   name="lastName"                
                 />
               </Grid>
@@ -91,6 +96,8 @@ export default function SignUp() {
                   fullWidth
                   id="email"
                   label="Email Address"
+                  defaultValue={item.email}
+                  onChange={changeVal}
                   name="email"                
                 />
               </Grid>
@@ -101,6 +108,8 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
+                  defaultValue={item.password}
+                  onChange={changeVal}
                   type="password"
                   id="password"                
                 />
@@ -112,6 +121,8 @@ export default function SignUp() {
                   fullWidth
                   name="passwordConfirmation"
                   label="Password Confirmation"
+                  defaultValue={item.passwordConfirmation}
+                  onChange={changeVal}
                   type="password"
                   id="password"                
                 />
@@ -123,6 +134,8 @@ export default function SignUp() {
                   fullWidth
                   name="phone"
                   label="Phone number"
+                  defaultValue={item.phone}
+                  onChange={changeVal}
                   type="phone"
                   id="phone"
                   autoComplete="current-phone"
@@ -135,6 +148,8 @@ export default function SignUp() {
                   fullWidth
                   name="location"
                   label="Location"
+                  defaultValue={item.location}
+                  onChange={changeVal}
                   type="location"
                   id="location"
                   autoComplete="current-location"

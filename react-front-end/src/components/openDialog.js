@@ -25,10 +25,11 @@ const useStyles = makeStyles(theme => ({
     width: '500px',
     display: 'flex',
     flexDirection: 'column',
-    padding: '5px'
+    padding: '5px',
+    alignItems:'center'
   },  
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    //paddingTop: '56.25%', // 16:9,    
   },
   cardContent: {
     flexGrow: 1
@@ -44,7 +45,12 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grey[500],
   },
   dialog: {
-    opacity: '0.3'
+    opacity: '0.4'
+  },
+  image: {     
+    width: '250px',
+    maxWidth: '100%',
+    height: 'auto',   
   }
 }));
 
@@ -54,6 +60,7 @@ SimpleDialogDemo.propTypes = {
 
 export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
   const [open, setOpen] = React.useState(false); 
+
   const classes = useStyles(); 
 
   useEffect(() => {
@@ -75,25 +82,35 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
 
   return (    
   
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={classes.dialog}>
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={classes.dialog} transitionDuration={600}>
       <CssBaseline />      
       <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
         <CloseIcon />
       </IconButton>
-      <DialogTitle id="simple-dialog-title">Best mechanic ever!</DialogTitle>
+      <DialogTitle id="simple-dialog-title" style={{textAlign:'center'}}>Best mechanic ever!</DialogTitle>
         <Card className={classes.card}>                        
           <CardMedia
             className={classes.cardMedia}
-            image = {mechanic.avatar}
-            title="Image title"
-          />   
+            // image = {mechanic.avatar}
+            title="Best mechanic"
+          > 
+          <img src={mechanic.avatar} alt="Best mechanic" className={classes.image}/>
+          </CardMedia>  
           < RatingSize />               
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
               {mechanic.first_name} {mechanic.last_name}
             </Typography>
-            <Typography>
-              {mechanic.description}
+            <Typography>              
+              We have been serving Calgary since 2006
+              We are a full service auto repair facility
+              Warranty approved maintenance centre
+              24 hour key-drop for your convenience
+              Fleet rates available
+              Courtesy cars available
+              Repairs will not be completed without your authorization
+              Free roadside assistance
+              12 months or 20,000km parts and labour warranty on all repairs
             </Typography>
           </CardContent>
           <CardActions>

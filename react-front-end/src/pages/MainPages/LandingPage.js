@@ -17,9 +17,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import TypeSentence from '../../components/TypedSentence'
 
-
-//import { database } from '../../db/database'
-
 const useStyles = makeStyles(theme => ({
   icon: {
     marginRight: theme.spacing(2),

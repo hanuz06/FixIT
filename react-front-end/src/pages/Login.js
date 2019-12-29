@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -11,19 +11,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -49,7 +36,44 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignIn() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailHelperText, setEmailHelperText] = useState('');
+  const [passwordHelperText, setPasswordHelperText] = useState('');
+
   const classes = useStyles();
+
+  const userLogin = e => {
+    e.preventDefault()
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;    
+
+    if (!email&&!password){
+      setEmailHelperText("Email cannot be empty");
+      setPasswordHelperText("Password cannot be empty");
+      setEmailError(true);
+      setPasswordError(true);
+    } else if (!email){
+      setEmailHelperText("Email cannot be empty");
+      setEmailError(true);
+    } else if (!password){
+      setPasswordHelperText("Password cannot be empty");
+      setPasswordError(true);    
+    }  else console.log('successssss');
+
+    if (email && !re.test(email.toLowerCase())){
+      setEmailHelperText("Email format is incorrect");
+      setEmailError(true);
+    } 
+  }
+
+  const clearForm = () => {
+    setEmailHelperText("")
+    setPasswordHelperText("")
+    setEmailError(false);
+    setPasswordError(false);
+  }
 
   return (
     <Box className={classes.paper}>
@@ -60,21 +84,29 @@ export default function SignIn() {
           <Typography component="h1" align='center' variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate method='POST'>
             <TextField
               variant="outlined"
               margin="normal"
+              defaultValue={email}
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={e => setEmail(e.target.value)}
+              onFocus={clearForm}
+              //errorText={state.error}
+              error={emailError}
+              //errorText={'ERRRROR'}
+              helperText={emailHelperText}
               autoFocus
             />
             <TextField
               variant="outlined"
               margin="normal"
+              defaultValue={password}
               required
               fullWidth
               name="password"
@@ -82,6 +114,11 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={e => setPassword(e.target.value)}
+              onFocus={clearForm}
+              //errorText={'ERRRROR'}
+              error={passwordError}
+              helperText={passwordHelperText}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -93,6 +130,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={userLogin}
             >
               Sign In
             </Button>
@@ -112,4 +150,4 @@ export default function SignIn() {
       </Container>
     </Box>
   );
-}
+} 
