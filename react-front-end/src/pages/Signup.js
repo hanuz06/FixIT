@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {AlertContext} from '../context/alert/alertContext';
+import  {Alert} from '../components/Alert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,21 +37,122 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignUp() {
-  const [item, setItem] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    passwordConfirmation: '',
-    phone: '',
-    location: ''
-  });
-
+  const {show, hide} = useContext(AlertContext);
   const classes = useStyles();
 
-  const changeVal = (e) => {
-    setItem({[e.target.name]:e.target.value})
+  // const [item, setItem] = useState({
+  //   firstName: '',
+  //   lastName: '',
+  //   email: '',
+  //   password: '',
+  //   passwordConfirmation: '',
+  //   phone: '',
+  //   location: '',
+  //   firstNameText: '',
+  //   lastNameText: '',
+  //   emailText: '',
+  //   passwordText: '',
+  //   passwordConfirmationText: '',
+  //   phoneText: '',
+  //   locationText: '',
+  //   firstNameError: false,
+  //   lastNameError: false,
+  //   emailError: false,
+  //   passwordError: false,
+  //   passwordConfirmationError: false,
+  //   phoneError: false,
+  //   locationError: false
+
+  // })   
+  const [firstName, setfirstName] = useState('');
+  const [firstNameError, setfirstNameError] = useState(false);
+  const [firstNameText, setfirstNameText] = useState('');
+  const [lastName, setlastName] = useState('');
+  const [lastNameError, setlastNameError] = useState(false);
+  const [lastNameText, setlastNameText] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [emailText, setEmailText] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordText, setPasswordText] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [passwordConfirmationError, setPasswordConfirmationError] = useState(false);
+  const [passwordConfirmationText, setPasswordConfirmationText] = useState('');
+  const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState(false);
+  const [phoneText, setPhoneText] = useState('');
+  const [location, setLocation] = useState('');
+  const [locationError, setLocationError] = useState(false);
+  const [locationText, setLocationText] = useState('');
+    
+  const signUpData = e =>{
+    e.preventDefault();
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+
+    
+    if (!firstName){      
+      setfirstNameError(true);    
+      setfirstNameText("First name cannot be empty");      
+    }   
+    
+    if (!lastName){      
+      setlastNameError(true);    
+      setlastNameText("Last name cannot be empty");      
+    }    
+
+    if (!email){
+      setEmailError(true);      
+      setEmailText("Email cannot be empty");
+    } 
+    
+     if (!password){
+      setPasswordText("Password cannot be empty");
+      setPasswordError(true);    
+    }
+    
+    if (!passwordConfirmation){
+      setPasswordConfirmationText("Password confirmation cannot be empty");
+      setPasswordConfirmationError(true);    
+    }
+
+    if (email && !re.test(email.toLowerCase())){
+      setEmailText("Email format is incorrect");
+      setEmailError(true);
+    } 
+
+    if (!phone){
+      setPhoneText("Phone cannot be empty");
+      setPhoneError(true);    
+    }
+
+    if (!location){
+      setLocationText("Phone cannot be empty");
+      setLocationError(true);    
+    }
+
+  } 
+
+  const clearForm = () => {    
+    setfirstNameError(false);
+    setlastNameError(false);
+    setEmailError(false);
+    setPasswordError(false);
+    setPasswordConfirmationError(false);
+    setPhoneError(false);
+    setLocationError(false); 
+    setfirstNameText("");       
+    setlastNameText("");       
+    setEmailText("");       
+    setPasswordText("");       
+    setPasswordConfirmationText("");       
+    setPhoneText("");       
+    setLocationText("");       
   }
+
+  // const changeVal = (e) => {
+  //   setItem({[e.target.name]:e.target.value})
+  // }
 
   return (
    
@@ -62,6 +165,7 @@ export default function SignUp() {
             Sign up
           </Typography>
           <form className={classes.form} noValidate>
+          <Alert />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -72,9 +176,12 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  defaultValue={item.firstName}
-                  onChange={changeVal}
+                  defaultValue={firstName}
+                  onChange={e => setfirstName(e.target.value)}
                   autoFocus
+                  helperText={firstNameText}
+                  error={firstNameError}
+                  onFocus={clearForm}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -84,9 +191,12 @@ export default function SignUp() {
                   fullWidth
                   id="lastName"
                   label="Last Name"
-                  defaultValue={item.lastName}
-                  onChange={changeVal}
-                  name="lastName"                
+                  defaultValue={lastName}passwordConfirmError
+                  onChange={e => setlastName(e.target.value)}
+                  name="lastName"  
+                  helperText={lastNameText}  
+                  error={lastNameError}  
+                  onFocus={clearForm}          
                 />
               </Grid>
               <Grid item xs={12}>
@@ -96,9 +206,12 @@ export default function SignUp() {
                   fullWidth
                   id="email"
                   label="Email Address"
-                  defaultValue={item.email}
-                  onChange={changeVal}
-                  name="email"                
+                  defaultValue={email}
+                  onChange={e => setEmail(e.target.value)}
+                  name="email"  
+                  helperText={emailText} 
+                  error={emailError}  
+                  onFocus={clearForm}      
                 />
               </Grid>
               <Grid item xs={12}>
@@ -108,10 +221,13 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
-                  defaultValue={item.password}
-                  onChange={changeVal}
+                  defaultValue={password}
+                  onChange={e => setPassword(e.target.value)}
                   type="password"
-                  id="password"                
+                  id="password" 
+                  helperText={passwordText} 
+                  error={passwordError} 
+                  onFocus={clearForm}     
                 />
               </Grid>
               <Grid item xs={12}>
@@ -121,10 +237,13 @@ export default function SignUp() {
                   fullWidth
                   name="passwordConfirmation"
                   label="Password Confirmation"
-                  defaultValue={item.passwordConfirmation}
-                  onChange={changeVal}
+                  defaultValue={setPasswordConfirmation}
+                  onChange={e => setPasswordConfirmation(e.target.value)}
                   type="password"
-                  id="password"                
+                  id="password" 
+                  helperText={passwordConfirmationText}    
+                  error={passwordConfirmationError}   
+                  onFocus={clearForm}     
                 />
               </Grid>
               <Grid item xs={12}>
@@ -134,11 +253,14 @@ export default function SignUp() {
                   fullWidth
                   name="phone"
                   label="Phone number"
-                  defaultValue={item.phone}
-                  onChange={changeVal}
+                  defaultValue={phone}
+                  onChange={e => setPhone(e.target.value)}
                   type="phone"
                   id="phone"
                   autoComplete="current-phone"
+                  helperText={phoneText}
+                  error={phoneError}
+                  onFocus={clearForm}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -148,11 +270,14 @@ export default function SignUp() {
                   fullWidth
                   name="location"
                   label="Location"
-                  defaultValue={item.location}
-                  onChange={changeVal}
+                  defaultValue={location}
+                  onChange={e => setLocation(e.target.value)}
                   type="location"
                   id="location"
                   autoComplete="current-location"
+                  helperText={locationText}
+                  error={locationError}
+                  onFocus={clearForm}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -168,6 +293,7 @@ export default function SignUp() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick= {signUpData}
             >
               Sign Up
             </Button>

@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 body {
   margin: 0;
   padding: 0;
@@ -11,30 +13,76 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}.note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  strong {
+    margin-right: 1rem;
+  }
 }
 
-// Loader.js styling
-.lds-dual-ring {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
+.alert-enter {
+  opacity: 0;
 }
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid rgb(20, 17, 223);
-  border-color: rgb(20, 17, 223) transparent rgb(20, 17, 223) transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
+
+.alert-enter-active {
+  transition: opacity 500ms ease-out;
+  opacity: 1;
 }
-@keyframes lds-dual-ring {
+
+.alert-exit-active {
+  transition: opacity 350ms ease-out;
+  opacity: 0;
+}
+
+.note-exit-active {
+  animation: note 800ms ease-out forwards;
+}
+
+.note-enter-active {
+  animation: note 800ms ease-in alternate-reverse;
+}
+
+@keyframes note {
   0% {
-    transform: rotate(0deg);
+    transform: translateX(0);
   }
+
+  30% {
+    opacity: .7;
+    transform: translateX(30px);
+  }
+
   100% {
-    transform: rotate(360deg);
+    opacity: 0;
+    transform: translateX(-200px);
   }
 }
+
+// // Loader.js styling
+// .lds-dual-ring {
+//   display: inline-block;
+//   width: 80px;
+//   height: 80px;
+// }
+// .lds-dual-ring:after {
+//   content: " ";
+//   display: block;
+//   width: 64px;
+//   height: 64px;
+//   margin: 8px;
+//   border-radius: 50%;
+//   border: 6px solid rgb(20, 17, 223);
+//   border-color: rgb(20, 17, 223) transparent rgb(20, 17, 223) transparent;
+//   animation: lds-dual-ring 1.2s linear infinite;
+// }
+// @keyframes lds-dual-ring {
+//   0% {
+//     transform: rotate(0deg);
+//   }
+//   100% {
+//     transform: rotate(360deg);
+//   }
+// }

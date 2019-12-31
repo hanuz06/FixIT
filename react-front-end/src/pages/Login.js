@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import  {Alert} from '../components/Alert';
+import {AlertContext} from '../context/alert/alertContext';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,23 +46,28 @@ export default function SignIn() {
   const [passwordHelperText, setPasswordHelperText] = useState('');
 
   const classes = useStyles();
+  const {show, hide} = useContext(AlertContext);
 
   const userLogin = e => {
-    e.preventDefault()
+    e.preventDefault();
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;    
 
-    if (!email&&!password){
+    // if (!email&&!password){
+    //   setEmailHelperText("Email cannot be empty");
+    //   setPasswordHelperText("Password cannot be empty");
+    //   setEmailError(true);
+    //   setPasswordError(true);
+    //   show('Hello buddy', 'danger')
+    // } else 
+    if (!email){
       setEmailHelperText("Email cannot be empty");
-      setPasswordHelperText("Password cannot be empty");
-      setEmailError(true);
-      setPasswordError(true);
-    } else if (!email){
-      setEmailHelperText("Email cannot be empty");
-      setEmailError(true);
-    } else if (!password){
+      setEmailError(true); 
+    } 
+    // console.log(emailHelperText)     
+     if (!password){
       setPasswordHelperText("Password cannot be empty");
       setPasswordError(true);    
-    }  else console.log('successssss');
+    }  
 
     if (email && !re.test(email.toLowerCase())){
       setEmailHelperText("Email format is incorrect");
@@ -73,6 +80,7 @@ export default function SignIn() {
     setPasswordHelperText("")
     setEmailError(false);
     setPasswordError(false);
+    hide();
   }
 
   return (
@@ -84,6 +92,7 @@ export default function SignIn() {
           <Typography component="h1" align='center' variant="h5">
             Sign in
           </Typography>
+          <Alert />
           <form className={classes.form} noValidate method='POST'>
             <TextField
               variant="outlined"
@@ -118,7 +127,7 @@ export default function SignIn() {
               onFocus={clearForm}
               //errorText={'ERRRROR'}
               error={passwordError}
-              helperText={passwordHelperText}
+              helperText={passwordHelperText}              
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
