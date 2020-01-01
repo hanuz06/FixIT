@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(1, 0, 1),
   }
 }));
 
@@ -60,12 +60,12 @@ export default function SignIn() {
     //   show('Hello buddy', 'danger')
     // } else 
     if (!email){
-      setEmailHelperText("Email cannot be empty");
+      setEmailHelperText("Email required");
       setEmailError(true); 
     } 
     // console.log(emailHelperText)     
      if (!password){
-      setPasswordHelperText("Password cannot be empty");
+      setPasswordHelperText("Password required");
       setPasswordError(true);    
     }  
 
@@ -79,8 +79,13 @@ export default function SignIn() {
     setEmailHelperText("")
     setPasswordHelperText("")
     setEmailError(false);
-    setPasswordError(false);
-    hide();
+    setPasswordError(false);    
+  }
+
+  const clearData = () => {
+    setEmail('');
+    setPassword('');
+    clearForm();    
   }
 
   return (
@@ -97,7 +102,7 @@ export default function SignIn() {
             <TextField
               variant="outlined"
               margin="normal"
-              defaultValue={email}
+              value={email}
               required
               fullWidth
               id="email"
@@ -115,7 +120,7 @@ export default function SignIn() {
             <TextField
               variant="outlined"
               margin="normal"
-              defaultValue={password}
+              value={password}
               required
               fullWidth
               name="password"
@@ -142,6 +147,18 @@ export default function SignIn() {
               onClick={userLogin}
             >
               Sign In
+            </Button>
+
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              //color="secondary"
+              className={classes.submit}
+              onClick= {clearData}
+              style={{backgroundColor:'grey', outline: 'none'}}
+            >
+              Clear
             </Button>
             <Grid container>
               <Grid item xs>

@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(1, 0, 1),
   }
 }));
 
@@ -62,14 +62,13 @@ export default function SignUp() {
   //   passwordConfirmationError: false,
   //   phoneError: false,
   //   locationError: false
-
   // })   
-  const [firstName, setfirstName] = useState('');
-  const [firstNameError, setfirstNameError] = useState(false);
-  const [firstNameText, setfirstNameText] = useState('');
-  const [lastName, setlastName] = useState('');
-  const [lastNameError, setlastNameError] = useState(false);
-  const [lastNameText, setlastNameText] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [firstNameText, setFirstNameText] = useState('');
+  const [lastName, setLastName] = useState(''); 
+  const [lastNameError, setLastNameError] = useState(false);
+  const [lastNameText, setLastNameText] = useState('');
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [emailText, setEmailText] = useState('');
@@ -85,6 +84,35 @@ export default function SignUp() {
   const [location, setLocation] = useState('');
   const [locationError, setLocationError] = useState(false);
   const [locationText, setLocationText] = useState('');
+
+  const clearForm = () => {  
+    hide();  
+    setFirstNameError(false);
+    setLastNameError(false);
+    setEmailError(false);
+    setPasswordError(false);
+    setPasswordConfirmationError(false);
+    setPhoneError(false);
+    setLocationError(false); 
+    setFirstNameText('');       
+    setLastNameText('');       
+    setEmailText('');       
+    setPasswordText('');       
+    setPasswordConfirmationText('');       
+    setPhoneText('');       
+    setLocationText('');       
+  }
+
+  const clearData = () => {    
+    setFirstName('');       
+    setLastName('');       
+    setEmail('');       
+    setPassword('');       
+    setPasswordConfirmation('');       
+    setPhone('');         
+    setLocation('');  
+    clearForm()       
+  }
     
   const signUpData = e =>{
     e.preventDefault();
@@ -92,27 +120,28 @@ export default function SignUp() {
 
     
     if (!firstName){      
-      setfirstNameError(true);    
-      setfirstNameText("First name cannot be empty");      
+      setFirstNameError(true);    
+      setFirstNameText("First name required"); 
+      show('First name required', 'success')     
     }   
-    
+      
     if (!lastName){      
-      setlastNameError(true);    
-      setlastNameText("Last name cannot be empty");      
-    }    
+      setLastNameError(true);    
+      setLastNameText("Last name required");      
+    }     
 
     if (!email){
       setEmailError(true);      
-      setEmailText("Email cannot be empty");
+      setEmailText("Email required");
     } 
     
      if (!password){
-      setPasswordText("Password cannot be empty");
+      setPasswordText("Password required");
       setPasswordError(true);    
     }
     
     if (!passwordConfirmation){
-      setPasswordConfirmationText("Password confirmation cannot be empty");
+      setPasswordConfirmationText("Password confirmation required");
       setPasswordConfirmationError(true);    
     }
 
@@ -122,34 +151,24 @@ export default function SignUp() {
     } 
 
     if (!phone){
-      setPhoneText("Phone cannot be empty");
+      setPhoneText("Phone required");
       setPhoneError(true);    
     }
 
+    if (isNaN(Number(phone)+1)){
+      setPhoneText("Phone number should be numbers");
+      setPhoneError(true);    
+    }
+
+
+
     if (!location){
-      setLocationText("Phone cannot be empty");
+      setLocationText("Location required");
       setLocationError(true);    
     }
 
   } 
-
-  const clearForm = () => {    
-    setfirstNameError(false);
-    setlastNameError(false);
-    setEmailError(false);
-    setPasswordError(false);
-    setPasswordConfirmationError(false);
-    setPhoneError(false);
-    setLocationError(false); 
-    setfirstNameText("");       
-    setlastNameText("");       
-    setEmailText("");       
-    setPasswordText("");       
-    setPasswordConfirmationText("");       
-    setPhoneText("");       
-    setLocationText("");       
-  }
-
+  
   // const changeVal = (e) => {
   //   setItem({[e.target.name]:e.target.value})
   // }
@@ -164,7 +183,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate autoComplete="off">
           <Alert />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -175,9 +194,9 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
-                  defaultValue={firstName}
-                  onChange={e => setfirstName(e.target.value)}
+                  label="First Name"                  
+                  value={firstName}                  
+                  onChange={e => setFirstName(e.target.value)}
                   autoFocus
                   helperText={firstNameText}
                   error={firstNameError}
@@ -190,9 +209,9 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
-                  defaultValue={lastName}passwordConfirmError
-                  onChange={e => setlastName(e.target.value)}
+                  label="Last Name"                  
+                  value={lastName}
+                  onChange={e => setLastName(e.target.value)}
                   name="lastName"  
                   helperText={lastNameText}  
                   error={lastNameError}  
@@ -205,8 +224,8 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
-                  defaultValue={email}
+                  label="Email Address"                 
+                  value={email}
                   onChange={e => setEmail(e.target.value)}
                   name="email"  
                   helperText={emailText} 
@@ -220,8 +239,8 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
-                  defaultValue={password}
+                  label="Password"                  
+                  value={password}
                   onChange={e => setPassword(e.target.value)}
                   type="password"
                   id="password" 
@@ -236,11 +255,11 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="passwordConfirmation"
-                  label="Password Confirmation"
-                  defaultValue={setPasswordConfirmation}
+                  label="Password Confirmation"            
+                  value={passwordConfirmation}
                   onChange={e => setPasswordConfirmation(e.target.value)}
                   type="password"
-                  id="password" 
+                  id="passwordConfirmation" 
                   helperText={passwordConfirmationText}    
                   error={passwordConfirmationError}   
                   onFocus={clearForm}     
@@ -252,8 +271,8 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="phone"
-                  label="Phone number"
-                  defaultValue={phone}
+                  label="Phone number without spaces and hyphens"                  
+                  value={phone}
                   onChange={e => setPhone(e.target.value)}
                   type="phone"
                   id="phone"
@@ -269,8 +288,8 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="location"
-                  label="Location"
-                  defaultValue={location}
+                  label="Location"                  
+                  value={location}
                   onChange={e => setLocation(e.target.value)}
                   type="location"
                   id="location"
@@ -296,6 +315,17 @@ export default function SignUp() {
               onClick= {signUpData}
             >
               Sign Up
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              //color="secondary"
+              className={classes.submit}
+              onClick= {clearData}
+              style={{backgroundColor:'grey', outline: 'none'}}
+            >
+              Clear
             </Button>
             <Grid container justify="flex-end">
               <Grid item>

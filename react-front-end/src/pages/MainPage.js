@@ -6,11 +6,13 @@ import OrderRequest from './MainPages/OrderRequest';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Box from '@material-ui/core/Box';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
+import { flexbox } from '@material-ui/system';
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
@@ -25,7 +27,13 @@ const useStyles = makeStyles(theme  => ({
   },
   loading: {    
     marginTop: '15vh',
-    textAlign: 'center'  
+    //textAlign: 'center'  
+  },
+  loadingStyle: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '15vh',
+    color: 'secondary'
   }
 }));
 
@@ -104,13 +112,18 @@ export default function MainPage(props) {
 return (
   <React.Fragment>
   <main id='back-to-top'>
-    {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }> 
+    <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }> 
       < OrderRequest mechanics={mechanics}/> 
-    </Suspense>   */}
-
-    <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
-      <LandingPage mechanics={mechanics} />
     </Suspense>  
+
+    {/* <Suspense fallback={ 
+    <Box component='div' className={classes.loadingStyle}>
+      <CircularProgress />   */}
+      {/* <h2 className={classes.loading}>Loading...</h2>
+    </Box> 
+    }>
+      <LandingPage mechanics={mechanics} />
+    </Suspense>   */}
 
     {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
       <ConfirmPage mechanics={mechanics} />

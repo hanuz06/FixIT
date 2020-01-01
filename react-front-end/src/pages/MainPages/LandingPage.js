@@ -15,7 +15,7 @@ import purple from '@material-ui/core/colors/purple';
 import SimpleDialogDemo from '../../components/openDialog';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import TypeSentence from '../../components/TypedSentence'
+import TypeSentence from '../../components/TypedSentence';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     color: purple['A200']
   },
   cardGrid: {
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(4),
   },
   card: {
@@ -59,31 +59,31 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
-  search: {
-    position: 'relative',
-    border: 'solid grey 1px',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // search: {
+  //   position: 'relative',
+  //   border: 'solid grey 1px',
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: fade(theme.palette.common.white, 0.15),
+  //   '&:hover': {
+  //     backgroundColor: fade(theme.palette.common.white, 0.25),
+  //   },
+  //   marginRight: theme.spacing(2),
+  //   marginLeft: 0,
+  //   width: '100%',
+  //   [theme.breakpoints.up('sm')]: {
+  //     marginLeft: theme.spacing(3),
+  //     width: 'auto',
+  //   },
+  // },
+  // searchIcon: {
+  //   width: theme.spacing(7),
+  //   height: '100%',
+  //   position: 'absolute',
+  //   pointerEvents: 'none',
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
   inputRoot: {
     color: 'inherit',
   },
@@ -126,17 +126,22 @@ export default function LandingPage({ mechanics }) {
     <React.Fragment>           
       
         {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm" >
-          {/* { loading && <CircularProgress color="secondary" /> } */}
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              FIXit
-            </Typography>            
-            <TypeSentence />            
-            <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
+    <div className={classes.heroContent}>
+      <Container maxWidth="sm" >
+      {/* { loading && <CircularProgress color="secondary" /> } */}
+        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+          FIXit
+        </Typography>             
+        <TypeSentence />              
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-2 mx-sm-auto" type="search" placeholder="Search" aria-label="Search" style={{minWidth:'120px', width:'80%'}}/>
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+            {/* <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
               <InputBase
                 placeholder="Search…"
                 classes={{
@@ -145,7 +150,8 @@ export default function LandingPage({ mechanics }) {
                 }}
                 inputProps={{ 'aria-label': 'search' }}
               />
-            </div>
+            </div> */}
+
             {/* <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>

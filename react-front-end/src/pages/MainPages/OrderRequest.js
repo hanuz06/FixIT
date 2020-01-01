@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
@@ -15,7 +15,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import RatingSize from '../../components/RatingSize';
+import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
+import { cars, carMakeYear } from '../../helpers/helperData'
+
+import  {Alert} from '../../components/Alert';
+import {AlertContext} from '../../context/alert/alertContext';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -25,14 +30,14 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-
 const useStyles = makeStyles(theme => ({    
   root: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',    
     minHeight: '90vh',
-    maxWidth: '100%',    
+    maxWidth: '100%', 
+    marginTop: theme.spacing(1),   
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column'     
     }
@@ -65,7 +70,12 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     flexGrow: 1    
-  }  
+  },
+  selectStyle: {    
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(1),
+      width: '100%',    
+  }, 
 }));
 
 const mechanic = {
@@ -84,11 +94,75 @@ const mechanic = {
 
 export default function OrderRequest() {  
   const classes = useStyles()
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2019-08-18T11:11:54'));
 
+  const [selectedDate, setSelectedDate] = useState(new Date('2019-08-18T11:11:54'));
+  const [carSelect, setCarSelect] = useState('select');
+  const [makeYear, setMakeYear] = useState(0);
+  const [carMake, setCarMake] = useState('');
+  const [carMakeError, setCarMakeError] = useState(false);
+  const [carMakeErrorText, setCarMakeErrorText] = useState('');
+  const [yearMake, setYearMake] = useState('');
+  const [yearMakeError, setYearMakeError] = useState(false);
+  const [yearMakeErrorText, setYearMakeErrorText] = useState('');
+  const [description, setDescription] = useState('');
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [descriptionErrorText, setDescriptionErrorText] = useState('');
+
+  const handleChange = event => {
+    setCarSelect(event.target.value);
+  };
+
+  const handleMakeYearChange = event => {
+    setMakeYear(event.target.value);
+  };
+  
   const handleDateChange = date => {
     setSelectedDate(date);
   };
+
+  const {show, hide} = useContext(AlertContext);
+
+  const userRequest = e => {
+    e.preventDefault();
+
+    if (!carMake && carSelect==='select'){
+      setCarMakeError(true)
+      setCarMakeErrorText('Car make required')
+    }
+
+    if (!yearMake && makeYear===0){
+      setYearMakeError(true)
+      setYearMakeErrorText('Car make year required')
+      
+    }
+    if (isNaN(Number(yearMake)+1)){
+      setYearMakeError(true);    
+      setYearMakeErrorText("Make Year should be numbers");
+    }
+
+    if (!description){
+      setDescriptionError(true)
+      setDescriptionErrorText('Please enter problem description')
+    }
+  }
+
+  const clearForm = () => {
+    setCarMakeErrorText('')
+    setYearMakeErrorText('')
+    setDescriptionErrorText('')
+    setCarMakeError(false)
+    setYearMakeError(false)
+    setDescriptionError(false)
+  }
+
+  const clearData = () => {
+    setCarMake('');
+    setYearMake('');
+    setDescription('');
+    setCarSelect('select')
+    clearForm();    
+  }
+
 
   return (
 
@@ -146,62 +220,120 @@ export default function OrderRequest() {
             />
          </Grid>
         </MuiPickersUtilsProvider>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="car_make"
-              label="Car Make"
-              name="car_make"
-              autoComplete="car_make"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="year"
-              label="Make Year"
-              type="year"
-              id="year"              
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              multiline
-              rows="4"
-              name="description"
-              label="Problem Description"
-              type="description"
-              id="description"              
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"             
-            >
-              Confirm the request
-            </Button> 
-            <Box my={1}>
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              color="inherit"                      
-            >
-              Clear
-            </Button>
-            </Box>           
-          </form>        
+          <TextField
+            className={classes.selectStyle}        
+            id="outlined-car-select"
+            select
+            label="Car make"
+            value={carSelect}
+            onChange={handleChange}
+            onFocus={clearForm}
+            SelectProps={{
+              native: true,
+            }}
+            helperText="Please select car make or enter below manually"
+            variant="outlined"
+          >
+            {cars.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </TextField>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="car_make"
+            label="Car Make"
+            name="car_make"
+            autoComplete="car_make"
+            autoFocus
+            value={carMake}
+            onChange={e => setCarMake(e.target.value)}
+            onFocus={clearForm}
+            error={carMakeError}
+            helperText={carMakeErrorText}
+          />
+          <TextField
+            className={classes.selectStyle}        
+            id="outlined-car-select"
+            select
+            label="Select car make year or enter below manually"
+            value={makeYear}
+            onChange={handleMakeYearChange}
+            onFocus={clearForm}
+            SelectProps={{
+              native: true,
+            }}
+            helperText="Please select car make year"
+            variant="outlined"
+          >
+            {carMakeYear.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </TextField>
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="year"
+            label="Make Year"
+            type="year"
+            id="year" 
+            value={yearMake}
+            onChange={e => setYearMake(e.target.value)}
+            onFocus={clearForm}
+            error={yearMakeError}
+            helperText={yearMakeErrorText}             
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            multiline
+            rows="4"
+            name="description"
+            label="Problem Description"
+            type="description"
+            id="description"  
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            onFocus={clearForm}
+            error={descriptionError}
+            helperText={descriptionErrorText}            
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={userRequest}             
+          >
+            Confirm the request
+          </Button> 
+          <Box my={1}>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="inherit"
+            onClick= {clearData}                      
+          >
+            Clear
+          </Button>
+          </Box>           
+        </form>        
       </div>
     </Box>
   );

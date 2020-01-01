@@ -23,6 +23,12 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  buttonStyle: {
+    color:'inherit',
+    '&:hover': {
+      color: 'yellow'
+    }
+  }
 }));
 
 function HideOnScroll(props) {
@@ -60,16 +66,16 @@ export default function ButtonAppBar() {
               <MenuIcon />          
             </IconButton>
             <Tooltip title="Home" aria-label="Home button" TransitionComponent={Zoom} placement='bottom'>
-              <Button color="inherit" href="/">Home</Button> 
+              <Button className={classes.buttonStyle} href="/">Home</Button> 
             </Tooltip>
             <Typography variant="h6" className={classes.title}>
               
             </Typography>
             <Tooltip title="Sign in" aria-label="Sign in button" TransitionComponent={Zoom} placement='bottom'>
-              <Button color="inherit" href="/login">Login</Button> 
+              <Button className={classes.buttonStyle} href="/login">Login</Button> 
             </Tooltip>
             <Tooltip title="Sign up" aria-label="Sign up button" TransitionComponent={Zoom} placement='bottom'>
-              <Button color="inherit" href="/signup">Signup</Button> 
+              <Button className={classes.buttonStyle} href="/signup">Signup</Button> 
             </Tooltip>         
           </Toolbar>
         </AppBar>

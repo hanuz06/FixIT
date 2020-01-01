@@ -4,9 +4,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
-  root: {    
+  root: {       
     color: 'blue',    
-    height: theme.spacing(11)   
+    minHeight: theme.spacing(13),
+    marginBottom: theme.spacing(3),    
+    [theme.breakpoints.down('sm')]:{
+      minHeight: theme.spacing(16),
+      fontSize:'1.4rem'
+    }  
   }
 }));
 
@@ -27,7 +32,8 @@ export default function TypedSentence() {
             shuffle={true}
             loop
         /> 
-    </Typography>      
+    </Typography>  
+      
     
   )
 }
