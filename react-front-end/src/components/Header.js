@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
+import logo from "../images/car-service.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,9 +63,12 @@ export default function ButtonAppBar() {
       <HideOnScroll >
         <AppBar >
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />          
-            </IconButton>
+            </IconButton> */}
+            <Typography>
+            <img src={logo} alt="site logo" height={60} />
+          </Typography>
             <Tooltip title="Home" aria-label="Home button" TransitionComponent={Zoom} placement='bottom'>
               <Button className={classes.buttonStyle} href="/">Home</Button> 
             </Tooltip>

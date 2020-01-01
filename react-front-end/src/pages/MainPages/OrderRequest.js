@@ -97,13 +97,19 @@ export default function OrderRequest() {
 
   const [selectedDate, setSelectedDate] = useState(new Date('2019-08-18T11:11:54'));
   const [carSelect, setCarSelect] = useState('select');
+  const [carSelectError, setCarSelectError] = useState(false);
+  const [carSelectErrorText, setCarSelectErrorText] = useState('');
+
   const [makeYear, setMakeYear] = useState(0);
-  const [carMake, setCarMake] = useState('');
-  const [carMakeError, setCarMakeError] = useState(false);
-  const [carMakeErrorText, setCarMakeErrorText] = useState('');
+
+  const [carModel, setCarModel] = useState('');
+  const [carModelError, setCarModelError] = useState(false);
+  const [carModelErrorText, setCarModelErrorText] = useState('');
+
   const [yearMake, setYearMake] = useState('');
   const [yearMakeError, setYearMakeError] = useState(false);
   const [yearMakeErrorText, setYearMakeErrorText] = useState('');
+
   const [description, setDescription] = useState('');
   const [descriptionError, setDescriptionError] = useState(false);
   const [descriptionErrorText, setDescriptionErrorText] = useState('');
@@ -125,9 +131,14 @@ export default function OrderRequest() {
   const userRequest = e => {
     e.preventDefault();
 
-    if (!carMake && carSelect==='select'){
-      setCarMakeError(true)
-      setCarMakeErrorText('Car make required')
+    if (carSelect==='select'){
+      setCarSelectError(true)
+      setCarSelectErrorText('Car make required')
+    }
+
+    if (!carModel){
+      setCarModelError(true)
+      setCarModelErrorText('Car model required')
     }
 
     if (!yearMake && makeYear===0){
@@ -147,25 +158,25 @@ export default function OrderRequest() {
   }
 
   const clearForm = () => {
-    setCarMakeErrorText('')
+    setCarModelErrorText('')
     setYearMakeErrorText('')
     setDescriptionErrorText('')
-    setCarMakeError(false)
+    setCarSelectErrorText('')
+    setCarModelError(false)
     setYearMakeError(false)
     setDescriptionError(false)
+    setCarSelectError(false)
   }
 
   const clearData = () => {
-    setCarMake('');
-    setYearMake('');
+    setCarModel('');    
     setDescription('');
     setCarSelect('select')
+    setMakeYear(0);
     clearForm();    
   }
 
-
   return (
-
     <Box component="div"  className={classes.root}>       
       <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >      
         <Card className={classes.card}>                
@@ -194,7 +205,7 @@ export default function OrderRequest() {
         </Card>              
       </div>
       <div component="div" className={classes.boxDivide}>
-      <form className={classes.form} noValidate>
+      <form className={classes.form} noValidate autoComplete='off'>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container justify="space-around">
           <KeyboardDatePicker
@@ -222,16 +233,17 @@ export default function OrderRequest() {
         </MuiPickersUtilsProvider>
           <TextField
             className={classes.selectStyle}        
-            id="outlined-car-select"
+            id="car-make"
             select
-            label="Car make"
+            //label="Car make"
             value={carSelect}
             onChange={handleChange}
             onFocus={clearForm}
+            error={carSelectError}
+            helperText={carSelectErrorText}        
             SelectProps={{
               native: true,
             }}
-            helperText="Please select car make or enter below manually"
             variant="outlined"
           >
             {cars.map(option => (
@@ -245,29 +257,29 @@ export default function OrderRequest() {
             margin="normal"
             required
             fullWidth
-            id="car_make"
-            label="Car Make"
-            name="car_make"
-            autoComplete="car_make"
+            id="car-model"
+            label="Car Model"
+            name="car_model"            
             autoFocus
-            value={carMake}
-            onChange={e => setCarMake(e.target.value)}
+            value={carModel}
+            onChange={e => setCarModel(e.target.value)}
             onFocus={clearForm}
-            error={carMakeError}
-            helperText={carMakeErrorText}
+            error={carModelError}
+            helperText={carModelErrorText}
           />
           <TextField
             className={classes.selectStyle}        
             id="outlined-car-select"
             select
-            label="Select car make year or enter below manually"
+            //label="Make year"
             value={makeYear}
             onChange={handleMakeYearChange}
             onFocus={clearForm}
+            error={yearMakeError}            
+            helperText={yearMakeErrorText}
             SelectProps={{
               native: true,
             }}
-            helperText="Please select car make year"
             variant="outlined"
           >
             {carMakeYear.map(option => (
@@ -277,7 +289,7 @@ export default function OrderRequest() {
             ))}
           </TextField>
 
-          <TextField
+          {/* <TextField
             variant="outlined"
             margin="normal"
             required
@@ -288,10 +300,11 @@ export default function OrderRequest() {
             id="year" 
             value={yearMake}
             onChange={e => setYearMake(e.target.value)}
-            onFocus={clearForm}
+            onFocus={clearForm}            
             error={yearMakeError}
             helperText={yearMakeErrorText}             
-          />
+          /> */}
+
           <TextField
             variant="outlined"
             margin="normal"

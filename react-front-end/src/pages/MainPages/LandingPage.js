@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
 import { Link as HyperLink } from 'react-router-dom';
 import RatingSize from '../../components/RatingSize';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -167,6 +168,7 @@ export default function LandingPage({ mechanics }) {
             </div> */}
           </Container>
         </div>
+        {/* <Divider variant="middle" /> */}
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           

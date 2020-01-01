@@ -1,19 +1,67 @@
 export const cars = [
   {
     value: 'select',
-    label: 'Select a car',
+    label: 'Select car make',
   },
   {
     value: 'audi',
     label: 'Audi',
-  },
+  },  
   {
     value: 'bmw',
     label: 'BMW',
   },
   {
+    value: 'chrysler',
+    label: 'Chrysler',
+  },
+  {
+    value: 'dodge',
+    label: 'Dodge',
+  },
+  {
+    value: 'gm',
+    label: 'General Motors',
+  },
+  {
+    value: 'ford',
+    label: 'Ford',
+  },
+  {
+    value: 'kia',
+    label: 'Kia',
+  },
+  {
+    value: 'honda',
+    label: 'Honda',
+  },
+  {
+    value: 'mahindra',
+    label: 'Mahindra',
+  },
+  {
+    value: 'mazda',
+    label: 'Mazda',
+  },
+  {
+    value: 'mercedes',
+    label: 'Mercedes Benz',
+  },
+  {
+    value: 'nissan',
+    label: 'Nissan',
+  },
+  {
     value: 'toyota',
     label: 'Toyota',
+  },
+  {
+    value: 'volkswager',
+    label: 'Volkswagen',
+  },
+  {
+    value: 'jaguar',
+    label: 'Jaguar',
   },
   {
     value: 'hyundai',
@@ -24,7 +72,7 @@ export const cars = [
 export const carMakeYear = [
   {
     value: null,
-    label: null
+    label: "Select make year"
   },
   {
     value: 2020,

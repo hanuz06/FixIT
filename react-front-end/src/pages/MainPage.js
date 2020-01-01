@@ -2,7 +2,8 @@ import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import MainPages from './MainPages';
 // import LandingPage from './MainPages/LandingPage';
-import OrderRequest from './MainPages/OrderRequest';
+//import OrderRequest from './MainPages/OrderRequest';
+//import ConfirmPage from './MainPages/ConfirmPage';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -16,6 +17,7 @@ import { flexbox } from '@material-ui/system';
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
+const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 
 
 const useStyles = makeStyles(theme  => ({
@@ -79,11 +81,11 @@ ScrollTop.propTypes = {
 export default function MainPage(props) {
   const classes = useStyles();
 
-  const [mechanics, setMechanics]=useState([]);
-  const [loading, setLoading]=useState(true);
+  const [mechanics, setMechanics]=useState([]);  
   const [ratings, setRatings]=useState([]);
   const [users, setUsers]=useState([]);
   const [inspections, setInspections]=useState([]);
+  
 
   useEffect(() => { 
     
@@ -112,25 +114,32 @@ export default function MainPage(props) {
 return (
   <React.Fragment>
   <main id='back-to-top'>
-    <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }> 
-      < OrderRequest mechanics={mechanics}/> 
-    </Suspense>  
+    
 
-    {/* <Suspense fallback={ 
-    <Box component='div' className={classes.loadingStyle}>
-      <CircularProgress />   */}
-      {/* <h2 className={classes.loading}>Loading...</h2>
+    {/* <Suspense fallback={ <Box component='div' className={classes.loadingStyle}>
+      <CircularProgress />        
+    </Box> }> 
+      < OrderRequest mechanics={mechanics}/> 
+    </Suspense>  */}
+
+     <Suspense fallback={ 
+    <Box component='div' className={classes.loadingStyle}> 
+      <CircularProgress /> 
     </Box> 
     }>
       <LandingPage mechanics={mechanics} />
-    </Suspense>   */}
+    </Suspense>       
 
+    {/* <Suspense fallback={ 
+      <Box component='div' className={classes.loadingStyle}> 
+      <CircularProgress /> 
+    </Box>
+     }>  
+      <ConfirmPage inspection={inspections} />      
+    </Suspense> */}
+    
     {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
       <ConfirmPage mechanics={mechanics} />
-    </Suspense>  */}
-
-    {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
-      <ConfirmPage inspection={inspections} />
     </Suspense>  */}
 
     {/* < MainPages /> */}

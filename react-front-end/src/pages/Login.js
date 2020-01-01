@@ -33,58 +33,49 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(1, 0, 1),
+    margin: theme.spacing(0.5, 0, 0.5),
   }
 }));
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [emailHelperText, setEmailHelperText] = useState('');
-  const [passwordHelperText, setPasswordHelperText] = useState('');
+  const [form, setForm] = useState({
+    email: '', 
+    password: '',
+    emailError: false,
+    passwordError: false,
+    emailHelperText:'',
+    passwordHelperText:''
+  }) 
+
+  const changeHandler = event => {
+    setForm({ ...form, [event.target.name]: event.target.value })
+  }
 
   const classes = useStyles();
   const {show, hide} = useContext(AlertContext);
 
   const userLogin = e => {
     e.preventDefault();
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;    
-
-    // if (!email&&!password){
-    //   setEmailHelperText("Email cannot be empty");
-    //   setPasswordHelperText("Password cannot be empty");
-    //   setEmailError(true);
-    //   setPasswordError(true);
-    //   show('Hello buddy', 'danger')
-    // } else 
-    if (!email){
-      setEmailHelperText("Email required");
-      setEmailError(true); 
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
+    if (!form.email){       
+      setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true }))      
     } 
-    // console.log(emailHelperText)     
-     if (!password){
-      setPasswordHelperText("Password required");
-      setPasswordError(true);    
+
+    if (!form.password){      
+    setForm(previouseValues => ({ ...previouseValues, passwordHelperText: "Password required", passwordError: true }))       
     }  
 
-    if (email && !re.test(email.toLowerCase())){
-      setEmailHelperText("Email format is incorrect");
-      setEmailError(true);
+    if (form.email && !re.test(form.email.toLowerCase())){
+      setForm(previouseValues =>({ ...previouseValues, emailHelperText: "Email format is incorrect",emailError: true }))      
     } 
   }
 
   const clearForm = () => {
-    setEmailHelperText("")
-    setPasswordHelperText("")
-    setEmailError(false);
-    setPasswordError(false);    
+    setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false }))    
   }
 
-  const clearData = () => {
-    setEmail('');
-    setPassword('');
+  const clearData = () => {    
+    setForm(previouseValues => ({ ...previouseValues, email: "", password: ""}))    
     clearForm();    
   }
 
@@ -102,25 +93,25 @@ export default function SignIn() {
             <TextField
               variant="outlined"
               margin="normal"
-              value={email}
+              value={form.email}
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
-              onChange={e => setEmail(e.target.value)}
+              onChange={changeHandler}
               onFocus={clearForm}
               //errorText={state.error}
-              error={emailError}
+              error={form.emailError}
               //errorText={'ERRRROR'}
-              helperText={emailHelperText}
+              helperText={form.emailHelperText}
               autoFocus
             />
             <TextField
               variant="outlined"
               margin="normal"
-              value={password}
+              value={form.password}
               required
               fullWidth
               name="password"
@@ -128,11 +119,11 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={e => setPassword(e.target.value)}
+              onChange={changeHandler}
               onFocus={clearForm}
               //errorText={'ERRRROR'}
-              error={passwordError}
-              helperText={passwordHelperText}              
+              error={form.passwordError}
+              helperText={form.passwordHelperText}              
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

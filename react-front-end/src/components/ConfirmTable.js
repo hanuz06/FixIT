@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ConfirmTablePage({inspection}) {
+export default function ConfirmTable({inspection}) {
   const classes = useStyles();  
 
   return (

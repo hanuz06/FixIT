@@ -49,8 +49,8 @@ export default function ConfirmPage({ inspection }) {
           <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
             Thank you!<br/>
             We will contact you soon.
-          </Typography>                    
-            <ConfirmTable inspection={inspection}/>              
+          </Typography>                            
+            <ConfirmTable inspection={inspection}/>       
         </Container>          
       </div>
     </React.Fragment>
