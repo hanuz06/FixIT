@@ -19,7 +19,7 @@ import InputBase from '@material-ui/core/InputBase';
 import TypeSentence from '../../components/TypedSentence';
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
-import '../../index.scss'
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -135,12 +135,15 @@ export default function LandingPage({ mechanics }) {
     console.log("This is a mechanic request")    
   }
 
-  const selectMechanic = (e) => {
-    setSelect(e.target.value);    
+  const selectMechanic = (e) => setSelect(e.target.value);
+  
+  const clearSearch = () => {
+    setSelect('');    
   }
     
   useEffect(() => {   
-      show(select, 'success')
+      select && show(select, 'success')
+      !select && hide()
       //console.log('mechanics ', mechanics)       
       const filtered = mechanics.filter(mechanic => 
         mechanic.first_name.toLowerCase().search(select.toLowerCase()) !== -1 ||
@@ -163,8 +166,8 @@ export default function LandingPage({ mechanics }) {
         <TypeSentence /> 
         <Alert />             
         <form className="form-inline my-2 my-lg-0">
-          <input id="searchMechanic" className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'120px', width:'80%'}}/>
-          <button className="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+          <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
+          <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={clearSearch}>Clear</button>
         </form>
 
             {/* <div className={classes.search}>
@@ -238,4 +241,8 @@ export default function LandingPage({ mechanics }) {
         </Container>          
     </React.Fragment>
   );
+}
+
+LandingPage.propTypes = {
+  mechanics: PropTypes.array.isRequired
 }
