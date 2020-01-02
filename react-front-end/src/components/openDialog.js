@@ -26,7 +26,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: '5px',
-    alignItems:'center'
+    alignItems:'center',
+    backgroundColor: 'white',
+    opacity: '1'
   },  
   cardMedia: {
     //paddingTop: '56.25%', // 16:9,    
@@ -44,9 +46,9 @@ const useStyles = makeStyles(theme => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-  dialog: {
-    opacity: '0.4'
-  },
+  // dialog: {
+  //   opacity: '0.4'    
+  // },
   image: {     
     width: '250px',
     maxWidth: '100%',
@@ -58,7 +60,7 @@ SimpleDialogDemo.propTypes = {
   onClose: PropTypes.func    
 };
 
-export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
+export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRequest, setMechanicInfo }) {
   const [open, setOpen] = React.useState(false); 
 
   const classes = useStyles(); 
@@ -68,16 +70,17 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
     if (modalOpen === true){
       setOpen(true)    
     } 
-  },[]);  
+  },[modalOpen]);  
 
   const handleClose = value => {    
     setOpen(false);
     closeModal()
   };
 
-  const mechanicRequest = (event) => {
-    event.stopPropagation();
-    console.log("This is a mechanic request")    
+  const mechanicRequest = (mechanic) => {
+    // event.stopPropagation(); 
+    onRequest();
+    setMechanicInfo(mechanic)
   }
 
   return (    
@@ -117,7 +120,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen }) {
             {/* <Button size="small" color="primary">
               View
             </Button> */}
-            <Button size="small" color="primary" onClick={ mechanicRequest }>
+            <Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
               Request {mechanic.first_name}
             </Button>                      
           </CardActions> 

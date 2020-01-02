@@ -14,11 +14,11 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { flexbox } from '@material-ui/system';
+import useVisualMode from '../hooks/useVisualMode'
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
-
 
 const useStyles = makeStyles(theme  => ({
   backToTopButton: {
@@ -79,32 +79,58 @@ ScrollTop.propTypes = {
 
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
+
+  const REQUEST = "REQUEST";
+  const CONFIRM = "CONFIRM";
+  const LANDING = "LANDING";
+// const SAVING = "SAVING";
+// const CONFIRM = "CONFIRM";
+// const DELETING = "DELETING";
+// const EDIT = "EDIT";
+// const ERROR_SAVE = "ERROR_SAVE";
+// const ERROR_DELETE = "ERROR_DELETE";
+const { mode, transition, back } = useVisualMode(LANDING);
+
   const classes = useStyles();
 
   const [mechanics, setMechanics]=useState([]);  
   const [ratings, setRatings]=useState([]);
   const [users, setUsers]=useState([]);
-  const [inspections, setInspections]=useState([]);
+  const [inspections, setInspections]=useState([]);    
+  const [mechanic, setMechanicInfo]=useState(
+   {
+  id: 1,
+  first_name: "Mike",
+  last_name: "Smith",
+  email: "granttaylor448@gmail.com",
+  password_digest: "123",
+  phone: 4037000357,
+  location: "Calgary",
+  hourly_rate: 60,
+  active: true,
+  description: "best mechanic EVER",
+  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
+}
+  );    
   
-
   useEffect(() => { 
     
-    axios.get('http://localhost:3000/mechanics') 
+    axios.get('http://localhost:3001/mechanics') 
       .then((response) => {                
         setMechanics(response.data);
       })
     
-    axios.get('http://localhost:3000/ratings') 
+    axios.get('http://localhost:3001/ratings') 
     .then((response) => {        
       setRatings(response.data);
     })
 
-    axios.get('http://localhost:3000/users') 
+    axios.get('http://localhost:3001/users') 
     .then((response) => {        
       setUsers(response.data);
     })
 
-    axios.get('http://localhost:3000/inspections') 
+    axios.get('http://localhost:3001/inspections') 
     .then((response) => {        
       setInspections(response.data);
     })
@@ -113,30 +139,33 @@ export default function MainPage(props) {
 
 return (
   <React.Fragment>
-  <main id='back-to-top'>
-    
+  <main id='back-to-top'>  
 
-    {/* <Suspense fallback={ <Box component='div' className={classes.loadingStyle}>
+    {mode === REQUEST && (<Suspense fallback={
+    <Box component='div' className={classes.loadingStyle}>
       <CircularProgress />        
     </Box> }> 
-      < OrderRequest mechanics={mechanics}/> 
-    </Suspense>  */}
+      < OrderRequest userRequest={()=> transition(CONFIRM)}
+      mechanic={mechanic}  
+      onCancel={()=>back()}/> 
+    </Suspense>)  }
 
-     <Suspense fallback={ 
+    {mode ===  LANDING && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 
       <CircularProgress /> 
     </Box> 
     }>
-      <LandingPage mechanics={mechanics} />
-    </Suspense>       
+      <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
+       />
+    </Suspense>)}       
 
-    {/* <Suspense fallback={ 
+    {mode ===  CONFIRM && (<Suspense fallback={ 
       <Box component='div' className={classes.loadingStyle}> 
       <CircularProgress /> 
     </Box>
      }>  
       <ConfirmPage inspection={inspections} />      
-    </Suspense> */}
+    </Suspense>)}
     
     {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
       <ConfirmPage mechanics={mechanics} />

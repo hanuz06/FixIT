@@ -78,21 +78,7 @@ const useStyles = makeStyles(theme => ({
   }, 
 }));
 
-const mechanic = {
-  id: 1,
-  first_name: "Mike",
-  last_name: "Smith",
-  email: "granttaylor448@gmail.com",
-  password_digest: "123",
-  phone: 4037000357,
-  location: "Calgary",
-  hourly_rate: 60,
-  active: true,
-  description: "best mechanic EVER",
-  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
-}
-
-export default function OrderRequest() {  
+export default function OrderRequest({onCancel, userRequest, mechanic}) {  
   const classes = useStyles()
 
   const [selectedDate, setSelectedDate] = useState(new Date('2019-08-18T11:11:54'));
@@ -128,33 +114,35 @@ export default function OrderRequest() {
 
   const {show, hide} = useContext(AlertContext);
 
-  const userRequest = e => {
+  const userConfirm = e => {
     e.preventDefault();
 
-    if (carSelect==='select'){
-      setCarSelectError(true)
-      setCarSelectErrorText('Car make required')
-    }
+    // if (carSelect==='select'){
+    //   setCarSelectError(true)
+    //   setCarSelectErrorText('Car make required')
+    // }
 
-    if (!carModel){
-      setCarModelError(true)
-      setCarModelErrorText('Car model required')
-    }
+    // if (!carModel){
+    //   setCarModelError(true)
+    //   setCarModelErrorText('Car model required')
+    // }
 
-    if (!yearMake && makeYear===0){
-      setYearMakeError(true)
-      setYearMakeErrorText('Car make year required')
+    // if (!yearMake && makeYear===0){
+    //   setYearMakeError(true)
+    //   setYearMakeErrorText('Car make year required')
       
-    }
-    if (isNaN(Number(yearMake)+1)){
-      setYearMakeError(true);    
-      setYearMakeErrorText("Make Year should be numbers");
-    }
+    // }
+    // if (isNaN(Number(yearMake)+1)){
+    //   setYearMakeError(true);    
+    //   setYearMakeErrorText("Make Year should be numbers");
+    // }
 
-    if (!description){
-      setDescriptionError(true)
-      setDescriptionErrorText('Please enter problem description')
-    }
+    // if (!description){
+    //   setDescriptionError(true)
+    //   setDescriptionErrorText('Please enter problem description')
+    // }  
+    userRequest() 
+        
   }
 
   const clearForm = () => {
@@ -331,9 +319,19 @@ export default function OrderRequest() {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={userRequest}             
+            onClick={userConfirm}             
           >
             Confirm the request
+          </Button>          
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={onCancel}
+            style={{marginTop:'10px'}}             
+          >
+            Back to mechanics list
           </Button> 
           <Box my={1}>
           <Button
