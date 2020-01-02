@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -17,6 +17,9 @@ import SimpleDialogDemo from '../../components/openDialog';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import TypeSentence from '../../components/TypedSentence';
+import  {Alert} from '../../components/Alert';
+import {AlertContext} from '../../context/alert/alertContext';
+import '../../index.scss'
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -95,6 +98,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+  },
+  mechanicCardStyle: {
+    
+  },
+  mechanicName: {
+
   }
 }));
  
@@ -102,7 +111,10 @@ export default function LandingPage({ mechanics }) {
   // const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [mechanicData, setMechanic] = useState({})
+  const [select, setSelect] = useState('')
+  const [mechanicList, setMechanicList] = useState('')
 
+  const {show, hide} = useContext(AlertContext);
   const classes = useStyles(); 
 
   // var options = {
@@ -123,6 +135,21 @@ export default function LandingPage({ mechanics }) {
     console.log("This is a mechanic request")    
   }
 
+  const selectMechanic = (e) => {
+    setSelect(e.target.value);    
+  }
+    
+  useEffect(() => {   
+      show(select, 'success')
+      //console.log('mechanics ', mechanics)       
+      const filtered = mechanics.filter(mechanic => 
+        mechanic.first_name.toLowerCase().search(select.toLowerCase()) !== -1 ||
+        mechanic.last_name.toLowerCase().search(select.toLowerCase()) !== -1 
+      ); 
+      filtered.length !== 0? setMechanicList(filtered) : setMechanicList(mechanics)          
+    },[select]);
+    //console.log('MechanicList ',mechanicList)    
+
   return (
     <React.Fragment>           
       
@@ -133,10 +160,11 @@ export default function LandingPage({ mechanics }) {
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
           FIXit
         </Typography>             
-        <TypeSentence />              
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-2 mx-sm-auto" type="search" placeholder="Search" aria-label="Search" style={{minWidth:'120px', width:'80%'}}/>
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        <TypeSentence /> 
+        <Alert />             
+        <form className="form-inline my-2 my-lg-0">
+          <input id="searchMechanic" className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'120px', width:'80%'}}/>
+          <button className="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
 
             {/* <div className={classes.search}>
@@ -168,15 +196,14 @@ export default function LandingPage({ mechanics }) {
             </div> */}
           </Container>
         </div>
-        {/* <Divider variant="middle" /> */}
+        <Divider variant="middle" />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          
-
+          {/* End hero unit */}         
+           
           <Grid container spacing={4}>
-            {mechanics.map(mechanic => ( 
+            {[...mechanicList].map(mechanic => ( 
 
-              <Grid item key={mechanic.id} xs={12} sm={6} md={4} >      
+              <Grid item key={mechanic.id} xs={12} sm={6} md={4} className={classes.mechanicCardStyle}>      
               { modalOpen && 
               <SimpleDialogDemo mechanic={mechanicData} modalOpen={modalOpen} closeModal={closeModal} /> }              
                 <Card className={classes.card} onClick={()=>openModal(mechanic)}>                            
@@ -187,7 +214,7 @@ export default function LandingPage({ mechanics }) {
                   />   
                   < RatingSize />               
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography className={classes.mechanicName} gutterBottom variant="h5" component="h5">
                       {mechanic.first_name} {mechanic.last_name}
                     </Typography>
                     <Typography>
