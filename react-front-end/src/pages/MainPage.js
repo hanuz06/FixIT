@@ -182,13 +182,13 @@ const { mode, transition, back } = useVisualMode(LANDING);
     }    
 
     return axios.post('/api/new-inspections', userData )
-    .then( (response) => {
-      //console.log('SUCCESS ', response.json());
+    .then(response => {
+      console.log('SUCCESS ', response.json());
       transition(CONFIRM)     
     })
-    // .catch((error) => {
-    //   console.log('ERROR ', error);     
-    // })    
+    .catch(error => {
+      console.log('ERROR ', error);     
+    })    
    // transition(CONFIRM)
   }
 
