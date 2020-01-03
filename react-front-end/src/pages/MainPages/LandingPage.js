@@ -40,7 +40,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     const filteredMechanic = mechanics.filter(mechanic=>{
          return mechanic.id === id
     })
-    console.log('filteredMechanic ',filteredMechanic)
+    //console.log('filteredMechanic ',filteredMechanic)
     setMechanic(filteredMechanic[0])
     setModalOpen(true);
   }
@@ -71,7 +71,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       filtered.length !== 0? setMechanicList(filtered) : setMechanicList(mechanics)  
       select && mechanicList === mechanics && show(' No match found', 'success')
       !select && hide()
-      console.log('select ', select.length)          
+      //console.log('select ', select.length)          
     },[select]);
     //console.log('MechanicList ',mechanicList)    
 

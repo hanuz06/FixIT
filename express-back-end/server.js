@@ -2,12 +2,16 @@ const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
 const PORT = 8080;
+const knex = require('knex');
 
 // Express Configuration
-App.use(BodyParser.urlencoded({ extended: false }));
+
+App.use(BodyParser.json());
+App.use(BodyParser.urlencoded({ extended: true }));
 App.use(Express.static('public'));
 //DB
 const db = require("./src/db/db.js");
+
 
 // Sample GET route
 App.get('/api/data', (req, res) => res.json({
@@ -31,11 +35,18 @@ App.get('/api/ratings', async (req, res) => {
 });
 
 App.get('/api/inspections', async (req, res) => {
+ 
   const inspections = await db("inspections"); // making a query to get all todos
   res.json({ inspections });
 });
 
 
+App.post('/api/new-inspections',(req, res) => {
+  console.log('requeeee ', req.body)  
+  db('inspections').insert(req.body)
+  .then((res)=> console.log('result ', res) ) 
+  .catch((error)=> console.log('error ', error))   
+});
 
 App.listen(PORT, () => {
   // eslint-disable-next-line no-console

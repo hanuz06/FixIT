@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
   }, 
 }));
 
-export default function OrderRequest({onCancel, userRequest, mechanic}) {  
+export default function OrderRequest({onCancel, userInspectionRequest, mechanic}) {  
   const classes = useStyles()
 
   const [selectedDate, setSelectedDate] = useState(new Date('2019-08-18T11:11:54'));
@@ -92,7 +92,7 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
   const [carModelError, setCarModelError] = useState(false);
   const [carModelErrorText, setCarModelErrorText] = useState('');
 
-  const [yearMake, setYearMake] = useState('');
+  // const [yearMake, setYearMake] = useState('');
   const [yearMakeError, setYearMakeError] = useState(false);
   const [yearMakeErrorText, setYearMakeErrorText] = useState('');
 
@@ -114,35 +114,42 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
 
   const {show, hide} = useContext(AlertContext);
 
-  const userConfirm = e => {
+  const userRequestSubmit = e => {
     e.preventDefault();
 
-    // if (carSelect==='select'){
-    //   setCarSelectError(true)
-    //   setCarSelectErrorText('Car make required')
-    // }
+    if (carSelect==='select'){
+      setCarSelectError(true)
+      setCarSelectErrorText('Car make required')
+    }
 
-    // if (!carModel){
-    //   setCarModelError(true)
-    //   setCarModelErrorText('Car model required')
-    // }
+    if (!carModel){
+      setCarModelError(true)
+      setCarModelErrorText('Car model required')
+    }
 
-    // if (!yearMake && makeYear===0){
-    //   setYearMakeError(true)
-    //   setYearMakeErrorText('Car make year required')
+    if (makeYear===0){
+      setYearMakeError(true)
+      setYearMakeErrorText('Car make year required')
       
-    // }
+    }
     // if (isNaN(Number(yearMake)+1)){
     //   setYearMakeError(true);    
     //   setYearMakeErrorText("Make Year should be numbers");
     // }
 
-    // if (!description){
-    //   setDescriptionError(true)
-    //   setDescriptionErrorText('Please enter problem description')
-    // }  
-    userRequest() 
-        
+    if (!description){
+      setDescriptionError(true)
+      setDescriptionErrorText('Please enter problem description')
+    }  
+
+    const userRequestData = {
+      carSelect,
+      carModel,
+      makeYear,
+      description
+    }
+    userInspectionRequest(userRequestData) 
+    
   }
 
   const clearForm = () => {
@@ -193,9 +200,9 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
         </Card>              
       </div>
       <div component="div" className={classes.boxDivide}>
-      <form className={classes.form} noValidate autoComplete='off'>
+      <form className={classes.form} method='post' onSubmit={userRequestSubmit} noValidate autoComplete='off'>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Grid container justify="space-around">
+        {/* <Grid container justify="space-around">
           <KeyboardDatePicker
               margin="normal"
               id="date-picker-dialog"
@@ -217,13 +224,14 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
                 'aria-label': 'change time',
               }}
             />
-         </Grid>
+         </Grid> */}
         </MuiPickersUtilsProvider>
           <TextField
             className={classes.selectStyle}        
             id="car-make"
             select
             //label="Car make"
+            name='car_make'
             value={carSelect}
             onChange={handleChange}
             onFocus={clearForm}
@@ -261,6 +269,7 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
             select
             //label="Make year"
             value={makeYear}
+            name='year'
             onChange={handleMakeYearChange}
             onFocus={clearForm}
             error={yearMakeError}            
@@ -303,7 +312,7 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
             name="description"
             label="Problem Description"
             type="description"
-            id="description"  
+            id="description_of_problem"  
             value={description}
             onChange={e => setDescription(e.target.value)}
             onFocus={clearForm}
@@ -318,13 +327,13 @@ export default function OrderRequest({onCancel, userRequest, mechanic}) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
-            onClick={userConfirm}             
-          >
+            color="primary"   
+            >                     
+          
             Confirm the request
           </Button>          
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"

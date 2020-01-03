@@ -68,15 +68,6 @@ function ScrollTop(props) {
   );
 }
 
-ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
-
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
 
@@ -111,32 +102,97 @@ const { mode, transition, back } = useVisualMode(LANDING);
   description: "best mechanic EVER",
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
-  );    
+  );  
+  sessionStorage.setItem('userId', '1');
+
+  const currentUserId = sessionStorage.getItem('userId')  
   
   useEffect(() => { 
-    
-    axios.get('http://localhost:3001/mechanics') 
-      .then((response) => {                
-        setMechanics(response.data);
+
+    axios.get('/api/mechanics')
+      .then(res=>{                
+        return setMechanics(res.data.mechanics)
       })
+
+    Promise.all([
+      // Promise.resolve(
+      //   axios.get('/api/mechanics')
+      // .then(res=>{                
+      //   return res.data.mechanics
+      // })
+      // ),
+      Promise.resolve(
+        axios.get('/api/ratings')
+        .then(res=>{          
+          return res.data.ratings       
+      })
+      ),
+      Promise.resolve(
+        axios.get('/api/users')
+        .then(res=>{          
+          return res.data.users       
+      })
+      ),
+      Promise.resolve(
+        axios.get('/api/inspections')
+        .then(res=>{          
+          return res.data.inspections       
+      })
+      )          
+    ]).then(all=>{        
+      // setMechanics(all[0])
+      setRatings(all[0])
+      setUsers(all[1])
+      setInspections(all[2])
+    })
     
-    axios.get('http://localhost:3001/ratings') 
-    .then((response) => {        
-      setRatings(response.data);
-    })
+    // axios.get('/api/mechanics') data
+    //   .then((response) => {            data    
+    //     setMechanics(response.data);
+    //   })
+    
+    // axios.get('/api/ratings') 
+    // .then((response) => {        
+    //   setRatings(response.data);
+    // })
 
-    axios.get('http://localhost:3001/users') 
-    .then((response) => {        
-      setUsers(response.data);
-    })
+    // axios.get('/api/users') 
+    // .then((response) => {        
+    //   setUsers(response.data);
+    // })
 
-    axios.get('http://localhost:3001/inspections') 
-    .then((response) => {        
-      setInspections(response.data);
-    })
+    // axios.get('/api/inspections') 
+    // .then((response) => {        
+    //   setInspections(response.data);
+    // })
   
-  },[])  
+  },[setMechanics,setRatings,setUsers,setInspections])
 
+  const userInspectionRequest = (data) => {
+    // console.log('userRequestData ', data) 
+
+    const userData = {         
+      "user_id": JSON.parse(currentUserId),
+      "mechanic_id": mechanic.id,      
+      "car_make": `${data.carSelect} ${data.carModel}`,
+      "year": data.makeYear,
+      "description_of_problem": data.description,
+      "isConfirmed": false,
+      "isCompleted": false  
+    }    
+
+    return axios.post('/api/new-inspections', userData )
+    .then( (response) => {
+      //console.log('SUCCESS ', response.json());
+      transition(CONFIRM)     
+    })
+    // .catch((error) => {
+    //   console.log('ERROR ', error);     
+    // })    
+   // transition(CONFIRM)
+  }
+
+  
 return (
   <React.Fragment>
   <main id='back-to-top'>  
@@ -145,9 +201,9 @@ return (
     <Box component='div' className={classes.loadingStyle}>
       <CircularProgress />        
     </Box> }> 
-      < OrderRequest userRequest={()=> transition(CONFIRM)}
-      mechanic={mechanic}  
-      onCancel={()=>back()}/> 
+      < OrderRequest userInspectionRequest={userInspectionRequest}
+      mechanic={mechanic} onCancel={()=>back()}
+      /> 
     </Suspense>)  }
 
     {mode ===  LANDING && (<Suspense fallback={ 
@@ -183,3 +239,12 @@ return (
 </React.Fragment>
 )
 }
+
+ScrollTop.propTypes = {
+  children: PropTypes.element.isRequired,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
