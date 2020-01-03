@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -12,68 +11,107 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import  {Alert} from '../components/Alert';
+import {AlertContext} from '../context/alert/alertContext';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    //marginTop: theme.spacing(8),
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'column',    
+    alignItems: 'center',        
+    minHeight: '90vh'    
   },
-  avatar: {    
+  avatar: { 
+    marginTop: theme.spacing(18),   
     backgroundColor: theme.palette.secondary.main,
     margin: 'auto',
+    marginBottom: '10px'
   },  
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(0.5, 0, 0.5),
+  }
 }));
 
 export default function SignIn() {
+  const [form, setForm] = useState({
+    email: '', 
+    password: '',
+    emailError: false,
+    passwordError: false,
+    emailHelperText:'',
+    passwordHelperText:''
+  }) 
+
+  const changeHandler = event => {
+    setForm({ ...form, [event.target.name]: event.target.value })
+  }
+
   const classes = useStyles();
+  const {show, hide} = useContext(AlertContext);
+
+  const userLogin = e => {
+    e.preventDefault();
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
+    if (!form.email){       
+      setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true }))      
+    } 
+
+    if (!form.password){      
+    setForm(previouseValues => ({ ...previouseValues, passwordHelperText: "Password required", passwordError: true }))       
+    }  
+
+    if (form.email && !re.test(form.email.toLowerCase())){
+      setForm(previouseValues =>({ ...previouseValues, emailHelperText: "Email format is incorrect",emailError: true }))      
+    } 
+  }
+
+  const clearForm = () => {
+    setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false }))    
+  }
+
+  const clearData = () => {    
+    setForm(previouseValues => ({ ...previouseValues, email: "", password: ""}))    
+    clearForm();    
+  }
 
   return (
-    <box className={classes.paper}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <Box className={classes.paper}>
+      <Container component="main" maxWidth="xs" >        
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" align='center' variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <Alert />
+          <form className={classes.form} noValidate method='POST'>
             <TextField
               variant="outlined"
               margin="normal"
+              value={form.email}
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={changeHandler}
+              onFocus={clearForm}
+              //errorText={state.error}
+              error={form.emailError}
+              //errorText={'ERRRROR'}
+              helperText={form.emailHelperText}
               autoFocus
             />
             <TextField
               variant="outlined"
               margin="normal"
+              value={form.password}
               required
               fullWidth
               name="password"
@@ -81,6 +119,11 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={changeHandler}
+              onFocus={clearForm}
+              //errorText={'ERRRROR'}
+              error={form.passwordError}
+              helperText={form.passwordHelperText}              
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -92,8 +135,21 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={userLogin}
             >
               Sign In
+            </Button>
+
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              //color="secondary"
+              className={classes.submit}
+              onClick= {clearData}
+              style={{backgroundColor:'grey', outline: 'none'}}
+            >
+              Clear
             </Button>
             <Grid container>
               <Grid item xs>
@@ -107,11 +163,8 @@ export default function SignIn() {
                 </Link>
               </Grid>
             </Grid>
-          </form>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
+          </form>        
       </Container>
-    </box>
+    </Box>
   );
-}
+} 

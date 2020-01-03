@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import blue from '@material-ui/core/colors/blue';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,162 +15,347 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import RatingSize from '../../components/RatingSize';
+import MenuItem from '@material-ui/core/MenuItem';
+import classNames from 'classnames';
+import { cars, carMakeYear } from '../../helpers/helperData'
 
+import  {Alert} from '../../components/Alert';
+import {AlertContext} from '../../context/alert/alertContext';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({    
   root: {
-    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',    
+    minHeight: '90vh',
+    maxWidth: '100%', 
+    marginTop: theme.spacing(1),   
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column'     
+    }
   },
-  image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+  boxDivide: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',    
+    minHeight: '100vh',
+    width: '100%',
+    padding: '20px',    
+    [`@media (max-width:380px)`]:{
+        minHeight: '70vh'
+      }
+       
   },
-  paper: {
-    margin: theme.spacing(8, 4),
+  card: {
+    height: 'auto',
+    width: '500px',
+    maxWidth: '100%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    padding: '10px', 
+    margin: '25px',    
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+  },  
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+    maxWidth: '100%'
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+  cardContent: {
+    flexGrow: 1    
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+  selectStyle: {    
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(1),
+      width: '100%',    
+  }, 
 }));
 
-const mechanic = {
-  id: 1,
-  first_name: "Mike",
-  last_name: "Smith",
-  email: "granttaylor448@gmail.com",
-  password_digest: "123",
-  phone: 4037000357,
-  location: "Calgary",
-  hourly_rate: 60,
-  active: true,
-  description: "best mechanic EVER",
-  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
-}
+export default function OrderRequest({onCancel, userInspectionRequest, mechanic}) {  
+  const classes = useStyles()
 
-export default function SignInSide() {
-  const classes = useStyles();
+  const [selectedDate, setSelectedDate] = useState(new Date('2019-08-18T11:11:54'));
+  const [carSelect, setCarSelect] = useState('select');
+  const [carSelectError, setCarSelectError] = useState(false);
+  const [carSelectErrorText, setCarSelectErrorText] = useState('');
+
+  const [makeYear, setMakeYear] = useState(0);
+
+  const [carModel, setCarModel] = useState('');
+  const [carModelError, setCarModelError] = useState(false);
+  const [carModelErrorText, setCarModelErrorText] = useState('');
+
+  // const [yearMake, setYearMake] = useState('');
+  const [yearMakeError, setYearMakeError] = useState(false);
+  const [yearMakeErrorText, setYearMakeErrorText] = useState('');
+
+  const [description, setDescription] = useState('');
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [descriptionErrorText, setDescriptionErrorText] = useState('');
+
+  const handleChange = event => {
+    setCarSelect(event.target.value);
+  };
+
+  const handleMakeYearChange = event => {
+    setMakeYear(event.target.value);
+  };
+  
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
+
+  const {show, hide} = useContext(AlertContext);
+
+  const userRequestSubmit = e => {
+    e.preventDefault();
+
+    if (carSelect==='select'){
+      setCarSelectError(true)
+      setCarSelectErrorText('Car make required')
+    }
+
+    if (!carModel){
+      setCarModelError(true)
+      setCarModelErrorText('Car model required')
+    }
+
+    if (makeYear===0){
+      setYearMakeError(true)
+      setYearMakeErrorText('Car make year required')
+      
+    }
+    // if (isNaN(Number(yearMake)+1)){
+    //   setYearMakeError(true);    
+    //   setYearMakeErrorText("Make Year should be numbers");
+    // }
+
+    if (!description){
+      setDescriptionError(true)
+      setDescriptionErrorText('Please enter problem description')
+    }  
+
+    const userRequestData = {
+      carSelect,
+      carModel,
+      makeYear,
+      description
+    }
+    userInspectionRequest(userRequestData) 
+    
+  }
+
+  const clearForm = () => {
+    setCarModelErrorText('')
+    setYearMakeErrorText('')
+    setDescriptionErrorText('')
+    setCarSelectErrorText('')
+    setCarModelError(false)
+    setYearMakeError(false)
+    setDescriptionError(false)
+    setCarSelectError(false)
+  }
+
+  const clearData = () => {
+    setCarModel('');    
+    setDescription('');
+    setCarSelect('select')
+    setMakeYear(0);
+    clearForm();    
+  }
 
   return (
-    <Grid container component="article" className={classes.root}>
-      <CssBaseline />
-      {/* <Grid item xs={false} sm={4} md={7} className={classes.image} /> */}
-      <Grid item xs={false} sm={4} md={7} key={mechanic.id} >
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image = {mechanic.avatar}
-                    title= {mechanic.name}
-                  />   
-                  < RatingSize />               
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {mechanic.first_name} {mechanic.last_name}
-                    </Typography>
-                    <Typography>
-                      {mechanic.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    {/* <Button size="small" color="primary">
-                      View
-                    </Button> */}
-                    <Button size="small" color="primary">
-                      Request {mechanic.first_name}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <di className={classes.paper}>
-          {/* <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar> */}
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
+    <Box component="div"  className={classes.root}>       
+      <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >      
+        <Card className={classes.card}>                
+          <CardMedia
+            className={classes.cardMedia}
+            image = {mechanic.avatar}
+            title="Image title"
+          />   
+          < RatingSize />               
+          <CardContent className={classes.cardContent}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {mechanic.first_name} {mechanic.last_name}
+            </Typography>
+            <Typography>
+              {mechanic.description}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            {/* <Button size="small" color="primary">
+              View
+            </Button> */}
+            <Button size="small" color="primary">
+              Request {mechanic.first_name}
+            </Button>                     
+          </CardActions> 
+        </Card>              
+      </div>
+      <div component="div" className={classes.boxDivide}>
+      <form className={classes.form} method='post' onSubmit={userRequestSubmit} noValidate autoComplete='off'>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {/* <Grid container justify="space-around">
+          <KeyboardDatePicker
               margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
+              id="date-picker-dialog"
+              label="Day picker"
+              format="MM/dd/yyyy"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
             />
-            <TextField
-              variant="outlined"
+            <KeyboardTimePicker
               margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              id="time-picker"
+              label="Time picker"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </di>
-      </Grid>
-    </Grid>
+         </Grid> */}
+        </MuiPickersUtilsProvider>
+          <TextField
+            className={classes.selectStyle}        
+            id="car-make"
+            select
+            //label="Car make"
+            name='car_make'
+            value={carSelect}
+            onChange={handleChange}
+            onFocus={clearForm}
+            error={carSelectError}
+            helperText={carSelectErrorText}        
+            SelectProps={{
+              native: true,
+            }}
+            variant="outlined"
+          >
+            {cars.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </TextField>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="car-model"
+            label="Car Model"
+            name="car_model"            
+            autoFocus
+            value={carModel}
+            onChange={e => setCarModel(e.target.value)}
+            onFocus={clearForm}
+            error={carModelError}
+            helperText={carModelErrorText}
+          />
+          <TextField
+            className={classes.selectStyle}        
+            id="outlined-car-select"
+            select
+            //label="Make year"
+            value={makeYear}
+            name='year'
+            onChange={handleMakeYearChange}
+            onFocus={clearForm}
+            error={yearMakeError}            
+            helperText={yearMakeErrorText}
+            SelectProps={{
+              native: true,
+            }}
+            variant="outlined"
+          >
+            {carMakeYear.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </TextField>
+
+          {/* <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="year"
+            label="Make Year"
+            type="year"
+            id="year" 
+            value={yearMake}
+            onChange={e => setYearMake(e.target.value)}
+            onFocus={clearForm}            
+            error={yearMakeError}
+            helperText={yearMakeErrorText}             
+          /> */}
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            multiline
+            rows="4"
+            name="description"
+            label="Problem Description"
+            type="description"
+            id="description_of_problem"  
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            onFocus={clearForm}
+            error={descriptionError}
+            helperText={descriptionErrorText}            
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"   
+            >                     
+          
+            Confirm the request
+          </Button>          
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={onCancel}
+            style={{marginTop:'10px'}}             
+          >
+            Back to mechanics list
+          </Button> 
+          <Box my={1}>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="inherit"
+            onClick= {clearData}                      
+          >
+            Clear
+          </Button>
+          </Box>           
+        </form>        
+      </div>
+    </Box>
   );
 }
 

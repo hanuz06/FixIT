@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -12,28 +11,19 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import {AlertContext} from '../context/alert/alertContext';
+import  {Alert} from '../components/Alert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    //marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    minHeight: '90vh' 
   },
   avatar: {
+    marginTop: theme.spacing(9),
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
@@ -42,17 +32,121 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(0.5, 0, 0.5),
+  }
 }));
 
 export default function SignUp() {
+  const {show, hide} = useContext(AlertContext);
   const classes = useStyles();
+
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    phone: '',
+    location: '',
+    firstNameText: '',
+    lastNameText: '',
+    emailText: '',
+    passwordText: '',
+    passwordConfirmationText: '',
+    phoneText: '',
+    locationText: '',
+    firstNameError: false,
+    lastNameError: false,
+    emailError: false,
+    passwordError: false,
+    passwordConfirmationError: false,
+    phoneError: false,
+    locationError: false
+  })   
+
+  const changeHandler = event => {
+    setForm({ ...form, [event.target.name]: event.target.value })
+  }  
+
+  const clearForm = () => { 
+    setForm(previouseValues =>(
+    {...previouseValues, 
+      firstNameText: '',
+      lastNameText: '',
+      emailText: '',
+      passwordText: '',
+      passwordConfirmationText: '',
+      phoneText: '',
+      locationText: '',
+      firstNameError: false,
+      lastNameError: false,
+      emailError: false,
+      passwordError: false,
+      passwordConfirmationError: false,
+      phoneError: false,
+      locationError: false })
+      )
+    hide();
+  }    
+
+  const clearData = () => { 
+    setForm(previouseValues => (
+      { ...previouseValues, firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+        phone: '',
+        location: ''}))    
+    clearForm()       
+  }
+    
+  const signUpData = e =>{
+    e.preventDefault();
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+
+    
+    if (!form.firstName){ 
+      setForm(previouseValues => ({ ...previouseValues, firstNameText: "First name required", firstNameError: true }));  
+      show('First name required', 'success')     
+    }   
+      
+    if (!form.lastName){ 
+      setForm(previouseValues => ({ ...previouseValues, lastNameText: "Last name required", lastNameError: true }));     
+    }     
+
+    if (!form.email){
+      setForm(previouseValues => ({ ...previouseValues, emailText: "Email required", emailError: true }));     
+    } 
+    
+     if (!form.password){
+      setForm(previouseValues => ({ ...previouseValues, passwordText: "Password required", passwordError: true }));      
+    }
+    
+    if (!form.passwordConfirmation){
+      setForm(previouseValues => ({ ...previouseValues, passwordConfirmationText: "Password confirmation required", passwordConfirmationError: true }));          
+    }
+
+    if (form.email && !re.test(form.email.toLowerCase())){
+      setForm(previouseValues => ({ ...previouseValues, emailText: "Email format is incorrect", emailError: true }));    
+    } 
+
+    if (!form.phone){
+      setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone required", phoneError: true }));        
+    }
+
+    if (isNaN(Number(form.phone)+1)){
+      setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone number should be numbers", phoneError: true }));         
+    }
+
+    if (!form.location){
+      setForm(previouseValues => ({ ...previouseValues, locationText: "Location required", locationError: true }));      
+    }
+  } 
 
   return (
    
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container component="main" maxWidth="xs" >        
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -60,7 +154,8 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate autoComplete="off">
+          <Alert />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -70,8 +165,13 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="First Name"                  
+                  value={form.firstName}                
+                  onChange={changeHandler}
                   autoFocus
+                  helperText={form.firstNameText}
+                  error={form.firstNameError}
+                  onFocus={clearForm}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -80,8 +180,13 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
-                  name="lastName"                
+                  label="Last Name"                  
+                  value={form.lastName}
+                  onChange={changeHandler}
+                  name="lastName"  
+                  helperText={form.lastNameText}  
+                  error={form.lastNameError}  
+                  onFocus={clearForm}          
                 />
               </Grid>
               <Grid item xs={12}>
@@ -90,8 +195,13 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
-                  name="email"                
+                  label="Email Address"                 
+                  value={form.email}
+                  onChange={changeHandler}
+                  name="email"  
+                  helperText={form.emailText} 
+                  error={form.emailError}  
+                  onFocus={clearForm}      
                 />
               </Grid>
               <Grid item xs={12}>
@@ -100,9 +210,14 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Password"                  
+                  value={form.password}
+                  onChange={changeHandler}
                   type="password"
-                  id="password"                
+                  id="password" 
+                  helperText={form.passwordText} 
+                  error={form.passwordError} 
+                  onFocus={clearForm}     
                 />
               </Grid>
               <Grid item xs={12}>
@@ -111,9 +226,14 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="passwordConfirmation"
-                  label="Password Confirmation"
+                  label="Password Confirmation"         
+                  value={form.passwordConfirmation}
+                  onChange={changeHandler}
                   type="password"
-                  id="password"                
+                  id="passwordConfirmation" 
+                  helperText={form.passwordConfirmationText} 
+                  error={form.passwordConfirmationError}   
+                  onFocus={clearForm}     
                 />
               </Grid>
               <Grid item xs={12}>
@@ -122,10 +242,15 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="phone"
-                  label="Phone number"
+                  label="Phone number without spaces and hyphens"                  
+                  value={form.phone}
+                  onChange={changeHandler}
                   type="phone"
                   id="phone"
                   autoComplete="current-phone"
+                  helperText={form.phoneText}
+                  error={form.phoneError}
+                  onFocus={clearForm}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -134,10 +259,15 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="location"
-                  label="Location"
+                  label="Location"                  
+                  value={form.location}
+                  onChange={changeHandler}
                   type="location"
                   id="location"
                   autoComplete="current-location"
+                  helperText={form.locationText}
+                  error={form.locationError}
+                  onFocus={clearForm}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -153,8 +283,20 @@ export default function SignUp() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick= {signUpData}
             >
               Sign Up
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              //color="secondary"
+              className={classes.submit}
+              onClick= {clearData}
+              style={{backgroundColor:'grey', outline: 'none'}}
+            >
+              Clear
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
@@ -164,10 +306,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </form>
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
+        </div>        
       </Container>    
   );
-}
+  }

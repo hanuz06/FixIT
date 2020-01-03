@@ -1,86 +1,136 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from './styles.js';
 import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
 import { Link as HyperLink } from 'react-router-dom';
 import RatingSize from '../../components/RatingSize';
-import { database } from '../../db/database'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SimpleDialogDemo from '../../components/openDialog';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import TypeSentence from '../../components/TypedSentence';
+import  {Alert} from '../../components/Alert';
+import {AlertContext} from '../../context/alert/alertContext';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-}));
+ 
+export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
+  // const [loading, setLoading] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [mechanicData, setMechanic] = useState({})
+  const [select, setSelect] = useState('')
+  const [mechanicList, setMechanicList] = useState('')
 
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const {show, hide} = useContext(AlertContext);
+  const classes = useStyles(); 
 
-export default function LandingPage() {
-  const classes = useStyles();
+  // var options = {
+  // const LoadingFunction = () => {
+  //    loading? setLoading(false) : setLoading(true)}
+
+  const openModal = (id) => {    
+    
+    const filteredMechanic = mechanics.filter(mechanic=>{
+         return mechanic.id === id
+    })
+    //console.log('filteredMechanic ',filteredMechanic)
+    setMechanic(filteredMechanic[0])
+    setModalOpen(true);
+  }
+
+  const closeModal = () => {    
+    setModalOpen(false);
+  };
+
+  const mechanicRequest = (mechanic) => {
+    //e.preventDefault();
+    //e.stopPropagation();
+    onRequest();  
+    setMechanicInfo(mechanic)    
+    //console.log("This is a mechanic request")    
+  }
+
+  const selectMechanic = (e) => setSelect(e.target.value);
+  
+  const clearSearch = () => {
+    setSelect('');    
+  }
+    
+  useEffect(() => {            
+      const filtered = mechanics.filter(mechanic => 
+        mechanic.first_name.toLowerCase().search(select.toLowerCase()) !== -1 ||
+        mechanic.last_name.toLowerCase().search(select.toLowerCase()) !== -1 
+      ); 
+      filtered.length !== 0? setMechanicList(filtered) : setMechanicList(mechanics)  
+      select && mechanicList === mechanics && show(' No match found', 'success')
+      !select && hide()
+      //console.log('select ', select.length)          
+    },[select]);
+    //console.log('MechanicList ',mechanicList)    
 
   return (
-    <React.Fragment>
-      <CssBaseline />      
+    <React.Fragment>           
       
         {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              FIXit
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Connecting you with Calgary's best mechanics. Simply sign in or sign up and start using the application today!
-            </Typography>
-            <div className={classes.heroButtons}>
+    <div className={classes.heroContent}>
+      <Container maxWidth="sm" >
+      {/* { loading && <CircularProgress color="secondary" /> } */}
+        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+          FIXit
+        </Typography>             
+        <TypeSentence /> 
+        <Alert />             
+        <form className="form-inline my-2 my-lg-0">
+          <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
+          <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={clearSearch}>Clear</button>
+        </form>
+
+            {/* <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div> */}
+
+            {/* <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <HyperLink to="/login"><Button color="inherit">Login</Button> </HyperLink>
                 </Grid>
                 <Grid item>
-                  <HyperLink to="/signup"><Button color="inherit">Signup</Button> </HyperLink>
-                </Grid>
+                  <Hyp()=>n> </HyperLink>
+                </Grid()=>
+                <Grid ()=>
+                  <But()=>tton> 
+                </Grid()=>
               </Grid>
-            </div>
+            </div> */}
           </Container>
         </div>
+        <Divider variant="middle" />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
+          {/* End hero unit */}         
+           
           <Grid container spacing={4}>
-            {database.mechanics.map(mechanic => (
-              <Grid item key={mechanic.id} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
+            {[...mechanicList].map(mechanic => ( 
+
+              <Grid item key={mechanic.id} xs={12} sm={6} md={4} >
+                           
+                <Card className={classes.card} onClick={()=>openModal(mechanic.id)}>                   
                   <CardMedia
                     className={classes.cardMedia}
                     image = {mechanic.avatar}
@@ -88,7 +138,7 @@ export default function LandingPage() {
                   />   
                   < RatingSize />               
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h5" component="h5">
                       {mechanic.first_name} {mechanic.last_name}
                     </Typography>
                     <Typography>
@@ -99,16 +149,26 @@ export default function LandingPage() {
                     {/* <Button size="small" color="primary">
                       View
                     </Button> */}
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}}>
                       Request {mechanic.first_name}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
+                    </Button> 
+                    {/* <SimpleDialogDemo mechanic={mechanic}/>  */}
+                  </CardActions>                  
+                </Card> 
+                { modalOpen && 
+              <SimpleDialogDemo mechanic={mechanicData} modalOpen={modalOpen} closeModal={closeModal} 
+              onRequest={onRequest}
+              setMechanicInfo={setMechanicInfo}                
+                /> }               
+              </Grid> 
+                         
             ))}
-          </Grid>
-        </Container>
-           
+          </Grid>          
+        </Container>          
     </React.Fragment>
   );
+}
+
+LandingPage.propTypes = {
+  mechanics: PropTypes.array.isRequired
 }

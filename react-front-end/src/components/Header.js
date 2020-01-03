@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,10 +7,16 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Slide from '@material-ui/core/Slide';
+import PropTypes from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+import logo from "../images/car-service.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -19,26 +24,66 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  buttonStyle: {
+    color:'inherit',
+    '&:hover': {
+      color: 'yellow'
+    }
+  }
 }));
+
+function HideOnScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
+HideOnScroll.propTypes = {
+  children: PropTypes.element,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
 
 export default function ButtonAppBar() {
   const classes = useStyles();
 
   return (
-    <Box className={classes.root} maxWidth="sm">
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />          
-          <Button color="inherit" href="/">Home</Button> 
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
+    <Box className={classes.root} maxWidth="xs">
+      <HideOnScroll >
+        <AppBar >
+          <Toolbar>
+            {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <MenuIcon />          
+            </IconButton> */}
+            <Typography>
+            <img src={logo} alt="site logo" height={60} />
           </Typography>
-          <Button color="inherit" href="/login">Login</Button> 
-          <Button color="inherit" href="/signup">Signup</Button>          
-        </Toolbar>
-      </AppBar>
-    </Box>
+            <Tooltip title="Home" aria-label="Home button" TransitionComponent={Zoom} placement='bottom'>
+              <Button className={classes.buttonStyle} href="/">Home</Button> 
+            </Tooltip>
+            <Typography variant="h6" className={classes.title}>
+              
+            </Typography>
+            <Tooltip title="Sign in" aria-label="Sign in button" TransitionComponent={Zoom} placement='bottom'>
+              <Button className={classes.buttonStyle} href="/login">Login</Button> 
+            </Tooltip>
+            <Tooltip title="Sign up" aria-label="Sign up button" TransitionComponent={Zoom} placement='bottom'>
+              <Button className={classes.buttonStyle} href="/signup">Signup</Button> 
+            </Tooltip>         
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
+    </Box>    
   );
 }
