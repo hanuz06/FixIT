@@ -14,5 +14,8 @@
     "express": "^4.17.1",
     "nodemon": "^1.18.7",
     "pg": "^7.15.1"
+  },
+  "devDependencies": {
+    "twilio": "^3.39.1"
   }
 }
