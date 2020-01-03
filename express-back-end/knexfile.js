@@ -22,14 +22,10 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
-    connection.catch((error) => {
-    //   console.log('ERROR ', error);     
-    // }) ASE_URL + '?ssl=true',
+    client: 'postgresql',  
+    connection: process.env.DATABASE_URL + '?ssl=true',
     pool: {
-      min: 2,.catch((error) => {
-    //   console.log('ERROR ', error);     
-    // }) 
+      min: 2,
       max: 10,
     },
     migrations: {
