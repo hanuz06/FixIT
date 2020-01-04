@@ -56,15 +56,16 @@ App.post('/api/new-inspections', (req, res) => {
   db('inspections').insert(req.body)
   .returning('*') 
   // START TWILIO MESSAGE
-  .then( async(res) => {  
+  .then( async(response) => {  
+    res.json({response})
     // Helper function that finds the mechanics phone number
-    const mechanicNumber = await db('mechanics').where('id', res[0].mechanic_id).select('phone')
+    const mechanicNumber = await db('mechanics').where('id', response[0].mechanic_id).select('phone')
     
     client.messages
       .create({
         to: mechanicNumber[0].phone,
         from: '+13064001290',
-        body: `Hello! We have a new service request for you. One of our clients who lives at 563 WoodPark Cres SW Calgary AB, has a service request for their ${res[0].car_make}. Here is their description of the problem: ${res[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
+        body: `Hello! We have a new service request for you. One of our clients who lives at 563 WoodPark Cres SW Calgary AB, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
       })
       .then((res) => {
         // console.log(res.body)
@@ -74,9 +75,23 @@ App.post('/api/new-inspections', (req, res) => {
         // console.log(err);
         res.send(JSON.stringify({ success: false }));
       });
+
+      
     }) 
   .catch((error)=> console.log('error ', error))   
 });
+
+// App.post('/api/new-inspections', async (req, res) => {
+//   //console.log('requeeee ', req.body)  
+//   const inspectionRequest = await db('inspections').insert(req.body)
+  
+//   console.log(inspectionRequest)
+//    res.json({inspectionRequest})
+
+//   // .then(function(res){res.status(200).json({name: 'hello andrey')}} ) 
+//   // .catch(function(error) {console.log('error ', error)})   
+// });
+
 
 App.post('/sms-response', async(req, res) => {
 
@@ -126,17 +141,7 @@ App.post('/sms-response', async(req, res) => {
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
 });
-=======
-App.post('/api/new-inspections', async (req, res) => {
-  //console.log('requeeee ', req.body)  
-  const inspectionRequest = await db('inspections').insert(req.body)
-  
-  console.log(inspectionRequest)
-   res.json({inspectionRequest})
 
-  // .then(function(res){res.status(200).json({name: 'hello andrey')}} ) 
-  // .catch(function(error) {console.log('error ', error)})   
-});
 
 
 
