@@ -34,6 +34,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const logoutFunction = () => {
+  sessionStorage.removeItem('userId');
+  sessionStorage.removeItem('inspectionId');
+}
+
 function HideOnScroll(props) {
   const { children, window } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -78,7 +83,7 @@ export default function ButtonAppBar() {
               
             </Typography>
             <Tooltip title="Sign in" aria-label="Sign in button" TransitionComponent={Zoom} placement='bottom'>
-              {userId? <Button className={classes.buttonStyle} href="/logout">Logout</Button> : <Button className={classes.buttonStyle} href="/login">Login</Button> }
+              {userId? <Button className={classes.buttonStyle} onClick={logoutFunction} href="/">Logout</Button> : <Button className={classes.buttonStyle} href="/login">Login</Button> }
             </Tooltip>
             <Tooltip title="Sign up" aria-label="Sign up button" TransitionComponent={Zoom} placement='bottom'>
               <Button className={classes.buttonStyle} href="/signup">Signup</Button> 

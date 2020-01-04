@@ -38,8 +38,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ConfirmPage({inspection}) {
+export default function ConfirmPage({inspection, getInspectionData}) {
   const classes = useStyles();
+
+ 
+//   window.onload = function(){
+//     console.log(getInspectionData())
+//   return getInspectionData()
+// }
 
   return (
     <React.Fragment>   

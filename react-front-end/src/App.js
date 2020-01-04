@@ -30,18 +30,17 @@ function App() {
             {/* < RouterPage /> */}            
             <Switch>
                 {/* Using the `component` prop */}
+               
                 <Route exact path="/" >
                   < MainPage />
                 </Route>
-                <Route path="/login" render={()=>{
-                  return userId? (
-                    < MainPage />
-                  ) : (
-                    <Login />
-                  )
-                }}>
-                  {/* <Login /> */}
+               
+                <Route path="/login">
+                {userId ? <Redirect to="/" /> :
+                  <Login />}
                 </Route>
+                           
+                
                 <Route path="/signup">
                   <Signup />
                 </Route>

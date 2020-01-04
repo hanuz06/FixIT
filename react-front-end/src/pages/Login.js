@@ -14,6 +14,8 @@ import Container from '@material-ui/core/Container';
 import  {Alert} from '../components/Alert';
 import {AlertContext} from '../context/alert/alertContext';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -80,13 +82,15 @@ export default function SignIn() {
     axios.post('/api/user-login', userData )
     .then(response => {
       console.log('SUCCESSFUL LOGIN ', response);  
-      sessionStorage.setItem('userId', response.data.user[0].id);         
+      sessionStorage.setItem('userId', response.data.user[0].id);  
+         
     })
     .catch(error => {
       console.log('FAILED LOGIN ERROR ', error);     
     })
   }
 
+  
   const clearForm = () => {
     setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))    
   }
@@ -95,6 +99,15 @@ export default function SignIn() {
     setForm(previouseValues => ({ ...previouseValues, email: "", password: ""}))    
     clearForm();    
   }
+
+
+ const routeChange = () => {
+    // let path = `/`;
+    // let history = useHistory();
+    // history.push(path);
+    window.location.reload()
+  }
+  
 
   return (
     <Box className={classes.paper}>
@@ -152,7 +165,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              //onClick={userLogin}
+              onClick={routeChange}
             >
               Sign In
             </Button>
