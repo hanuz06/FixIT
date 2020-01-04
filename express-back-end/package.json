@@ -16,6 +16,6 @@
     "pg": "^7.15.1"
   },
   "devDependencies": {
-    "twilio": "^3.39.1"
+    "twilio": "^3.33.0"
   }
 }

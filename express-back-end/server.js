@@ -17,7 +17,9 @@ const client = require('twilio')(
   process.env.TWILIO_ACCOUT_SID,
   process.env.TWILIO_AUTH_TOKEN
 );
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
+var Twilio = require('twilio');
+
+// const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 
 // Sample GET route
@@ -65,14 +67,64 @@ App.post('/api/new-inspections', (req, res) => {
         body: `Hello! We have a new service request for you. One of our clients who lives at 563 WoodPark Cres SW Calgary AB, has a service request for their ${res[0].car_make}. Here is their description of the problem: ${res[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
       })
       .then((res) => {
-        console.log(res.body)
+        // console.log(res.body)
+        res.send(JSON.stringify({ success: true }));
       })
       .catch(err => {
-        console.log(err);
-        // res.send(JSON.stringify({ success: false }));
+        // console.log(err);
+        res.send(JSON.stringify({ success: false }));
       });
     }) 
   .catch((error)=> console.log('error ', error))   
+});
+
+App.post('/sms-response', async(req, res) => {
+
+  let parseMe = req.body.Body
+  let words = parseMe.split(':')
+  console.log(words[0], words[1])
+  console.log(words[0]== 'yes')
+  
+  var twiml = new Twilio.twiml.MessagingResponse();
+  // ACTIVATE MECHANIC
+  if (words[0] == "activate") {
+    const activateMechanic = await db('mechanics').where('id', words[1]).update({active: true})
+    if (activateMechanic) {
+      twiml.message('You are now active!! Text us deactivate:<yourid> at anytime to stop working');
+    } else {
+      twiml.message('We could not activate your account! Please check your mechanic number');
+  } 
+  // DEACTIVATE MECHANIC
+  } else if (words[0] == "deactivate") {
+    const deactivateMechanic = await db('mechanics').where('id', words[1]).update({active: false})
+    if (deactivateMechanic) {
+      twiml.message('You are now deactived!! Thanks for all your hard work!');
+    } else {
+      twiml.message('We could not deactivate your account! Please check your mechanic number!');
+  }
+    
+  // MECHANIC CONFIRMS INSPECTION
+  } else if (words[0] == 'yes' ) {
+    const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true})
+    if (inspectionConfirm) {
+      twiml.message('We have confirmed your appointment!!');
+    } else {
+      twiml.message('We could not confirm your appointment! Please check your inspection number');
+    }
+  // MECHANIC COMPLETES INSPECTION
+  }else if(words[0] == 'complete') {
+    const inspectionComplete = await db('inspections').where('id', words[1]).update({isCompleted: true})
+    if (inspectionComplete) {
+      twiml.message('We have updated that you have completed the inspection');
+    } else {
+      twiml.message('We could not confirm that you completed the inspection! Please check your inspection number');
+    }
+  // UNHANDLED TEXT RESPONSE
+  }else {
+      twiml.message('Yikes. You didnt read our instructions close enough please refer to the previous text.');
+  }
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
 });
 
 App.listen(PORT, () => {
@@ -81,17 +133,3 @@ App.listen(PORT, () => {
 });
 
 
-App.post('/sms-response', (req, res) => {
-  
-
-  const twiml = new MessagingResponse();
-
-  // Access the message body and the number it was sent from.
-  console.log(`Incoming message from ${req.body.From}: ${req.body.Body}`);
-
-  twiml.message('The Robots are coming! Head for the hills!');
-
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-    
-})
