@@ -19,8 +19,6 @@ const client = require('twilio')(
 );
 var Twilio = require('twilio');
 
-// const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
 
 // Sample GET route
 App.get('/api/data', (req, res) => res.json({
@@ -121,7 +119,7 @@ App.post('/sms-response', async(req, res) => {
     }
   // UNHANDLED TEXT RESPONSE
   }else {
-      twiml.message('Yikes. You didnt read our instructions close enough please refer to the previous text.');
+      twiml.message(`Yikes. You didn't read our instructions close enough please refer to the previous text.`);
   }
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
