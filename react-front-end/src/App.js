@@ -33,13 +33,13 @@ function App() {
                 <Route exact path="/" >
                   < MainPage />
                 </Route>
-                <Route path="/login" render={()=>{{
-                  userId? (
-                    <Redirect to="/" />
+                <Route path="/login" render={()=>{
+                  return userId? (
+                    < MainPage />
                   ) : (
                     <Login />
                   )
-                }}}>
+                }}>
                   {/* <Login /> */}
                 </Route>
                 <Route path="/signup">
