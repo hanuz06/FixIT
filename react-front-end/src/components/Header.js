@@ -14,6 +14,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import logo from "../images/car-service.png";
 
+const userId = sessionStorage.getItem('userId')
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -76,7 +78,7 @@ export default function ButtonAppBar() {
               
             </Typography>
             <Tooltip title="Sign in" aria-label="Sign in button" TransitionComponent={Zoom} placement='bottom'>
-              <Button className={classes.buttonStyle} href="/login">Login</Button> 
+              {userId? <Button className={classes.buttonStyle} href="/logout">Logout</Button> : <Button className={classes.buttonStyle} href="/login">Login</Button> }
             </Tooltip>
             <Tooltip title="Sign up" aria-label="Sign up button" TransitionComponent={Zoom} placement='bottom'>
               <Button className={classes.buttonStyle} href="/signup">Signup</Button> 

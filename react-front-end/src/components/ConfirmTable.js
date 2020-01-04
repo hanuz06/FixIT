@@ -28,6 +28,9 @@ const useStyles = makeStyles({
 
 export default function ConfirmTable({inspection}) {
   const classes = useStyles();  
+  
+  let parsedObj = JSON.parse(inspection)
+  console.log('insepeeeeee ',  parsedObj.user_id)
 
   return (
     <TableContainer component={Paper} style={{"overflowX":"auto"}}>
@@ -43,37 +46,37 @@ export default function ConfirmTable({inspection}) {
             <TableCell component="th" scope="row" className={classes.tableCell}>
               User_id
             </TableCell>
-            <TableCell className={classes.tableCell} align='left'>{inspection[0].user_id}</TableCell>
+            <TableCell className={classes.tableCell} align='left'>{parsedObj.user_id}</TableCell>
           </TableRow> 
           <TableRow>  
             <TableCell component="th" scope="row" className={classes.tableCell}>
             mechanic_id
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection[0].mechanic_id}</TableCell>
+            <TableCell className={classes.tableCell}>{parsedObj.mechanic_id}</TableCell>
           </TableRow> 
-          <TableRow> 
+          {/* <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
             inspection_time
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection[0].inspection_time}</TableCell>
-          </TableRow> 
+            <TableCell className={classes.tableCell}>{parsedObj.inspection_time}</TableCell>
+          </TableRow>  */}
           <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
             car_make
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection[0].car_make}</TableCell>
+            <TableCell className={classes.tableCell}>{parsedObj.car_make}</TableCell>
           </TableRow> 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
             year
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection[0].year}</TableCell>
+            <TableCell className={classes.tableCell}>{parsedObj.year}</TableCell>
           </TableRow>  
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
           description_of_problem
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection[0].description_of_problem}</TableCell>
+            <TableCell className={classes.tableCell}>{parsedObj.description_of_problem}</TableCell>
           </TableRow>               
         </TableBody>
       </Table>

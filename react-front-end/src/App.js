@@ -6,7 +6,7 @@ import Header from './components/Header.js'
 import Footer from './components/Footer.js'
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -16,6 +16,9 @@ import {AlertState} from './context/alert/AlertState'
 function App() {
   
   const [loading, setLoading] = useState(false)
+  //const [loggedIn, setLogin] = useState(false)
+  const userId = sessionStorage.getItem('userId')
+
    
     return (
       <AlertState>
@@ -30,8 +33,14 @@ function App() {
                 <Route exact path="/" >
                   < MainPage />
                 </Route>
-                <Route path="/login">
-                  <Login />
+                <Route path="/login" render={()=>{{
+                  userId? (
+                    <Redirect to="/" />
+                  ) : (
+                    <Login />
+                  )
+                }}}>
+                  {/* <Login /> */}
                 </Route>
                 <Route path="/signup">
                   <Signup />

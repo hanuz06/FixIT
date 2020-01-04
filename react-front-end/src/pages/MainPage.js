@@ -87,7 +87,8 @@ const { mode, transition, back } = useVisualMode(LANDING);
   const [mechanics, setMechanics]=useState([]);  
   const [ratings, setRatings]=useState([]);
   const [users, setUsers]=useState([]);
-  const [inspections, setInspections]=useState([]);    
+  const [inspections, setInspections]=useState([]);      
+  const [inspection, setInspection]=useState({});      
   const [mechanic, setMechanicInfo]=useState(
    {
   id: 1,
@@ -103,7 +104,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
   );  
-  sessionStorage.setItem('userId', '1');
+  
 
   const currentUserId = sessionStorage.getItem('userId')  
   
@@ -165,12 +166,11 @@ const { mode, transition, back } = useVisualMode(LANDING);
     // .then((response) => {        
     //   setInspections(response.data);
     // })
-  
+    setInspection()
   },[setMechanics,setRatings,setUsers,setInspections])
 
   const userInspectionRequest = (data) => {
     // console.log('userRequestData ', data) 
-
     const userData = {         
       "user_id": JSON.parse(currentUserId),
       "mechanic_id": mechanic.id,      
@@ -179,19 +179,26 @@ const { mode, transition, back } = useVisualMode(LANDING);
       "description_of_problem": data.description,
       "isConfirmed": false,
       "isCompleted": false  
-    }    
-
-    return axios.post('/api/new-inspections', userData )
+    } 
+    console.log('INSPECTION ', {inspection})
+    
+    axios.post('/api/new-inspections', userData )
     .then(response => {
-      console.log('SUCCESS ', response.json());
-      transition(CONFIRM)     
+      console.log('SUCCESSFUL INSPECTION REQUEST ', response.config.data);
+      setInspection(response.config.data)
+      console.log('MECHANIC LIST ', inspection)
+      transition(CONFIRM)
+         
     })
     .catch(error => {
       console.log('ERROR ', error);     
     })    
-   // transition(CONFIRM)
+   
   }
 
+  //  const sendMechanicRequest = (data) => {
+  //   setInspection(data)
+  // }
   
 return (
   <React.Fragment>
@@ -201,7 +208,7 @@ return (
     <Box component='div' className={classes.loadingStyle}>
       <CircularProgress />        
     </Box> }> 
-      < OrderRequest userInspectionRequest={userInspectionRequest}
+      < OrderRequest mechanicID={mechanic.id} currentUserId={currentUserId} setInspection={setInspection} userInspectionRequest={userInspectionRequest} 
       mechanic={mechanic} onCancel={()=>back()}
       /> 
     </Suspense>)  }
@@ -220,7 +227,7 @@ return (
       <CircularProgress /> 
     </Box>
      }>  
-      <ConfirmPage inspection={inspections} />      
+      <ConfirmPage inspection={inspection} />      
     </Suspense>)}
     
     {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  

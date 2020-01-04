@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ConfirmPage({ inspection }) {
+export default function ConfirmPage({inspection}) {
   const classes = useStyles();
 
   return (
