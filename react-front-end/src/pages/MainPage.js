@@ -87,7 +87,16 @@ const { mode, transition, back } = useVisualMode(LANDING);
   const [mechanics, setMechanics]=useState([]);  
   const [ratings, setRatings]=useState([]);
   const [users, setUsers]=useState([]);
-  const [inspections, setInspections]=useState([]);    
+  const [inspections, setInspections]=useState([]);      
+  const [inspection, setInspection]=useState({         
+    "user_id": 21,
+    "mechanic_id": 22,      
+    "car_make": `ford`,
+    "year": 2005,
+    "description_of_problem": "brake",
+    "isConfirmed": false,
+    "isCompleted": false  
+  });      
   const [mechanic, setMechanicInfo]=useState(
    {
   id: 1,
@@ -103,9 +112,10 @@ const { mode, transition, back } = useVisualMode(LANDING);
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
   );  
-  sessionStorage.setItem('userId', '1');
+  
 
-  const currentUserId = sessionStorage.getItem('userId')  
+  const currentUserId = sessionStorage.getItem('userId');  
+   
   
   useEffect(() => { 
 
@@ -165,48 +175,85 @@ const { mode, transition, back } = useVisualMode(LANDING);
     // .then((response) => {        
     //   setInspections(response.data);
     // })
-  
+    // setInspection()
+
+    if (inspectionId) {
+      let currentInspection = JSON.parse(JSON.parse(inspectionId))     
+      setInspection(currentInspection)
+      transition(CONFIRM)
+      
+    }
+
   },[setMechanics,setRatings,setUsers,setInspections])
 
+  const inspectionId = sessionStorage.getItem('inspectionId'); 
   const userInspectionRequest = (data) => {
     // console.log('userRequestData ', data) 
-
+    const userID = JSON.parse(currentUserId)
     const userData = {         
-      "user_id": JSON.parse(currentUserId),
+      "user_id": userID,
       "mechanic_id": mechanic.id,      
       "car_make": `${data.carSelect} ${data.carModel}`,
       "year": data.makeYear,
       "description_of_problem": data.description,
       "isConfirmed": false,
       "isCompleted": false  
-    }    
-
-    return axios.post('/api/new-inspections', userData )
+    } 
+    console.log('INSPECTION ', {inspection})
+    
+    axios.post('/api/new-inspections', userData )
     .then(response => {
-      console.log('SUCCESS ', response.json());
-      transition(CONFIRM)     
+      console.log('SUCCESSFUL INSPECTION REQUEST ', response);
+      sessionStorage.setItem('inspectionDb', response.data.inspectionRequest[0].id)
+      let stringObject = JSON.stringify(response.config.data);
+      let parsedObject = JSON.parse(response.config.data);
+      setInspection(parsedObject)
+      console.log('MECHANIC LIST ', inspection)
+      sessionStorage.setItem('inspectionId', stringObject)
+      transition(CONFIRM)
+         
     })
     .catch(error => {
       console.log('ERROR ', error);     
     })    
-   // transition(CONFIRM)
+   
   }
 
+  const getInspectionData = () => {
+    return inspection;
+    console.log('IIIIIIIIIII ', inspection)
+  }
   
 return (
   <React.Fragment>
   <main id='back-to-top'>  
 
+  {mode === CONFIRM && (<Suspense fallback={ 
+    <Box component='div' className={classes.loadingStyle}> 
+    <CircularProgress /> 
+  </Box>
+  }>  
+    <ConfirmPage inspection={inspection} getInspectionData={getInspectionData} />      
+  </Suspense>)}
+
+  {/* {mode === CONFIRM && (<Suspense fallback={ 
+      <Box component='div' className={classes.loadingStyle}> 
+      <CircularProgress /> 
+    </Box>
+     }>  
+      <ConfirmPage inspection={inspection} />      
+    </Suspense>)} */}
+
     {mode === REQUEST && (<Suspense fallback={
     <Box component='div' className={classes.loadingStyle}>
       <CircularProgress />        
     </Box> }> 
-      < OrderRequest userInspectionRequest={userInspectionRequest}
+      < OrderRequest mechanicID={mechanic.id} currentUserId={currentUserId} setInspection={setInspection} userInspectionRequest={userInspectionRequest} 
       mechanic={mechanic} onCancel={()=>back()}
       /> 
     </Suspense>)  }
 
-    {mode ===  LANDING && (<Suspense fallback={ 
+    { mode ===  LANDING && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 
       <CircularProgress /> 
     </Box> 
@@ -215,13 +262,7 @@ return (
        />
     </Suspense>)}       
 
-    {mode ===  CONFIRM && (<Suspense fallback={ 
-      <Box component='div' className={classes.loadingStyle}> 
-      <CircularProgress /> 
-    </Box>
-     }>  
-      <ConfirmPage inspection={inspections} />      
-    </Suspense>)}
+    
     
     {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
       <ConfirmPage mechanics={mechanics} />
