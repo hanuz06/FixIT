@@ -78,27 +78,27 @@ const useStyles = makeStyles(theme => ({
   }, 
 }));
 
-export default function OrderRequest({onCancel, userInspectionRequest, mechanic}) {  
+export default function OrderRequest({onCancel, userInspectionRequest, mechanic, setInspection, currentUserId, isConfirmed, isCompleted}) {  
   const classes = useStyles()
-
-  const [selectedDate, setSelectedDate] = useState(new Date('2019-08-18T11:11:54'));
+  
   const [carSelect, setCarSelect] = useState('select');
   const [carSelectError, setCarSelectError] = useState(false);
   const [carSelectErrorText, setCarSelectErrorText] = useState('');
 
   const [makeYear, setMakeYear] = useState(0);
+  const [mechanicData, setMechanicData] = useState('');
 
   const [carModel, setCarModel] = useState('');
   const [carModelError, setCarModelError] = useState(false);
   const [carModelErrorText, setCarModelErrorText] = useState('');
 
   // const [yearMake, setYearMake] = useState('');
-  const [yearMakeError, setYearMakeError] = useState(false);
-  const [yearMakeErrorText, setYearMakeErrorText] = useState('');
+  const [makeYearError, setMakeYearError] = useState(false);
+  const [makeYearErrorText, setMakeYearErrorText] = useState('');
 
   const [description, setDescription] = useState('');
   const [descriptionError, setDescriptionError] = useState(false);
-  const [descriptionErrorText, setDescriptionErrorText] = useState('');
+  const [descriptionErrorText, setDescriptionErrorText] = useState('');  
 
   const handleChange = event => {
     setCarSelect(event.target.value);
@@ -106,11 +106,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
 
   const handleMakeYearChange = event => {
     setMakeYear(event.target.value);
-  };
-  
-  const handleDateChange = date => {
-    setSelectedDate(date);
-  };
+  };  
 
   const {show, hide} = useContext(AlertContext);
 
@@ -119,27 +115,23 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
 
     if (carSelect==='select'){
       setCarSelectError(true)
-      setCarSelectErrorText('Car make required')
+      setCarSelectErrorText('Car make required')      
     }
 
     if (!carModel){
       setCarModelError(true)
-      setCarModelErrorText('Car model required')
-    }
+      setCarModelErrorText('Car model required')      
+    } 
 
     if (makeYear===0){
-      setYearMakeError(true)
-      setYearMakeErrorText('Car make year required')
-      
+      setMakeYearError(true)
+      setMakeYearErrorText('Car make year required')      
     }
-    // if (isNaN(Number(yearMake)+1)){
-    //   setYearMakeError(true);    
-    //   setYearMakeErrorText("Make Year should be numbers");
-    // }
 
     if (!description){
       setDescriptionError(true)
       setDescriptionErrorText('Please enter problem description')
+      
     }  
 
     const userRequestData = {
@@ -148,19 +140,21 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
       makeYear,
       description
     }
-    userInspectionRequest(userRequestData) 
+
+    makeYear&&carSelect&& carModel && description && userInspectionRequest(userRequestData)    
     
+    // console.log('AAAAAAAAAA ', mechanicData)
   }
 
   const clearForm = () => {
     setCarModelErrorText('')
-    setYearMakeErrorText('')
+    // setYearMakeErrorText('')
     setDescriptionErrorText('')
     setCarSelectErrorText('')
     setCarModelError(false)
-    setYearMakeError(false)
+    // setYearMakeError(false)
     setDescriptionError(false)
-    setCarSelectError(false)
+    setCarSelectError(false)    
   }
 
   const clearData = () => {
@@ -169,7 +163,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
     setCarSelect('select')
     setMakeYear(0);
     clearForm();    
-  }
+  } 
 
   return (
     <Box component="div"  className={classes.root}>       
@@ -200,32 +194,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
         </Card>              
       </div>
       <div component="div" className={classes.boxDivide}>
-      <form className={classes.form} method='post' onSubmit={userRequestSubmit} noValidate autoComplete='off'>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        {/* <Grid container justify="space-around">
-          <KeyboardDatePicker
-              margin="normal"
-              id="date-picker-dialog"
-              label="Day picker"
-              format="MM/dd/yyyy"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-            <KeyboardTimePicker
-              margin="normal"
-              id="time-picker"
-              label="Time picker"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
-            />
-         </Grid> */}
-        </MuiPickersUtilsProvider>
+      <form className={classes.form} onSubmit={userRequestSubmit} noValidate autoComplete='off'>
           <TextField
             className={classes.selectStyle}        
             id="car-make"
@@ -272,8 +241,8 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
             name='year'
             onChange={handleMakeYearChange}
             onFocus={clearForm}
-            error={yearMakeError}            
-            helperText={yearMakeErrorText}
+            error={makeYearError}            
+            helperText={makeYearErrorText}
             SelectProps={{
               native: true,
             }}
@@ -327,7 +296,16 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic}
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"   
+            color="primary"  
+            onClick={()=>setInspection({
+              user_id: JSON.parse(currentUserId),
+              mechanic_id: mechanic.id,      
+              car_make: `${carSelect} ${carModel}`,
+              year: parseInt(makeYear),
+              description_of_problem: description,
+              isConfirmed: false,
+              isCompleted: false               
+            })} 
             >                     
           
             Confirm the request

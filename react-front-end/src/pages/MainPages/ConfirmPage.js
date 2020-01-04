@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -6,6 +6,8 @@ import RatingSize from '../../components/RatingSize';
 import purple from '@material-ui/core/colors/purple';
 import ConfirmCard from '../../components/ConfirmCard';
 import ConfirmTable from '../../components/ConfirmTable';
+import  {Alert} from '../../components/Alert';
+import {AlertContext} from '../../context/alert/alertContext';
 
 //import { database } from '../../db/database'
 
@@ -38,8 +40,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ConfirmPage({ inspection }) {
+export default function ConfirmPage({inspection, getInspectionData}) {
   const classes = useStyles();
+
+  const {show, hide} = useContext(AlertContext);
 
   return (
     <React.Fragment>   
@@ -49,7 +53,8 @@ export default function ConfirmPage({ inspection }) {
           <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
             Thank you!<br/>
             We will contact you soon.
-          </Typography>                            
+          </Typography> 
+          <Alert />                           
             <ConfirmTable inspection={inspection}/>       
         </Container>          
       </div>

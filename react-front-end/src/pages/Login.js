@@ -13,6 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import  {Alert} from '../components/Alert';
 import {AlertContext} from '../context/alert/alertContext';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,7 +47,8 @@ export default function SignIn() {
     emailError: false,
     passwordError: false,
     emailHelperText:'',
-    passwordHelperText:''
+    passwordHelperText:'',
+    loginDataValid: true
   }) 
 
   const changeHandler = event => {
@@ -54,30 +58,56 @@ export default function SignIn() {
   const classes = useStyles();
   const {show, hide} = useContext(AlertContext);
 
-  const userLogin = e => {
+  const loginValidation = e => {
     e.preventDefault();
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
     if (!form.email){       
-      setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true }))      
+      setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true, loginDataValid: false }))      
     } 
 
     if (!form.password){      
-    setForm(previouseValues => ({ ...previouseValues, passwordHelperText: "Password required", passwordError: true }))       
+    setForm(previouseValues => ({ ...previouseValues, passwordHelperText: "Password required", passwordError: true, loginDataValid: false }))       
     }  
 
     if (form.email && !re.test(form.email.toLowerCase())){
-      setForm(previouseValues =>({ ...previouseValues, emailHelperText: "Email format is incorrect",emailError: true }))      
+      setForm(previouseValues =>({ ...previouseValues, emailHelperText: "Email format is incorrect",emailError: true, loginDataValid: false }))      
     } 
+
+    const userData = {
+      'email':form.email,
+      'password':form.password
+    }
+
+    form.email && form.password && 
+    axios.post('/api/user-login', userData )
+    .then(response => {
+      console.log('SUCCESSFUL LOGIN ', response);  
+      sessionStorage.setItem('userId', response.data.user[0].id);  
+         
+    })
+    .catch(error => {
+      console.log('FAILED LOGIN ERROR ', error);     
+    })
   }
 
+  
   const clearForm = () => {
-    setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false }))    
+    setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))    
   }
 
   const clearData = () => {    
     setForm(previouseValues => ({ ...previouseValues, email: "", password: ""}))    
     clearForm();    
   }
+
+
+ const routeChange = () => {
+    // let path = `/`;
+    // let history = useHistory();
+    // history.push(path);
+    window.location.reload()
+  }
+  
 
   return (
     <Box className={classes.paper}>
@@ -89,7 +119,7 @@ export default function SignIn() {
             Sign in
           </Typography>
           <Alert />
-          <form className={classes.form} noValidate method='POST'>
+          <form className={classes.form} noValidate onSubmit={loginValidation}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -135,7 +165,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={userLogin}
+              onClick={routeChange}
             >
               Sign In
             </Button>
