@@ -185,7 +185,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
     }
 
   },[setMechanics,setRatings,setUsers,setInspections])
-  
+
   const inspectionId = sessionStorage.getItem('inspectionId'); 
   const userInspectionRequest = (data) => {
     // console.log('userRequestData ', data) 
@@ -203,7 +203,8 @@ const { mode, transition, back } = useVisualMode(LANDING);
     
     axios.post('/api/new-inspections', userData )
     .then(response => {
-      console.log('SUCCESSFUL INSPECTION REQUEST ', response.config.data);
+      console.log('SUCCESSFUL INSPECTION REQUEST ', response);
+      sessionStorage.setItem('inspectionDb', response.data.inspectionRequest[0].id)
       let stringObject = JSON.stringify(response.config.data);
       let parsedObject = JSON.parse(response.config.data);
       setInspection(parsedObject)

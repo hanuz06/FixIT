@@ -45,7 +45,8 @@ App.get('/api/inspections', async (req, res) => {
 App.post('/api/new-inspections', async (req, res) => {
   //console.log('requeeee ', req.body)  
   const inspectionRequest = await db('inspections').insert(req.body)
-
+  
+  console.log(inspectionRequest)
    res.json({inspectionRequest})
 
   // .then(function(res){res.status(200).json({name: 'hello andrey')}} ) 

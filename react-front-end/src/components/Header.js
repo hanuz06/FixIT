@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 const logoutFunction = () => {
   sessionStorage.removeItem('userId');
   sessionStorage.removeItem('inspectionId');
+  sessionStorage.removeItem('inspectionDb');
 }
 
 function HideOnScroll(props) {
