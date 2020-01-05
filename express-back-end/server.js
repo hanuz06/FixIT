@@ -1,7 +1,7 @@
 const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
-const PORT = 8080;
+const PORT = 8081;
 const knex = require('knex');
 const {check, validationResult} = require('express-validator')
 
@@ -9,10 +9,10 @@ var cors = require('cors');
 App.use(cors());
 
 // Express Configuration
-
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static('public'));
+
 //DB
 const db = require("./src/db/db.js");
 
@@ -150,7 +150,7 @@ App.post('/sms-response', async(req, res) => {
 
 
 
-App.post('/api/user-login',async (req, res) => {
+App.post('/api/user-login', async (req, res) => {
   console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body) 
   
   const {email, password} = req.body
@@ -158,9 +158,17 @@ App.post('/api/user-login',async (req, res) => {
   const user = await db('users').where({email})
 
    if (user.length === 0 ) {
-     return res.json({ message: 'User not found' })
+     res.json({ message: 'User not found' })
+     console.log('USER NOT FOUND BY PG')
     } else { 
-      res.json({user}), console.log('USER FOUND BY PG', user)
+      // res
+      // .status(201)
+      // .cookie('userId', 'andrey'+user[0].id, {
+      //   expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
+      // })      
+      // .redirect(301, '/')
+      res.status(200).json({user}), 
+      console.log('USER FOUND BY PG', user)
     }
   
   // .then((res)=> res.json())

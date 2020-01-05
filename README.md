@@ -1,5 +1,8 @@
 # React + Express No-Fluff Boilerplate
 
+sudo lsof -t -i:8080
+sudo kill -9 <PID>
+
 psql -h localhost -U development fixit_development
 
 ngrok http 3000 -host-header="localhost:3000"

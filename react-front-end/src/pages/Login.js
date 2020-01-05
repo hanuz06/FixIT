@@ -55,6 +55,23 @@ export default function SignIn() {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
+  // async function loginPostRequest(url, data){
+  //   const response = await fetch(url, {
+  //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+  //     mode: 'cors', // no-cors, *cors, same-origin
+  //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  //     credentials: 'same-origin', // include, *same-origin, omit
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //       // 'Content-Type': 'application/x-www-form-urlencoded',
+  //     },
+  //     redirect: 'follow', // manual, *follow, error
+  //     referrerPolicy: 'no-referrer', // no-referrer, *client
+  //     body: data // body data type must match "Content-Type" header
+  //   });
+  //   return await response.json(); // parses JSON response into native JavaScript objects
+  // }
+
   const classes = useStyles();
   const {show, hide} = useContext(AlertContext);
 
@@ -81,15 +98,15 @@ export default function SignIn() {
     form.email && form.password && 
     axios.post('/api/user-login', userData )
     .then(response => {
-      console.log('SUCCESSFUL LOGIN ', response);  
-      sessionStorage.setItem('userId', response.data.user[0].id);  
-         
+      console.log('11111111SUCCESSFUL LOGIN ', response.data.user[0].id);  
+      sessionStorage.setItem('userId', response.data.user[0].id);   
+      window.location.reload();     
     })
     .catch(error => {
       console.log('FAILED LOGIN ERROR ', error);     
     })
   }
-
+  
   
   const clearForm = () => {
     setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))    
@@ -98,14 +115,6 @@ export default function SignIn() {
   const clearData = () => {    
     setForm(previouseValues => ({ ...previouseValues, email: "", password: ""}))    
     clearForm();    
-  }
-
-
- const routeChange = () => {
-    // let path = `/`;
-    // let history = useHistory();
-    // history.push(path);
-    window.location.reload()
   }
   
 
@@ -164,8 +173,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
-              onClick={routeChange}
+              className={classes.submit}              
             >
               Sign In
             </Button>
