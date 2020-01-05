@@ -123,6 +123,7 @@ App.post('/sms-response', async(req, res) => {
     const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true})
     if (inspectionConfirm) {
       twiml.message('We have confirmed your appointment!!');
+
     } else {
       twiml.message('We could not confirm your appointment! Please check your inspection number');
     }
@@ -147,14 +148,17 @@ App.post('/sms-response', async(req, res) => {
 
 
 App.post('/api/user-login',async (req, res) => {
-  //console.log('requeeee ', req.body) 
+  console.log('LOGIN REQUEST SENT: ', req.body) 
   
   const {email, password} = req.body
   
   const user = await db('users').where({email})
 
    if (user.length === 0 ) {
-     return res.json({ message: 'User not found' })} else { res.json({user}), console.log('USERvvv FOUND', user)}
+     return res.json({ message: 'User not found' })
+    } else { 
+      res.json({user}), console.log('USERvvv FOUND', user)
+    }
   
   // .then((res)=> res.json())
   // .then(res => console.log('RESPONSE ', res))

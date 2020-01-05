@@ -1,7 +1,13 @@
 # React + Express No-Fluff Boilerplate
 
+psql -h localhost -U development fixit_development
+
+ngrok http 3000 -host-header="localhost:3000"
+
 knex seed:run --specific=mechanic.js
 knex migrate:run --specific=mechanic.js
+knex migrate:rollback
+knex migrate:latest
 
 A boilerplate project for anyone interested in making a project that uses React and Express.
 

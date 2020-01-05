@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)..
 
+ngrok http -host-header=“localhost:3000” 3000
+
 sudo lsof -t -i:8080
 sudo kill -9 <PID>
 

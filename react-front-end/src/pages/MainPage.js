@@ -21,6 +21,10 @@ const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 
 const useStyles = makeStyles(theme  => ({
+  root: {
+    minHeight: '90vh',
+    border: 'solid red 1px'
+  },
   backToTopButton: {
     position: 'fixed',
     bottom: theme.spacing(2),
@@ -119,18 +123,18 @@ const { mode, transition, back } = useVisualMode(LANDING);
   
   useEffect(() => { 
 
-    axios.get('/api/mechanics')
-      .then(res=>{                
-        return setMechanics(res.data.mechanics)
-      })
+    // axios.get('/api/mechanics')
+    //   .then(res=>{                
+    //     return setMechanics(res.data.mechanics)
+    //   })
 
     Promise.all([
-      // Promise.resolve(
-      //   axios.get('/api/mechanics')
-      // .then(res=>{                
-      //   return res.data.mechanics
-      // })
-      // ),
+      Promise.resolve(
+        axios.get('/api/mechanics')
+      .then(res=>{                
+        return res.data.mechanics
+      })
+      ),
       Promise.resolve(
         axios.get('/api/ratings')
         .then(res=>{          
@@ -226,7 +230,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
   
 return (
   <React.Fragment>
-  <main id='back-to-top'>  
+  <main id='back-to-top' className={classes.root}>  
 
   {mode === CONFIRM && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 

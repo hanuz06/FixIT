@@ -5,7 +5,7 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        {id: 1, 
+      {id: 1, 
         first_name: "Grant", 
         last_name: "Taylor",
         email: "granttaylor448@gmail.com",
@@ -13,7 +13,14 @@ exports.seed = function(knex) {
         phone: 4037000357,
         location: "Calgary"
       },
-        
+      {id: 2, 
+        first_name: "John", 
+        last_name: "Bayron",
+        email: "jbayron@ya.com",
+        password_digest: "123",
+        phone: 8259940224,
+        location: "Calgary"
+      }        
       ]);
     });
 };
