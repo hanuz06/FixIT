@@ -22,8 +22,7 @@ const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 
 const useStyles = makeStyles(theme  => ({
   root: {
-    minHeight: '90vh',
-    border: 'solid red 1px'
+    minHeight: '80vh'
   },
   backToTopButton: {
     position: 'fixed',
@@ -115,12 +114,10 @@ const { mode, transition, back } = useVisualMode(LANDING);
   description: "best mechanic EVER",
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
-  );  
-  
+  );    
 
   const currentUserId = sessionStorage.getItem('userId');  
-   
-  
+     
   useEffect(() => { 
 
     // axios.get('/api/mechanics')
@@ -154,10 +151,10 @@ const { mode, transition, back } = useVisualMode(LANDING);
       })
       )          
     ]).then(all=>{        
-      // setMechanics(all[0])
-      setRatings(all[0])
-      setUsers(all[1])
-      setInspections(all[2])
+      setMechanics(all[0])
+      setRatings(all[1])
+      setUsers(all[2])
+      setInspections(all[3])
     })
     
     // axios.get('/api/mechanics') data

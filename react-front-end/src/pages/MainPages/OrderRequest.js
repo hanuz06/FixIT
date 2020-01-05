@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import Container from '@material-ui/core/Container';
 import CardMedia from '@material-ui/core/CardMedia';
 import RatingSize from '../../components/RatingSize';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -42,6 +43,12 @@ const useStyles = makeStyles(theme => ({
       flexDirection: 'column'     
     }
   },
+  ContainerStyle: {
+    marginRight: '80px',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 'auto'     
+    }
+  },
   boxDivide: {
     display: 'flex',
     justifyContent: 'center',
@@ -51,8 +58,7 @@ const useStyles = makeStyles(theme => ({
     padding: '20px',    
     [`@media (max-width:380px)`]:{
         minHeight: '70vh'
-      }
-       
+      }       
   },
   card: {
     height: 'auto',
@@ -193,6 +199,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
           </CardActions> 
         </Card>              
       </div>
+      <Container maxWidth="sm" className={classes.ContainerStyle}>
       <div component="div" className={classes.boxDivide}>
       <form className={classes.form} onSubmit={userRequestSubmit} noValidate autoComplete='off'>
           <TextField
@@ -326,13 +333,15 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             fullWidth
             variant="contained"
             color="inherit"
-            onClick= {clearData}                      
+            onClick= {clearData} 
+            style={{marginTop:'5px'}}                     
           >
             Clear
           </Button>
           </Box>           
         </form>        
       </div>
+      </Container>
     </Box>
   );
 }

@@ -5,6 +5,9 @@ const PORT = 8080;
 const knex = require('knex');
 const {check, validationResult} = require('express-validator')
 
+var cors = require('cors');
+App.use(cors());
+
 // Express Configuration
 
 App.use(BodyParser.json());
@@ -148,7 +151,7 @@ App.post('/sms-response', async(req, res) => {
 
 
 App.post('/api/user-login',async (req, res) => {
-  console.log('LOGIN REQUEST SENT: ', req.body) 
+  console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body) 
   
   const {email, password} = req.body
   
@@ -157,7 +160,7 @@ App.post('/api/user-login',async (req, res) => {
    if (user.length === 0 ) {
      return res.json({ message: 'User not found' })
     } else { 
-      res.json({user}), console.log('USERvvv FOUND', user)
+      res.json({user}), console.log('USER FOUND BY PG', user)
     }
   
   // .then((res)=> res.json())
