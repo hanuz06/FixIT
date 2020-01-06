@@ -15,7 +15,7 @@
     "date-fns": "^2.8.1",
     "history": "^4.10.1",
     "http-proxy-middleware": "^0.20.0",
-    "jquery": "^1.9.1",
+    "jquery": "^3.4.0",
     "material-ui-search-bar": "^0.4.2",
     "mui-autocomplete": "^1.0.7",
     "node-sass": "^4.13.0",
