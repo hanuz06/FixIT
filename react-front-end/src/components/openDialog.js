@@ -49,10 +49,13 @@ const useStyles = makeStyles(theme => ({
   // dialog: {
   //   opacity: '0.4'    
   // },
-  image: {     
+  image: {  
+    display: 'block',   
     width: '250px',
     maxWidth: '100%',
-    height: 'auto',   
+    height: 'auto',
+    maxHeight:'150px', 
+    objectFit: 'cover'  
   }
 }));
 

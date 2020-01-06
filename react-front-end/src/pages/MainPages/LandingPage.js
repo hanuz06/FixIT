@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import useStyles from './styles.js';
+import useStyles from './LandingPageStyles.js';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import { Link as HyperLink } from 'react-router-dom';
@@ -69,8 +69,8 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
         mechanic.last_name.toLowerCase().search(select.toLowerCase()) !== -1 
       ); 
       filtered.length !== 0? setMechanicList(filtered) : setMechanicList(mechanics)  
-      select && mechanicList === mechanics && show(' No match found', 'success')
       !select && hide()
+      select && mechanicList === mechanics && show(' No match found', 'success')
       //console.log('select ', select.length)          
     },[select]);
     //console.log('MechanicList ',mechanicList)    

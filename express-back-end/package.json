@@ -2,21 +2,24 @@
   "name": "express-back-end",
   "version": "1.0.0",
   "description": "Boilerplate for the Express backend in an Express-React project",
-  "main": "server.js",
+  "main": "server.js",  
   "author": "garrettgsb",
   "license": "MIT",
   "scripts": {
-    "go": "nodemon server.js"
+    "go": "nodemon server.js",
+    "nodemon": "nodemon server.js --ignore client"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.3.1",
-    "nodemon": "^1.18.7",
-    "pg": "^7.15.1"
+    "knex": "^0.20.6",
+    "pg": "^7.17.0"
   },
   "devDependencies": {
+    "nodemon": "^2.0.2",
     "twilio": "^3.33.0"
   }
 }
