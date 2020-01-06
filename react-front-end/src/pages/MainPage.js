@@ -21,6 +21,9 @@ const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 
 const useStyles = makeStyles(theme  => ({
+  root: {
+    minHeight: '80vh'
+  },
   backToTopButton: {
     position: 'fixed',
     bottom: theme.spacing(2),
@@ -111,26 +114,24 @@ const { mode, transition, back } = useVisualMode(LANDING);
   description: "best mechanic EVER",
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
-  );  
-  
+  );    
 
   const currentUserId = sessionStorage.getItem('userId');  
-   
-  
+     
   useEffect(() => { 
 
-    axios.get('/api/mechanics')
-      .then(res=>{                
-        return setMechanics(res.data.mechanics)
-      })
+    // axios.get('/api/mechanics')
+    //   .then(res=>{                
+    //     return setMechanics(res.data.mechanics)
+    //   })
 
     Promise.all([
-      // Promise.resolve(
-      //   axios.get('/api/mechanics')
-      // .then(res=>{                
-      //   return res.data.mechanics
-      // })
-      // ),
+      Promise.resolve(
+        axios.get('/api/mechanics')
+      .then(res=>{                
+        return res.data.mechanics
+      })
+      ),
       Promise.resolve(
         axios.get('/api/ratings')
         .then(res=>{          
@@ -150,10 +151,10 @@ const { mode, transition, back } = useVisualMode(LANDING);
       })
       )          
     ]).then(all=>{        
-      // setMechanics(all[0])
-      setRatings(all[0])
-      setUsers(all[1])
-      setInspections(all[2])
+      setMechanics(all[0])
+      setRatings(all[1])
+      setUsers(all[2])
+      setInspections(all[3])
     })
     
     // axios.get('/api/mechanics') data
@@ -226,7 +227,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
   
 return (
   <React.Fragment>
-  <main id='back-to-top'>  
+  <main id='back-to-top' className={classes.root}>  
 
   {mode === CONFIRM && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 

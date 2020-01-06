@@ -1,15 +1,18 @@
 const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
-const PORT = 8080;
+const PORT = 8081;
 const knex = require('knex');
 const {check, validationResult} = require('express-validator')
 
-// Express Configuration
+var cors = require('cors');
+App.use(cors());
 
+// Express Configuration
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static('public'));
+
 //DB
 const db = require("./src/db/db.js");
 
@@ -123,6 +126,7 @@ App.post('/sms-response', async(req, res) => {
     const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true})
     if (inspectionConfirm) {
       twiml.message('We have confirmed your appointment!!');
+
     } else {
       twiml.message('We could not confirm your appointment! Please check your inspection number');
     }
@@ -144,21 +148,30 @@ App.post('/sms-response', async(req, res) => {
 
 
 
-
-
-App.post('/api/user-login',async (req, res) => {
-  //console.log('requeeee ', req.body) 
+App.post('/api/user-login', async (req, res) => {
+  console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body) 
   
   const {email, password} = req.body
   
   const user = await db('users').where({email})
 
-   if (user.length === 0 ) {
-     return res.json({ message: 'User not found' })} else { res.json({user}), console.log('USERvvv FOUND', user)}
-  
-  // .then((res)=> res.json())
-  // .then(res => console.log('RESPONSE ', res))
-  // .catch((error)=> console.log('error ', error))   
+   if (!user[0] ) {
+     return res.status(400).json({ message: 'User not found' })
+     console.log('USER NOT FOUND BY PG')
+    } 
+    
+  console.log('user ',  user[0])
+
+  let isMatch = false
+
+  if (password === user[0].password_digest){
+    isMatch=true
+  }
+
+  console.log('ismatch ', isMatch)
+  if (isMatch === false) {
+    return res.status(404).json({ message: 'Password is incorrect' })
+  } else { return res.status(200).json({ user }) }
 });
 
 

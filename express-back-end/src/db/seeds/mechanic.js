@@ -69,7 +69,7 @@ exports.seed = function(knex) {
       "hourly_rate": 60,
       "active": true,
       "description": "best mechanic EVER",
-      "avatar": "http://www.williamfloydmarketing.com/wp-content/uploads/2016/12/girl-mechanic-19.jpg"
+      "avatar": "https://images.glaciermedia.ca/polopoly_fs/1.2220624.1459375168!/fileImage/httpImage/image.jpg_gen/derivatives/landscape_804/kate-stockford.jpg"
     },
     {
       "id": 6,
@@ -108,7 +108,7 @@ exports.seed = function(knex) {
       "hourly_rate": 60,
       "active": true,
       "description": "best mechanic EVER",
-      "avatar": "https://cdn.trade-schools.net/static/graphics/auto-mechanic-pin.jpg"
+      "avatar": "https://www.ziprecruiter.com/blog/zrs-0001/blog/wp-content/uploads/2017/07/auto_mechanic-628x418.jpg"
     },
     {
       "id": 9,
