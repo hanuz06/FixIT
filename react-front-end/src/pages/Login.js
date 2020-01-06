@@ -16,7 +16,6 @@ import {AlertContext} from '../context/alert/alertContext';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-
 const useStyles = makeStyles(theme => ({
   paper: {
     //marginTop: theme.spacing(8),
@@ -103,13 +102,16 @@ export default function SignIn() {
       window.location.reload();     
     })
     .catch(error => {
-      console.log('FAILED LOGIN ERROR ', error);     
+      console.log('FAILED LOGIN ERROR ', error.response);  
+      show(error.response.data.message, 'danger');
+      //window.location.reload();    
     })
   }
   
   
   const clearForm = () => {
-    setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))    
+    setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))  
+    hide();
   }
 
   const clearData = () => {    

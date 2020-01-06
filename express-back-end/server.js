@@ -148,8 +148,6 @@ App.post('/sms-response', async(req, res) => {
 
 
 
-
-
 App.post('/api/user-login', async (req, res) => {
   console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body) 
   
@@ -157,23 +155,23 @@ App.post('/api/user-login', async (req, res) => {
   
   const user = await db('users').where({email})
 
-   if (user.length === 0 ) {
-     res.json({ message: 'User not found' })
+   if (!user[0] ) {
+     return res.status(400).json({ message: 'User not found' })
      console.log('USER NOT FOUND BY PG')
-    } else { 
-      // res
-      // .status(201)
-      // .cookie('userId', 'andrey'+user[0].id, {
-      //   expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
-      // })      
-      // .redirect(301, '/')
-      res.status(200).json({user}), 
-      console.log('USER FOUND BY PG', user)
-    }
-  
-  // .then((res)=> res.json())
-  // .then(res => console.log('RESPONSE ', res))
-  // .catch((error)=> console.log('error ', error))   
+    } 
+    
+  console.log('user ',  user[0])
+
+  let isMatch = false
+
+  if (password === user[0].password_digest){
+    isMatch=true
+  }
+
+  console.log('ismatch ', isMatch)
+  if (isMatch === false) {
+    return res.status(404).json({ message: 'Password is incorrect' })
+  } else { return res.status(200).json({ user }) }
 });
 
 
