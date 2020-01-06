@@ -96,7 +96,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
     "mechanic_id": 22,      
     "car_make": `ford`,
     "year": 2005,
-    "address": "",
+    "location": "calgary",
     "description_of_problem": "brake",
     "isConfirmed": false,
     "isCompleted": false  
@@ -197,6 +197,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
       "mechanic_id": mechanic.id,      
       "car_make": `${data.carSelect} ${data.carModel}`,
       "year": data.makeYear,
+      "location":data.userAddress,
       "description_of_problem": data.description,
       "isConfirmed": false,
       "isCompleted": false  

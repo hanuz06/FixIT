@@ -68,10 +68,19 @@ export default function ConfirmTable({inspection}) {
           </TableRow> 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
-            year
+            Year
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.year}</TableCell>
           </TableRow>  
+
+          <TableRow> 
+          <TableCell component="th" scope="row" className={classes.tableCell}>
+            Location
+            </TableCell>
+            <TableCell className={classes.tableCell}>{inspection.location}</TableCell>
+          </TableRow>
+
+          
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
           description_of_problem
