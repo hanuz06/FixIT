@@ -29,6 +29,11 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+// import placesAutofill from "../../helpers/placesAutofill"
+import Script from 'react-load-script';
+// import { SearchBar as SearchPlace }  from 'material-ui-search-bar';
+import PlacesAutoFill from "../../components/PlacesAutoFill"
+
 
 const useStyles = makeStyles(theme => ({    
   root: {
@@ -167,6 +172,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
 
   return (
     <Box component="div"  className={classes.root}>       
+    
       <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >      
         <Card className={classes.card}>                
           <CardMedia
@@ -254,23 +260,9 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
               </option>
             ))}
           </TextField>
-
-          {/* <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="year"
-            label="Make Year"
-            type="year"
-            id="year" 
-            value={yearMake}
-            onChange={e => setYearMake(e.target.value)}
-            onFocus={clearForm}            
-            error={yearMakeError}
-            helperText={yearMakeErrorText}             
-          /> */}
-
+           
+          <PlacesAutoFill/>
+            
           <TextField
             variant="outlined"
             margin="normal"
