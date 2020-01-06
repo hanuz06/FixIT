@@ -96,6 +96,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
     "mechanic_id": 22,      
     "car_make": `ford`,
     "year": 2005,
+    "address": "",
     "description_of_problem": "brake",
     "isConfirmed": false,
     "isCompleted": false  
