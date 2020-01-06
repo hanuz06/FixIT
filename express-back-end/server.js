@@ -1,18 +1,15 @@
 const Express = require('express');
 const App = Express();
 const BodyParser = require('body-parser');
-const PORT = 8081;
+const PORT = 8080;
 const knex = require('knex');
 const {check, validationResult} = require('express-validator')
 
-var cors = require('cors');
-App.use(cors());
-
 // Express Configuration
+
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static('public'));
-
 //DB
 const db = require("./src/db/db.js");
 
@@ -126,7 +123,6 @@ App.post('/sms-response', async(req, res) => {
     const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true})
     if (inspectionConfirm) {
       twiml.message('We have confirmed your appointment!!');
-
     } else {
       twiml.message('We could not confirm your appointment! Please check your inspection number');
     }
@@ -145,6 +141,8 @@ App.post('/sms-response', async(req, res) => {
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
 });
+
+
 
 
 
