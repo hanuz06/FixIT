@@ -48,11 +48,9 @@ App.get('/api/inspections', async (req, res) => {
   res.json({ inspections });
 });
 
-
-
 App.post('/api/new-inspections', (req, res) => {
   res.header('Content-Type', 'application/json');
-  console.log('requeeee ', req.body)  
+  //console.log('requeeee ', req.body)  
   db('inspections').insert(req.body)
   .returning('*') 
   // START TWILIO MESSAGE
@@ -80,6 +78,16 @@ App.post('/api/new-inspections', (req, res) => {
     }) 
   .catch((error)=> console.log('error ', error))   
 });
+
+App.get('/api/last-inspection', async (req, res) => {
+  console.log('this is request to server ', req.query.id)
+  let inspectionId = req.query.id
+  const currentInspection = await db('inspections').where('id', inspectionId); // making a query to get all todos
+  console.log(currentInspection)
+  res.json({ currentInspection });
+});
+
+
 
 // App.post('/api/new-inspections', async (req, res) => {
 //   //console.log('requeeee ', req.body)  
@@ -123,6 +131,7 @@ App.post('/sms-response', async(req, res) => {
     const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true})
     if (inspectionConfirm) {
       twiml.message('We have confirmed your appointment!!');
+
     } else {
       twiml.message('We could not confirm your appointment! Please check your inspection number');
     }
@@ -158,7 +167,7 @@ App.post('/api/user-login', async (req, res) => {
      console.log('USER NOT FOUND BY PG')
     } 
     
-  console.log('user ',  user[0])
+  //console.log('user ',  user[0])
 
   let isMatch = false
 
@@ -166,7 +175,7 @@ App.post('/api/user-login', async (req, res) => {
     isMatch=true
   }
 
-  console.log('ismatch ', isMatch)
+  //console.log('ismatch ', isMatch)
   if (isMatch === false) {
     return res.status(404).json({ message: 'Password is incorrect' })
   } else { return res.status(200).json({ user }) }

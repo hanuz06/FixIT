@@ -20,6 +20,10 @@ const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 
+const inspectionId = sessionStorage.getItem('inspectionId');
+const inspectionNumber = sessionStorage.getItem('inspectionDb')
+const currentUserId = sessionStorage.getItem('userId'); 
+
 const useStyles = makeStyles(theme  => ({
   root: {
     minHeight: '80vh'
@@ -117,7 +121,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
 }
   );    
 
-  const currentUserId = sessionStorage.getItem('userId');  
+   
      
   useEffect(() => { 
 
@@ -182,13 +186,28 @@ const { mode, transition, back } = useVisualMode(LANDING);
     if (inspectionId) {
       let currentInspection = JSON.parse(JSON.parse(inspectionId))     
       setInspection(currentInspection)
-      transition(CONFIRM)
-      
+      transition(CONFIRM)      
     }
+
+  
+      if (inspectionNumber) {
+        setInterval(() =>
+        axios.get('/api/last-inspection', { params: {
+          id: inspectionNumber}
+        })
+        .then(res=>{       
+          console.log('THIS IS REPLY ', res.data.currentInspection[0])
+          setInspection(res.data.currentInspection[0])
+          console.log('THIS INSPECTION AFTER SUBMIT ', inspection)
+          //sessionStorage.removeItem("inspectionId");   
+          //sessionStorage.setItem("inspectionId", res.data.currentInspection[0]);   
+          // return res.data.inspections       
+    }), 5000)
+  }
 
   },[setMechanics,setRatings,setUsers,setInspections])
 
-  const inspectionId = sessionStorage.getItem('inspectionId'); 
+  //const inspectionId = sessionStorage.getItem('inspectionId'); 
   const userInspectionRequest = (data) => {
     // console.log('userRequestData ', data) 
     const userID = JSON.parse(currentUserId)
@@ -226,6 +245,8 @@ const { mode, transition, back } = useVisualMode(LANDING);
     return inspection;
     console.log('IIIIIIIIIII ', inspection)
   }
+
+
   
 return (
   <React.Fragment>
