@@ -78,6 +78,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+  },
+  buttonStyle: {
+    display: 'flex',
+    justifyContent: "space-between",
+    alignItems: 'center'  
   }
 }));
 
