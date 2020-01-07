@@ -16,7 +16,7 @@ class PlacesAutoFill extends React.Component {
     super(props);
     this.autocompleteInput = React.createRef();
     this.autocomplete = null;
-    // this.handlePlaceChanged = this.handlePlaceChanged.bind(this);
+    this.handlePlaceChanged = this.handlePlaceChanged.bind(this);
   }
 
   componentDidMount() {
@@ -27,19 +27,16 @@ class PlacesAutoFill extends React.Component {
   }
 
   handlePlaceChanged(){
-    // const place = this.autocomplete.getPlace();
-    // this.props.onPlaceLoaded(place);
-    // return place
+    const place = this.autocomplete.getPlace();
+    this.props.onPlaceLoaded(place.name);
+   
   }
-
-
 
   render() {
     return (
         
-        <input ref={this.autocompleteInput}  id="autocomplete" placeholder="Enter your address"
-         type="text"></input>
-        
+        <input ref={this.autocompleteInput} id="autocomplete" placeholder="Enter your address"
+         type="text"></input>        
     );  
   }
 }

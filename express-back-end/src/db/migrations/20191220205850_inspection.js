@@ -7,6 +7,7 @@ knex.schema.createTable('inspections', table => {
   table.datetime('inspection_time', { precision: 6 }).defaultTo(knex.fn.now(6))
   table.string('car_make')
   table.integer("year")
+  table.string('location')
   table.text('description_of_problem');
   table.boolean('isConfirmed');
   table.boolean('isCompleted');

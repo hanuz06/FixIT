@@ -87,6 +87,10 @@ const useStyles = makeStyles(theme => ({
       marginBottom: theme.spacing(1),
       width: '100%',    
   }, 
+  PlaceAutoFillStyle: {
+    width: '500px',
+    border: 'solid red 1px'
+  }
 }));
 
 export default function OrderRequest({onCancel, userInspectionRequest, mechanic, setInspection, currentUserId, isConfirmed, isCompleted}) {  
@@ -110,6 +114,12 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
   const [description, setDescription] = useState('');
   const [descriptionError, setDescriptionError] = useState(false);
   const [descriptionErrorText, setDescriptionErrorText] = useState('');  
+  const [userAddress, setUserAddress] = useState(''); 
+  
+  const onPlaceLoaded = (userAddress) => {
+    setUserAddress(userAddress)
+  }
+  console.log('userAddress ',userAddress)
 
   const handleChange = event => {
     setCarSelect(event.target.value);
@@ -149,6 +159,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
       carSelect,
       carModel,
       makeYear,
+      userAddress,
       description
     }
 
@@ -267,8 +278,8 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
               </option>
             ))}
           </TextField>
-           
-          <PlacesAutoFill/>
+           Please note our mechanics will only service Calgary addresses
+          <PlacesAutoFill onPlaceLoaded={onPlaceLoaded}/>
             
           <TextField
             variant="outlined"
@@ -301,9 +312,10 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
               mechanic_id: mechanic.id,      
               car_make: `${carSelect} ${carModel}`,
               year: parseInt(makeYear),
+              location: userAddress,
               description_of_problem: description,
               isConfirmed: false,
-              isCompleted: false               
+              isCompleted: false                          
             })} 
             >                     
           

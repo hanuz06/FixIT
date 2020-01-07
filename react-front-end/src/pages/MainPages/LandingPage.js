@@ -19,6 +19,10 @@ import TypeSentence from '../../components/TypedSentence';
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import Badge from '@material-ui/core/Badge';
+import UserBadge from '../../components/UserBadge';
+
 
  
 export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
@@ -30,6 +34,9 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
 
   const {show, hide} = useContext(AlertContext);
   const classes = useStyles(); 
+
+  const rectangle = <div className={classes.shape} />;
+  const circle = <div className={clsx(classes.shape, classes.shapeCircle)} />;
 
   // var options = {
   // const LoadingFunction = () => {
@@ -145,6 +152,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                       {mechanic.description}
                     </Typography>
                   </CardContent>
+                  <div className={classes.buttonStyle}>
                   <CardActions>
                     {/* <Button size="small" color="primary">
                       View
@@ -152,9 +160,12 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}}>
                       Request {mechanic.first_name}
                     </Button> 
-                    {/* <SimpleDialogDemo mechanic={mechanic}/>  */}
-                  </CardActions>                  
-                </Card> 
+                    {/* <SimpleDialogDemo mechanic={mechanic}/>  */}        
+                  </CardActions> 
+                  {mechanic.active && <UserBadge />}         
+                  </div>
+                                   
+                  </Card> 
                 { modalOpen && 
               <SimpleDialogDemo mechanic={mechanicData} modalOpen={modalOpen} closeModal={closeModal} 
               onRequest={onRequest}
