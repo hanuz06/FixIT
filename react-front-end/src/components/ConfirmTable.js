@@ -41,7 +41,8 @@ export default function ConfirmTable({inspection}) {
    
   useEffect(() => {
    
-      onlyOnce()               
+      onlyOnce()      
+
   } ,[]);
   const onlyOnce = function () {
 
@@ -73,7 +74,8 @@ export default function ConfirmTable({inspection}) {
   // }
   
   // let parsedObj = JSON.parse(inspection)
-  console.log('insepeeeeee ',  inspection)
+  //console.log('insepeeeeee ',  inspection)
+  
 
   return (
     <Fragment>

@@ -6,7 +6,7 @@ exports.up = knex =>
     table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('CASCADE').index();
     table.integer('mechanic_id').unsigned().notNullable().references('id').inTable('mechanics').onDelete('CASCADE').index();
     table.integer('inspection_id').unsigned().notNullable().references('id').inTable('inspections').onDelete('CASCADE').index();
-    table.text('rating');
+    table.integer('rating');
 });
 
 

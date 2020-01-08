@@ -9,7 +9,7 @@ exports.seed = function(knex) {
         user_id: 1,
         mechanic_id: 1,
         inspection_id: 1,
-        rating: "5"
+        rating: 4
       },
       ]);
     });

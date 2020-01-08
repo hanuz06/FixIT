@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 
-export default function RatingSize() {
-
-  const starRating = (event) => {
-    event.stopPropagation();
-    console.log("This is a mechanic rating")    
+export default function RatingSize({ setStars, stars }) {
+  
+  const setMechanicRating = (e, newValue) => {
+    e.stopPropagation();     
+    setStars(newValue)
   }
 
+  // useEffect(() => {
+  //   setStars(rating)
+  // });
+
   return (
-    <Box display="flex" >
-      {/* <Rating name="size-small" value={2} size="small" />
-      <Rating name="size-medium" value={2} /> */}
-      <Rating name="size-large" value={4} size="large" onClick={starRating} style={{cursor: 'pointer'}}/>
+    <Box display="flex" >      
+      <Rating name="simple-controlled" value={stars} size="large" onChange={setMechanicRating} style={{cursor: 'pointer'}}/>
     </Box>
   )};

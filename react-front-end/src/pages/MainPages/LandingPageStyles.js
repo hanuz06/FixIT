@@ -83,7 +83,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: "space-between",
     alignItems: 'center'  
-  }
+  },
+  goToTopButton: {
+    cursor:'pointer', 
+    border: 'none', 
+    outline:'none'   
+    }
 }));
 
 export default useStyles;
