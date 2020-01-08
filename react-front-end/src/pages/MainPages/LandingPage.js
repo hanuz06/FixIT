@@ -23,6 +23,7 @@ import clsx from 'clsx';
 import Badge from '@material-ui/core/Badge';
 import UserBadge from '../../components/UserBadge';
 import { createMuiTheme } from '@material-ui/core/styles';
+import FixitLogo from "../../Photos/Fixit_font.png"
 
 
  
@@ -110,8 +111,8 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       <Container maxWidth="sm" >
       {/* { loading && <CircularProgress color="secondary" /> } */}
         <Typography component="h1" theme={theme} variant="h2" align="center" color="textPrimary" gutterBottom>
-          FIXit
-          <img src="https://image.flaticon.com/icons/png/128/81/81836.png" alt="site logo" height={60} />
+        <img src="https://image.flaticon.com/icons/png/128/81/81836.png" alt="site logo" height={60} />
+          <img src={FixitLogo} alt="site logo" height={70} />
         </Typography>             
         <TypeSentence /> 
         <Alert />             

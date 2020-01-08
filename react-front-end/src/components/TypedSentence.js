@@ -22,7 +22,7 @@ export default function TypedSentence() {
     
     <Typography variant="h5" align="center" color="textSecondary" paragraph className={classes.root}>
         <Typed
-            strings={['We want to connect you ^1000 with Calgary\'s best mechanics. ^1000 So we decided to do car repair a little differently','Our customers appreciate our care,^1000 understanding, suggestions, and knowledge about us.^1000 They know we are trustworthy.','Let\'s take Car Servicing Seriously.','Mechanics You Can Trust In Calgary.']}
+            strings={['We want to connect you with Calgary\'s best mechanics. ^1000 So we decided to do car repair a little differently','Let\'s take Car Servicing Seriously.','Mechanics You Can Trust In Calgary.']}
             typeSpeed={80}
             backSpeed={70}
             backDelay={5000}

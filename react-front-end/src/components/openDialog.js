@@ -51,10 +51,10 @@ const useStyles = makeStyles(theme => ({
   // },
   image: {  
     display: 'block',   
-    width: '250px',
+    width: '500px',
     maxWidth: '100%',
-    height: 'auto',
-    maxHeight:'150px', 
+    height: '300px',
+    maxHeight:'250px', 
     objectFit: 'cover'  
   }
 }));
@@ -102,7 +102,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             // image = {mechanic.avatar}
             title="Best mechanic"
           > 
-          <img src={mechanic.avatar} alt="Best mechanic" className={classes.image}/>
+          <img src={mechanic.avatar} alt="Best mechanic" className={classes.image} />
           </CardMedia>  
           < RatingSize />               
           <CardContent className={classes.cardContent}>
@@ -119,7 +119,6 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
               Repairs will not be completed without your authorization
               Free roadside assistance
             12 months or 20,000km parts and labour warranty on all repairs */}
-              Description
               {mechanic.description}
             </Typography>
           </CardContent>
