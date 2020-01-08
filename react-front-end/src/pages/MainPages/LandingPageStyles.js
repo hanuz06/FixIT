@@ -87,10 +87,8 @@ const useStyles = makeStyles(theme => ({
 
   gutterBottom: {
     marginTop: "1em"
-  }
-
-
-
+  },
+  
   goToTopButton: {
     cursor:'pointer', 
     border: 'none', 

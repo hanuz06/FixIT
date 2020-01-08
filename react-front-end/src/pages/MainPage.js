@@ -88,7 +88,7 @@ const currentUserId = sessionStorage.getItem('userId');
   const LANDING = "LANDING";
   const RATING = "RATING";  
 
-const { mode, transition, back } = useVisualMode(LANDING);
+  const { mode, transition, back } = useVisualMode(LANDING);
 
   const classes = useStyles();
 
@@ -120,11 +120,8 @@ const { mode, transition, back } = useVisualMode(LANDING);
   description: "best mechanic EVER",
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
-
-  );    
-  
-
-  );   
+  );
+// );   
   // const [rating, setRating]= useState(0) 
 
   // const setStars = (newValue) => {    
@@ -190,12 +187,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
       console.log(data);
       // socket.emit('my other event', { my: 'data' });
     }
-  )
-    
-    
-
-
-    })   
+  )  
 
   if(inspection.isCompleted === true){
     transition(RATING)

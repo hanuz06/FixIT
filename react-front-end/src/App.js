@@ -34,8 +34,8 @@ function App() {
                 {/* Using the `component` prop */}
                
                 <Route exact path="/" >
-                  {/* < MainPage />                   */}
-                  <MechanicRating />
+                  < MainPage />                  
+                  {/* <MechanicRating /> */}
                 </Route>
                
                 <Route path="/login">

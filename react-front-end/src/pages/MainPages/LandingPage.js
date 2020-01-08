@@ -163,20 +163,20 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     </Typography>
                   </CardContent>
                   <div className={classes.buttonStyle}>
-                  <CardActions>
-                    {/* <Button size="small" color="primary">
-                      View
-                    </Button> */}
+                    <CardActions>
+                      {/* <Button size="small" color="primary">
+                        View
+                      </Button> */}
 
-                    { userId && mechanic.active && <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}}>
-
-                    <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} className={classes.goToTopButton}>
- 
-                      Request {mechanic.first_name}
-                    </Button> }
-                    {/* <SimpleDialogDemo mechanic={mechanic}/>  */}        
-                  </CardActions> 
-                  {mechanic.active && <UserBadge />}         
+                      { userId && mechanic.active && 
+                      <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}} >
+                        Request {mechanic.first_name}
+                      </Button> }
+                      <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} className={classes.goToTopButton}></Button>
+                      {/* <SimpleDialogDemo mechanic={mechanic}/>  */}        
+                    </CardActions> 
+                    
+                    {mechanic.active && <UserBadge />}         
                   </div>
                                    
                   </Card> 
