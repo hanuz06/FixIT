@@ -2,7 +2,7 @@ import React from 'react';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import logo from "../images/car-service.png";
+import logo from "../Photos/mechanic-grey.png"
 
 const StyledBadge = withStyles(theme => ({
   badge: {
@@ -63,7 +63,7 @@ export default function BadgeAvatars() {
         }}
         variant="dot"
       >
-        <Avatar alt="Remy Sharp" src='https://image.flaticon.com/icons/png/128/81/81836.png' />
+        <Avatar alt="Remy Sharp" src={logo} />
       </StyledBadge>
       {/* <Badge
         overlap="circle"

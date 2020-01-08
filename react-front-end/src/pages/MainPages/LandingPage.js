@@ -24,6 +24,7 @@ import Badge from '@material-ui/core/Badge';
 import UserBadge from '../../components/UserBadge';
 import { createMuiTheme } from '@material-ui/core/styles';
 import FixitLogo from "../../Photos/Fixit_font.png"
+import Avatar from "../../Photos/mechanic-grey.png"
 
 
  
@@ -37,22 +38,6 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
   const {show, hide} = useContext(AlertContext);
   const classes = useStyles(); 
 
-  const theme = createMuiTheme({
-    typography: {
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-    },
-  });
 
   const rectangle = <div className={classes.shape} />;
   const circle = <div className={clsx(classes.shape, classes.shapeCircle)} />;
@@ -110,8 +95,8 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     <div className={classes.heroContent}>
       <Container maxWidth="sm" >
       {/* { loading && <CircularProgress color="secondary" /> } */}
-        <Typography component="h1" theme={theme} variant="h2" align="center" color="textPrimary" gutterBottom>
-        <img src="https://image.flaticon.com/icons/png/128/81/81836.png" alt="site logo" height={60} />
+        <Typography component="h1"  variant="h2" align="center" color="textPrimary" gutterBottom  className={classes.gutterBottom}>
+      <img src={Avatar} alt="site logo" height={100} margin="1em"/>
           <img src={FixitLogo} alt="site logo" height={70} />
         </Typography>             
         <TypeSentence /> 

@@ -12,7 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import logo from "../images/car-service.png";
+import logo from "../Photos/mechanic-white.png";
 
 const userId = sessionStorage.getItem('userId')
 
@@ -75,7 +75,7 @@ export default function ButtonAppBar() {
               <MenuIcon />          
             </IconButton> */}
             <Typography>
-            <img src="https://image.flaticon.com/icons/png/128/81/81836.png" alt="site logo" height={40} color="white"  />
+            <img src={logo} alt="site logo" height={40}   />
           </Typography>
             <Tooltip title="Home" aria-label="Home button" TransitionComponent={Zoom} placement='bottom'>
               <Button className={classes.buttonStyle} href="/">Home</Button> 

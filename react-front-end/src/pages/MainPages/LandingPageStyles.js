@@ -83,7 +83,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: "space-between",
     alignItems: 'center'  
+  },
+  gutterBottom: {
+    marginTop: "1em"
   }
+
+
 }));
 
 export default useStyles;
