@@ -12,12 +12,14 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import {Alert} from './components/Alert'
 import {AlertState} from './context/alert/AlertState'
+import MechanicRating from './pages/MainPages/MechanicRating'
 
 function App() {
   
   const [loading, setLoading] = useState(false)
   //const [loggedIn, setLogin] = useState(false)
   const userId = sessionStorage.getItem('userId')
+    
 
    
     return (
@@ -32,14 +34,14 @@ function App() {
                 {/* Using the `component` prop */}
                
                 <Route exact path="/" >
-                  < MainPage />
+                  {/* < MainPage />                   */}
+                  <MechanicRating />
                 </Route>
                
                 <Route path="/login">
                 {userId ? <Redirect to="/" /> :
                   <Login />}
-                </Route>
-                           
+                </Route>                     
                 
                 <Route path="/signup">
                   <Signup />

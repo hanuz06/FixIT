@@ -110,6 +110,16 @@ App.get('/api/last-inspection', async (req, res) => {
   res.json({ currentInspection });
 });
 
+App.post('/api/set-rating', async (req, res) => {
+  console.log('RATING REQUEST ', req.body)  
+  const ratingRequest = await db('inspections').insert(req.body)
+  
+  console.log('ratingRequest ',ratingRequest)
+   res.json({ratingRequest})
+
+  //  ratingRequest.then(res => {res.status(200).json({ratingRequest})})
+  // .catch(error=> {error})   
+});
 
 App.post('/sms-response', async(req, res) => {
 

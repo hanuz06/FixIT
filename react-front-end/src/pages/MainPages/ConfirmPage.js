@@ -8,6 +8,7 @@ import ConfirmCard from '../../components/ConfirmCard';
 import ConfirmTable from '../../components/ConfirmTable';
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
+import Button from '@material-ui/core/Button';
 
 //import { database } from '../../db/database'
 
@@ -37,6 +38,11 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '200px',
     maxHeight: '100px',
     margin: 'auto'
+  },
+  buttonStyles: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   }
 }));
 
@@ -55,7 +61,13 @@ export default function ConfirmPage({inspection, getInspectionData}) {
             We will contact you soon.
           </Typography> 
           <Alert />                           
-            <ConfirmTable inspection={inspection}/>       
+            <ConfirmTable inspection={inspection}/>    
+            <div className={classes.buttonStyles}>     
+        
+                <Button variant="contained" color="primary" href="/">
+              Link
+            </Button>
+    </div>   
         </Container>          
       </div>
     </React.Fragment>
