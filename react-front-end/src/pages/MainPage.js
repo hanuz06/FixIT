@@ -15,6 +15,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { flexbox } from '@material-ui/system';
 import useVisualMode from '../hooks/useVisualMode'
+const io = require('socket.io-client');
+
+
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
@@ -120,9 +123,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
   );    
-
-   
-     
+  
   useEffect(() => { 
 
     // axios.get('/api/mechanics')
@@ -160,28 +161,29 @@ const { mode, transition, back } = useVisualMode(LANDING);
       setRatings(all[1])
       setUsers(all[2])
       setInspections(all[3])
+    }).catch(err => {
+      console.log(err)
     })
-    
-    // axios.get('/api/mechanics') data
-    //   .then((response) => {            data    
-    //     setMechanics(response.data);
-    //   })
-    
-    // axios.get('/api/ratings') 
-    // .then((response) => {        
-    //   setRatings(response.data);
-    // })
 
-    // axios.get('/api/users') 
-    // .then((response) => {        
-    //   setUsers(response.data);
-    // })
+    // WEB SOCKETS MECHANICS
+  const socket = io('ws://localhost:8080');
+  socket.on(
+    'mechanics', function (data) {
+      console.log(data);
+      setMechanics(data);
+      // console.log(setMechanics(data))
+      // socket.emit('my other event', { my: 'data' });
+    } 
+  )
+  socket.on(
+    'inspections', function (data) {
+      console.log(data);
+      // socket.emit('my other event', { my: 'data' });
+    }
+  )
+    
+    
 
-    // axios.get('/api/inspections') 
-    // .then((response) => {        
-    //   setInspections(response.data);
-    // })
-    // setInspection()
 
     if (inspectionId) {
       let currentInspection = JSON.parse(JSON.parse(inspectionId))     

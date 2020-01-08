@@ -79,7 +79,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       !select && hide()
       select && mechanicList === mechanics && show(' No match found', 'success')
       //console.log('select ', select.length)          
-    },[select]);
+    },[select, mechanics]);
     //console.log('MechanicList ',mechanicList)    
 
   return (
