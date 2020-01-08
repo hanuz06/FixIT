@@ -84,11 +84,19 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     alignItems: 'center'  
   },
+
+  gutterBottom: {
+    marginTop: "1em"
+  }
+
+
+
   goToTopButton: {
     cursor:'pointer', 
     border: 'none', 
     outline:'none'   
     }
+ 
 }));
 
 export default useStyles;

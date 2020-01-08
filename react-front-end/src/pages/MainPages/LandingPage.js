@@ -22,6 +22,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Badge from '@material-ui/core/Badge';
 import UserBadge from '../../components/UserBadge';
+import { createMuiTheme } from '@material-ui/core/styles';
+import FixitLogo from "../../Photos/Fixit_font.png"
+import Avatar from "../../Photos/mechanic-grey.png"
 
 
  
@@ -34,6 +37,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
 
   const {show, hide} = useContext(AlertContext);
   const classes = useStyles(); 
+
 
   const rectangle = <div className={classes.shape} />;
   const circle = <div className={clsx(classes.shape, classes.shapeCircle)} />;
@@ -79,8 +83,10 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       !select && hide()
       select && mechanicList === mechanics && show(' No match found', 'success')
       //console.log('select ', select.length)          
-    },[select]);
-    //console.log('MechanicList ',mechanicList)    
+    },[select, mechanics]);
+    //console.log('MechanicList ',mechanicList)  
+    
+    const userId = sessionStorage.getItem('userId')
 
   return (
     <React.Fragment>           
@@ -89,8 +95,9 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     <div className={classes.heroContent}>
       <Container maxWidth="sm" >
       {/* { loading && <CircularProgress color="secondary" /> } */}
-        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          FIXit
+        <Typography component="h1"  variant="h2" align="center" color="textPrimary" gutterBottom  className={classes.gutterBottom}>
+      <img src={Avatar} alt="site logo" height={100} margin="1em"/>
+          <img src={FixitLogo} alt="site logo" height={70} />
         </Typography>             
         <TypeSentence /> 
         <Alert />             
@@ -148,8 +155,11 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     <Typography gutterBottom variant="h5" component="h5">
                       {mechanic.first_name} {mechanic.last_name}
                     </Typography>
+                    <Typography gutterBottom variant="h7" component="h6">
+                      Inspecion Fee: ${mechanic.hourly_rate} 
+                    </Typography>
                     <Typography>
-                      {mechanic.description}
+                      {/* {mechanic.description} */}
                     </Typography>
                   </CardContent>
                   <div className={classes.buttonStyle}>
@@ -157,9 +167,13 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     {/* <Button size="small" color="primary">
                       View
                     </Button> */}
+
+                    { userId && mechanic.active && <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}}>
+
                     <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} className={classes.goToTopButton}>
+ 
                       Request {mechanic.first_name}
-                    </Button> 
+                    </Button> }
                     {/* <SimpleDialogDemo mechanic={mechanic}/>  */}        
                   </CardActions> 
                   {mechanic.active && <UserBadge />}         

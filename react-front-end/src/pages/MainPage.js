@@ -15,6 +15,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { flexbox } from '@material-ui/system';
 import useVisualMode from '../hooks/useVisualMode'
+const io = require('socket.io-client');
+
+
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
@@ -117,6 +120,10 @@ const { mode, transition, back } = useVisualMode(LANDING);
   description: "best mechanic EVER",
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
+
+  );    
+  
+
   );   
   // const [rating, setRating]= useState(0) 
 
@@ -125,7 +132,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
     
   // }
   
-     
+
   useEffect(() => { 
 
     // axios.get('/api/mechanics')
@@ -163,6 +170,31 @@ const { mode, transition, back } = useVisualMode(LANDING);
       setRatings(all[1])
       setUsers(all[2])
       setInspections(all[3])
+
+    }).catch(err => {
+      console.log(err)
+    })
+
+    // WEB SOCKETS MECHANICS
+  const socket = io('ws://localhost:8080');
+  socket.on(
+    'mechanics', function (data) {
+      console.log(data);
+      setMechanics(data);
+      // console.log(setMechanics(data))
+      // socket.emit('my other event', { my: 'data' });
+    } 
+  )
+  socket.on(
+    'inspections', function (data) {
+      console.log(data);
+      // socket.emit('my other event', { my: 'data' });
+    }
+  )
+    
+    
+
+
     })   
 
   if(inspection.isCompleted === true){
@@ -171,6 +203,7 @@ const { mode, transition, back } = useVisualMode(LANDING);
    }   
 
   },[setMechanics,setRatings,setUsers,setInspections, inspection])
+
 
   window.onload = function(){
     let inspectionID = JSON.parse(JSON.parse(inspectionNumber)) 

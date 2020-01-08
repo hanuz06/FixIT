@@ -1,12 +1,18 @@
 const Express = require('express');
 const App = Express();
+const http = require("http");
 const BodyParser = require('body-parser');
 const PORT = 8080;
 const knex = require('knex');
 const {check, validationResult} = require('express-validator')
+const server = http.createServer(App);
+const io = require('socket.io')(server)
+
+
+const cors = require("cors")
 
 // Express Configuration
-
+App.use(cors())
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static('public'));
@@ -20,6 +26,22 @@ const client = require('twilio')(
 );
 var Twilio = require('twilio');
 
+// WEBSOCKETS LIVE UPDATING MECHANICS AND INSPECTION
+io.on("connection", async socket => {
+  
+  const interval = async () =>{
+    const mechanics = await db("mechanics");
+    const inspections = await db("inspections");
+    socket.emit('inspections', inspections);
+    socket.emit('mechanics', mechanics) 
+  }
+  setInterval(interval, 10000);
+
+  socket.on("disconnect", () => {
+    // clearInterval(tweets);
+    console.log("Client disconnected");
+  });
+});
 
 // Sample GET route
 App.get('/api/data', (req, res) => res.json({
@@ -29,6 +51,7 @@ App.get('/api/data', (req, res) => res.json({
 // Path 
 App.get('/api/mechanics', async (req, res) => {
   const mechanics = await db("mechanics"); // making a query to get all todos
+  
   res.json({ mechanics });
 });
 
@@ -63,7 +86,7 @@ App.post('/api/new-inspections', (req, res) => {
       .create({
         to: mechanicNumber[0].phone,
         from: '+13064001290',
-        body: `Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
+        body: `New Inspection Request #${response[0].id} Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
       })
       .then((res) => {
         // console.log(res.body)
@@ -87,8 +110,6 @@ App.get('/api/last-inspection', async (req, res) => {
   res.json({ currentInspection });
 });
 
-
-
 App.post('/api/set-rating', async (req, res) => {
   console.log('RATING REQUEST ', req.body)  
   const ratingRequest = await db('inspections').insert(req.body)
@@ -99,7 +120,6 @@ App.post('/api/set-rating', async (req, res) => {
   //  ratingRequest.then(res => {res.status(200).json({ratingRequest})})
   // .catch(error=> {error})   
 });
-
 
 App.post('/sms-response', async(req, res) => {
 
@@ -114,6 +134,7 @@ App.post('/sms-response', async(req, res) => {
     const activateMechanic = await db('mechanics').where('id', words[1]).update({active: true})
     if (activateMechanic) {
       twiml.message('You are now active!! Text us deactivate:<yourid> at anytime to stop working');
+
     } else {
       twiml.message('We could not activate your account! Please check your mechanic number');
   } 
@@ -151,10 +172,6 @@ App.post('/sms-response', async(req, res) => {
   res.end(twiml.toString());
 });
 
-
-
-
-
 App.post('/api/user-login', async (req, res) => {
   console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body) 
   
@@ -182,7 +199,8 @@ App.post('/api/user-login', async (req, res) => {
 });
 
 
-App.listen(PORT, () => {
+server.listen(PORT, () => {
+//App.listen(PORT, () => { 
   // eslint-disable-next-line no-console
   console.log(`Express seems to be listening on port ${PORT} so that's pretty good 👍`);
 });
