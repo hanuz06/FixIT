@@ -75,7 +75,7 @@ export default function ButtonAppBar() {
               <MenuIcon />          
             </IconButton> */}
             <Typography>
-            <img src="https://image.flaticon.com/icons/png/128/81/81836.png" alt="site logo" height={50} />
+            <img src="https://image.flaticon.com/icons/png/128/81/81836.png" alt="site logo" height={40} color="white"  />
           </Typography>
             <Tooltip title="Home" aria-label="Home button" TransitionComponent={Zoom} placement='bottom'>
               <Button className={classes.buttonStyle} href="/">Home</Button> 

@@ -85,6 +85,8 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
     onRequest();
     setMechanicInfo(mechanic)
   }
+  // Check if user is longed in
+  const userId = sessionStorage.getItem('userId')
 
   return (    
   
@@ -108,7 +110,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
               {mechanic.first_name} {mechanic.last_name}
             </Typography>
             <Typography>              
-              We have been serving Calgary since 2006
+              {/* We have been serving Calgary since 2006
               We are a full service auto repair facility
               Warranty approved maintenance centre
               24 hour key-drop for your convenience
@@ -116,16 +118,18 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
               Courtesy cars available
               Repairs will not be completed without your authorization
               Free roadside assistance
-              12 months or 20,000km parts and labour warranty on all repairs
+            12 months or 20,000km parts and labour warranty on all repairs */}
+              Description
+              {mechanic.description}
             </Typography>
           </CardContent>
           <CardActions>
             {/* <Button size="small" color="primary">
               View
             </Button> */}
-            <Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
+            { userId && mechanic.active &&<Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
               Request {mechanic.first_name}
-            </Button>                      
+            </Button> }                     
           </CardActions> 
         </Card>
     </Dialog>
