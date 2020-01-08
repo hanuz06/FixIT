@@ -89,16 +89,16 @@ App.get('/api/last-inspection', async (req, res) => {
 
 
 
-// App.post('/api/new-inspections', async (req, res) => {
-//   //console.log('requeeee ', req.body)  
-//   const inspectionRequest = await db('inspections').insert(req.body)
+App.post('/api/set-rating', async (req, res) => {
+  console.log('RATING REQUEST ', req.body)  
+  const ratingRequest = await db('inspections').insert(req.body)
   
-//   console.log(inspectionRequest)
-//    res.json({inspectionRequest})
+  console.log('ratingRequest ',ratingRequest)
+   res.json({ratingRequest})
 
-//   // .then(function(res){res.status(200).json({name: 'hello andrey')}} ) 
-//   // .catch(function(error) {console.log('error ', error)})   
-// });
+  //  ratingRequest.then(res => {res.status(200).json({ratingRequest})})
+  // .catch(error=> {error})   
+});
 
 
 App.post('/sms-response', async(req, res) => {

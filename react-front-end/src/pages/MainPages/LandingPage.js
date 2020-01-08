@@ -157,7 +157,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     {/* <Button size="small" color="primary">
                       View
                     </Button> */}
-                    <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}}>
+                    <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} className={classes.goToTopButton}>
                       Request {mechanic.first_name}
                     </Button> 
                     {/* <SimpleDialogDemo mechanic={mechanic}/>  */}        
@@ -171,8 +171,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
               onRequest={onRequest}
               setMechanicInfo={setMechanicInfo}                
                 /> }               
-              </Grid> 
-                         
+              </Grid>                          
             ))}
           </Grid>          
         </Container>          

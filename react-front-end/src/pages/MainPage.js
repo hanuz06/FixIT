@@ -19,10 +19,9 @@ import useVisualMode from '../hooks/useVisualMode'
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
+const MechanicRating = React.lazy(()=>import('./MainPages/MechanicRating'));
 
-const inspectionId = sessionStorage.getItem('inspectionId');
-const inspectionNumber = sessionStorage.getItem('inspectionDb')
-const currentUserId = sessionStorage.getItem('userId'); 
+
 
 const useStyles = makeStyles(theme  => ({
   root: {
@@ -77,16 +76,15 @@ function ScrollTop(props) {
 
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
+const inspectionNumber = sessionStorage.getItem('inspectionId')
+const currentUserId = sessionStorage.getItem('userId'); 
+
 
   const REQUEST = "REQUEST";
   const CONFIRM = "CONFIRM";
   const LANDING = "LANDING";
-// const SAVING = "SAVING";
-// const CONFIRM = "CONFIRM";
-// const DELETING = "DELETING";
-// const EDIT = "EDIT";
-// const ERROR_SAVE = "ERROR_SAVE";
-// const ERROR_DELETE = "ERROR_DELETE";
+  const RATING = "RATING";  
+
 const { mode, transition, back } = useVisualMode(LANDING);
 
   const classes = useStyles();
@@ -96,14 +94,14 @@ const { mode, transition, back } = useVisualMode(LANDING);
   const [users, setUsers]=useState([]);
   const [inspections, setInspections]=useState([]);      
   const [inspection, setInspection]=useState({         
-    "user_id": 21,
-    "mechanic_id": 22,      
-    "car_make": `ford`,
-    "year": 2005,
-    "location": "calgary",
-    "description_of_problem": "brake",
-    "isConfirmed": false,
-    "isCompleted": false  
+    // "user_id": 21,
+    // "mechanic_id": 22,      
+    // "car_make": `ford`,
+    // "year": 2005,
+    // "location": "calgary",
+    // "description_of_problem": "brake",
+    // "isConfirmed": false,
+    // "isCompleted": false  
   });      
   const [mechanic, setMechanicInfo]=useState(
    {
@@ -119,9 +117,14 @@ const { mode, transition, back } = useVisualMode(LANDING);
   description: "best mechanic EVER",
   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
 }
-  );    
+  );   
+  // const [rating, setRating]= useState(0) 
 
-   
+  // const setStars = (newValue) => {    
+  //   setRating(newValue);   
+    
+  // }
+  
      
   useEffect(() => { 
 
@@ -160,52 +163,44 @@ const { mode, transition, back } = useVisualMode(LANDING);
       setRatings(all[1])
       setUsers(all[2])
       setInspections(all[3])
+    })   
+
+  if(inspection.isCompleted === true){
+    transition(RATING)
+    console.log('GO TO RATING')
+   }   
+
+  },[setMechanics,setRatings,setUsers,setInspections, inspection])
+
+  window.onload = function(){
+    let inspectionID = JSON.parse(JSON.parse(inspectionNumber)) 
+    if (inspectionID){
+      inspections.forEach(inspection=>{
+        //console.log('TYPEOF ', typeof inspection.id)
+        if(inspection.id===inspectionID){
+          setInspection(inspection)
+        }
+      })
+      transition(CONFIRM)  
+    }    
+  }   
+
+  const setRating = (data) => {
+    // const ratingData = {
+    //   user_id, mechanic_id, rating,
+    //   inspection_id: inspection.id
+    // }
+    console.log('rrrrrr ', data)
+    axios.post('/api/set-rating', data )
+    .then(response => {
+      console.log('RATING RETURN TO FROND END ', response); 
+      sessionStorage.removeItem('inspectionId')     
+      transition(LANDING)         
     })
-    
-    // axios.get('/api/mechanics') data
-    //   .then((response) => {            data    
-    //     setMechanics(response.data);
-    //   })
-    
-    // axios.get('/api/ratings') 
-    // .then((response) => {        
-    //   setRatings(response.data);
-    // })
-
-    // axios.get('/api/users') 
-    // .then((response) => {        
-    //   setUsers(response.data);
-    // })
-
-    // axios.get('/api/inspections') 
-    // .then((response) => {        
-    //   setInspections(response.data);
-    // })
-    // setInspection()
-
-    if (inspectionId) {
-      let currentInspection = JSON.parse(JSON.parse(inspectionId))     
-      setInspection(currentInspection)
-      transition(CONFIRM)      
-    }
-
-  
-      if (inspectionNumber) {
-        setInterval(() =>
-        axios.get('/api/last-inspection', { params: {
-          id: inspectionNumber}
-        })
-        .then(res=>{       
-          console.log('THIS IS REPLY ', res.data.currentInspection[0])
-          setInspection(res.data.currentInspection[0])
-          console.log('THIS INSPECTION AFTER SUBMIT ', inspection)
-          //sessionStorage.removeItem("inspectionId");   
-          //sessionStorage.setItem("inspectionId", res.data.currentInspection[0]);   
-          // return res.data.inspections       
-    }), 5000)
+    .catch(error => {
+      console.log('ERROR ', error);     
+    }) 
   }
-
-  },[setMechanics,setRatings,setUsers,setInspections])
 
   //const inspectionId = sessionStorage.getItem('inspectionId'); 
   const userInspectionRequest = (data) => {
@@ -226,12 +221,12 @@ const { mode, transition, back } = useVisualMode(LANDING);
     axios.post('/api/new-inspections', userData )
     .then(response => {
       console.log('SUCCESSFUL INSPECTION REQUEST ', response);
-      sessionStorage.setItem('inspectionDb', response.data.response[0].id)
-      let stringObject = JSON.stringify(response.config.data);
+      sessionStorage.setItem('inspectionId', response.data.response[0].id)
+      //let stringObject = JSON.stringify(response.config.data);
       let parsedObject = JSON.parse(response.config.data);
       setInspection(parsedObject)
       console.log('MECHANIC LIST ', inspection)
-      sessionStorage.setItem('inspectionId', stringObject)
+      //sessionStorage.setItem('inspectionId', stringObject)
       transition(CONFIRM)
          
     })
@@ -241,32 +236,37 @@ const { mode, transition, back } = useVisualMode(LANDING);
    
   }
 
-  const getInspectionData = () => {
-    return inspection;
-    console.log('IIIIIIIIIII ', inspection)
-  }
-
-
   
 return (
   <React.Fragment>
   <main id='back-to-top' className={classes.root}>  
 
-  {mode === CONFIRM && (<Suspense fallback={ 
+  {mode === RATING && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 
     <CircularProgress /> 
   </Box>
   }>  
-    <ConfirmPage inspection={inspection} getInspectionData={getInspectionData} />      
-  </Suspense>)}
+    <MechanicRating setRating={setRating} onCancel={()=>back()} />      
+  </Suspense>)} 
+  
 
-  {/* {mode === CONFIRM && (<Suspense fallback={ 
+  { mode ===  LANDING && (<Suspense fallback={ 
+    <Box component='div' className={classes.loadingStyle}> 
+      <CircularProgress /> 
+    </Box> 
+    }>
+      <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
+       />
+    </Suspense>)}       
+
+
+  {mode === CONFIRM && (<Suspense fallback={ 
       <Box component='div' className={classes.loadingStyle}> 
       <CircularProgress /> 
     </Box>
      }>  
       <ConfirmPage inspection={inspection} />      
-    </Suspense>)} */}
+    </Suspense>)}
 
     {mode === REQUEST && (<Suspense fallback={
     <Box component='div' className={classes.loadingStyle}>
@@ -276,18 +276,7 @@ return (
       mechanic={mechanic} onCancel={()=>back()}
       /> 
     </Suspense>)  }
-
-    { mode ===  LANDING && (<Suspense fallback={ 
-    <Box component='div' className={classes.loadingStyle}> 
-      <CircularProgress /> 
-    </Box> 
-    }>
-      <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
-       />
-    </Suspense>)}       
-
-    
-    
+          
     {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
       <ConfirmPage mechanics={mechanics} />
     </Suspense>  */}
