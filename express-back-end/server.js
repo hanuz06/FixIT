@@ -28,9 +28,12 @@ var Twilio = require('twilio');
 
 // WEBSOCKETS LIVE UPDATING MECHANICS AND INSPECTION
 io.on("connection", async socket => {
+
+  console.log("Client connected");
   
   const interval = async () =>{
-    const mechanics = await db("mechanics");
+    const mechanicsOBJ = await db.raw('SELECT mechanics.id, first_name, last_name, email, password_digest, phone, location, hourly_rate, active, description, avatar, AVG(inspection_rating) FROM mechanics LEFT JOIN ratings ON mechanics.id = mechanic_id GROUP BY mechanics.id;')
+  let mechanics = mechanicsOBJ.rows
     const inspections = await db("inspections");
     socket.emit('inspections', inspections);
     socket.emit('mechanics', mechanics) 
@@ -50,9 +53,17 @@ App.get('/api/data', (req, res) => res.json({
 
 // Path 
 App.get('/api/mechanics', async (req, res) => {
-  const mechanics = await db("mechanics"); // making a query to get all todos
-  
+
+  const mechanicsOBJ = await db.raw('SELECT mechanics.id, first_name, last_name, email, password_digest, phone, location, hourly_rate, active, description, avatar, AVG(inspection_rating) FROM mechanics LEFT JOIN ratings ON mechanics.id = mechanic_id GROUP BY mechanics.id;')
+  let mechanics = mechanicsOBJ.rows
   res.json({ mechanics });
+
+  //const mechanics = await db("mechanics")
+  
+  // .leftJoin('ratings', 'mechanics.id', 'ratings.mechanic_id').select(knex.raw('avg(rating)'));
+   // making a query to get all todos
+  
+  // res.json({ mechanics });
 });
 
 App.get('/api/users', async (req, res) => {
@@ -62,6 +73,8 @@ App.get('/api/users', async (req, res) => {
 
 App.get('/api/ratings', async (req, res) => {
   const ratings = await db("ratings"); // making a query to get all todos
+//  const mechanicsRating = await db('mechanics').join('ratings', 'mechanics.id', 'ratings.mechanic_id').select('rating', 'mechanic_id')
+  
   res.json({ ratings });
 });
 
@@ -112,7 +125,7 @@ App.get('/api/last-inspection', async (req, res) => {
 
 App.post('/api/set-rating', async (req, res) => {
   console.log('RATING REQUEST ', req.body)  
-  const ratingRequest = await db('inspections').insert(req.body)
+  const ratingRequest = await db('ratings').insert(req.body)
   
   console.log('ratingRequest ',ratingRequest)
    res.json({ratingRequest})

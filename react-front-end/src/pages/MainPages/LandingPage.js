@@ -25,6 +25,7 @@ import UserBadge from '../../components/UserBadge';
 import { createMuiTheme } from '@material-ui/core/styles';
 import FixitLogo from "../../Photos/Fixit_font.png"
 import Avatar from "../../Photos/mechanic-grey.png"
+import MechanicCardRating from '../../components/MechanicCardRating'
 
 
  
@@ -78,6 +79,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       const filtered = mechanics.filter(mechanic => 
         mechanic.first_name.toLowerCase().search(select.toLowerCase()) !== -1 ||
         mechanic.last_name.toLowerCase().search(select.toLowerCase()) !== -1 
+        //console.log('MECHANIC ', mechanic)
       ); 
       filtered.length !== 0? setMechanicList(filtered) : setMechanicList(mechanics)  
       !select && hide()
@@ -150,12 +152,12 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     image = {mechanic.avatar}
                     title="Image title"
                   />   
-                  < RatingSize />               
+                  < MechanicCardRating stars={mechanic.avg}/>               
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h5">
                       {mechanic.first_name} {mechanic.last_name}
                     </Typography>
-                    <Typography gutterBottom variant="h7" component="h6">
+                    <Typography gutterBottom variant="h7" component="h6">                    
                       Inspecion Fee: ${mechanic.hourly_rate} 
                     </Typography>
                     <Typography>
