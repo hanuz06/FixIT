@@ -19,9 +19,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   //const [loggedIn, setLogin] = useState(false)
   const userId = sessionStorage.getItem('userId')
-    
-
-   
+       
     return (
       <AlertState>
         <Router>
@@ -34,8 +32,7 @@ function App() {
                 {/* Using the `component` prop */}
                
                 <Route exact path="/" >
-                  < MainPage />                  
-                  {/* <MechanicRating /> */}
+                  < MainPage />                   
                 </Route>
                
                 <Route path="/login">

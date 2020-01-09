@@ -28,7 +28,8 @@ const MechanicRating = React.lazy(()=>import('./MainPages/MechanicRating'));
 
 const useStyles = makeStyles(theme  => ({
   root: {
-    minHeight: '80vh'
+    minHeight: '80vh',
+    paddingTop: '64px'
   },
   backToTopButton: {
     position: 'fixed',
@@ -80,7 +81,7 @@ function ScrollTop(props) {
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
 const inspectionNumber = sessionStorage.getItem('inspectionId')
-let inspectionID = JSON.parse(JSON.parse(inspectionNumber))
+let inspectionID = inspectionNumber;
 const currentUserId = sessionStorage.getItem('userId'); 
 
   const REQUEST = "REQUEST";
@@ -179,11 +180,11 @@ const currentUserId = sessionStorage.getItem('userId');
       if (inspectionID){
         all[3].forEach(inspection=>{
           //console.log('TYPEOF ', typeof inspection.id)
-          if(inspection.id===inspectionID && !inspection.isCompleted ){
+          if(inspection.id===Number(inspectionID) && !inspection.isCompleted ){
             setInspection(inspection)
             transition(CONFIRM)
           }
-          if (inspection.id===inspectionID && inspection.isCompleted) {
+          if (inspection.id===Number(inspectionID) && inspection.isCompleted) {
             transition(RATING)
             setInspection(inspection)
           }
@@ -198,7 +199,7 @@ const currentUserId = sessionStorage.getItem('userId');
   const socket = io('ws://localhost:8080');
   socket.on(
     'mechanics', function (data) {
-      console.log(data);
+      //console.log(data);
       setMechanics(data);
       // console.log(setMechanics(data))
       // socket.emit('my other event', { my: 'data' });
@@ -207,23 +208,26 @@ const currentUserId = sessionStorage.getItem('userId');
   socket.on(
     'inspections', function (data) {
       console.log(data);
-      setInspections(data);      
+      setInspections(data);
+      const inspectionID = sessionStorage.getItem('inspectionId')      
       data.forEach(inspection=>{
         //console.log('TYPEOF ', typeof inspection.id)
-        if(inspection.id===inspectionID && !inspection.isCompleted ){
+        console.log("Foreach", { inspection, data, inspectionID })
+        if(inspection.id===Number(inspectionID) ){
+          console.log("true")
           setInspection(inspection)
           transition(CONFIRM)
         }
-        if (inspection.id===inspectionID && inspection.isCompleted) {
-          transition(RATING)
+        if (inspection.id===Number(inspectionID) && inspection.isCompleted) {
           setInspection(inspection)
+          transition(RATING)
         }
       }
         
       )       
     }
   )    
-  },[setMechanics,setRatings,setUsers,setInspections])
+  },[setMechanics,setRatings,setUsers,setInspections, setInspection])
 
 
   // window.onload = function(){

@@ -91,33 +91,6 @@ export default function MechanicRating({ mechanic, inspection, setRating }) {
   const [stars, setStars] = useState(0)
   console.log('STARSSS ', stars)
 
-//   const [mechanic, setMechanicInfo]=useState(
-//     {
-//    id: 1,
-//    first_name: "Mike",
-//    last_name: "Smith",
-//    email: "granttaylor448@gmail.com",
-//    password_digest: "123",
-//    phone: 4037000357,
-//    location: "Calgary",
-//    hourly_rate: 60,
-//    active: true,
-//    description: "best mechanic EVER",
-//    avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
-//  }
-//    ); 
-  
-//   const [inspection, setInspection]=useState({        "id":34,
-//     "user_id": 21,
-//     "mechanic_id": 22,      
-//     "car_make": `ford`,
-//     "year": 2005,
-//     "location": "calgary",
-//     "description_of_problem": "brake",
-//     "isConfirmed": false,
-//     "isCompleted": false  
-//   }); 
-
   const {show, hide} = useContext(AlertContext); 
 
   const setDataForRating = () => {
@@ -136,8 +109,10 @@ export default function MechanicRating({ mechanic, inspection, setRating }) {
     <Box component="div"  className={classes.root}>       
     
       <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
-        <Card className={classes.card}>                
-          PLEASE RATE US!    
+        <Card className={classes.card}>
+        <Typography gutterBottom variant="h5" component="h5">                
+          Please rate {mechanic.first_name}! 
+        </Typography>   
           <CardMedia
             className={classes.cardMedia}
             image={mechanic.avatar}
@@ -145,15 +120,15 @@ export default function MechanicRating({ mechanic, inspection, setRating }) {
           />          
           < RatingSize stars={stars} setStars={setStars}/>               
           <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
+            {/* <Typography gutterBottom variant="h5" component="h2">
              { mechanic.first_name} {mechanic.last_name}
-            </Typography>
+            </Typography> */}
             {/* <Typography>
               mechanic.description
             </Typography> */}
           </CardContent>
           <CardActions>
-            <Button size="small" color="primary" onClick={setDataForRating}>
+            <Button size="small" variant="contained" color="primary" onClick={setDataForRating}>
               Submit
             </Button>
             {/* <Button size="small" color="primary">
@@ -171,11 +146,11 @@ export default function MechanicRating({ mechanic, inspection, setRating }) {
           </Typography> 
           <Alert />                           
             <ConfirmTable inspection={inspection}/>    
-            <div className={classes.buttonStyles}>          
-                <Button variant="contained" color="primary" href="/">
-              Link
-            </Button>
-    </div>   
+            {/* <div className={classes.buttonStyles}>          
+              <Button variant="contained" color="primary" href="/">
+                Link
+              </Button>
+            </div>    */}
         </Container>
       </div>
       </Container>

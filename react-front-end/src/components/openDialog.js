@@ -103,7 +103,8 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             title="Best mechanic"
           > 
           <img src={mechanic.avatar} alt="Best mechanic" className={classes.image} />
-          </CardMedia>  
+          </CardMedia> 
+           
           < MechanicCardRating stars={mechanic.avg} />               
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
