@@ -12,7 +12,7 @@ const io = require('socket.io')(server)
 const cors = require("cors")
 
 // Stripe
-const stripe = require("stripe")('sk_test_jtfqKWVP9pjeYFF65CewtswD00sqjK02iA');
+const stripe = require("stripe")(process.env.STRIPE_SK);
 App.use(require("body-parser").text());
 
 // Express Configuration
@@ -217,17 +217,18 @@ App.post('/api/user-login', async (req, res) => {
 
 // STRIPE
 App.post("/api/charge", async (req, res) => {
-  // console.log("POST", response)
+  stripeInfo = req.body
+   console.log("POST", req.body)
   // console.log(stripeInfo.options.amount)
   try {
-    const stripeInfo = JSON.parse(req.body)
     let {status} = await stripe.charges.create({
-      amount: stripeInfo.options.amount,
+      amount: stripeInfo.headers.amount,
       currency: "cad",
       description: "FixIt client Charge",
-      source: stripeInfo.options.token.id
+      source: stripeInfo.headers.token,
+      receipt_email: "granttaylor448@gmail.com"
     });
-    
+    console.log(status)
     res.json({status});
     console.log(status)
   } catch (err) {

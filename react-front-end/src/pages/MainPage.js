@@ -314,7 +314,8 @@ return (
     <Box component='div' className={classes.loadingStyle}> 
       <CircularProgress /> 
     </Box> 
-    }> 
+    }>
+ 
       <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
        />
     </Suspense>)}       

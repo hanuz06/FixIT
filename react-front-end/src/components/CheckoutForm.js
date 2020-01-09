@@ -33,9 +33,7 @@ class CheckoutForm extends Component {
         this.setState({complete: true})
   
         }
-      if (res.status === 402) {
-        console.log("Something went wrong!")
-      }
+     
       })
       .catch(err => console.log(err))
     }
