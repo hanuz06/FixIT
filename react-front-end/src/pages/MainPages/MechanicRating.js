@@ -19,6 +19,9 @@ import RatingSize from '../../components/RatingSize';
 import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
 import ConfirmTable from '../../components/ConfirmTable';
+// STRIPE 
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import CheckoutForm from "../../components/CheckoutForm"
 
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
@@ -152,6 +155,12 @@ export default function MechanicRating({ mechanic, inspection, setRating }) {
               mechanic.description
             </Typography> */}
           </CardContent>
+
+          <CardContent className={classes.cardContent}>
+          <div>
+          
+        </div>
+          </CardContent>
           <CardActions>
             <Button size="small" color="primary" onClick={setDataForRating}>
               Submit
@@ -161,6 +170,18 @@ export default function MechanicRating({ mechanic, inspection, setRating }) {
             </Button>                      */}
           </CardActions>  
         </Card>              
+      </div>
+      <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
+        <Card className={classes.card}> 
+        <StripeProvider apiKey="pk_test_vzAvHy9DyOYmnXgn5fLZ3YEZ00xwGEz8Pv">
+          <div className="example">
+            <h1>Checkout with Stripe</h1>
+            <Elements>
+              <CheckoutForm inspection={inspection} mechanic={mechanic}  />
+            </Elements>
+          </div>
+          </StripeProvider>
+        </Card>
       </div>
       <Container maxWidth="sm" className={classes.ContainerStyle}>
       <div component="div" className={classes.boxDivide}>

@@ -13,6 +13,9 @@ import Signup from "./pages/Signup";
 import {Alert} from './components/Alert'
 import {AlertState} from './context/alert/AlertState'
 import MechanicRating from './pages/MainPages/MechanicRating'
+// STRIPE 
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import CheckoutForm from "./components/CheckoutForm"
 
 function App() {
   
@@ -34,7 +37,8 @@ function App() {
                 {/* Using the `component` prop */}
                
                 <Route exact path="/" >
-                  < MainPage />                  
+                  < MainPage />
+                              
                   {/* <MechanicRating /> */}
                 </Route>
                

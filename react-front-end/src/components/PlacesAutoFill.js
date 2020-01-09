@@ -30,7 +30,7 @@ class PlacesAutoFill extends React.Component {
 
   handlePlaceChanged(){
     const place = this.autocomplete.getPlace();
-    this.props.onPlaceLoaded(place.name);
+    this.props.onPlaceLoaded(place.formatted_address);
    
   }
 

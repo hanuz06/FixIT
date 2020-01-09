@@ -26,6 +26,9 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import FixitLogo from "../../Photos/Fixit_font.png"
 import Avatar from "../../Photos/mechanic-grey.png"
 import MechanicCardRating from '../../components/MechanicCardRating'
+// STRIPE 
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import CheckoutForm from "../../components/CheckoutForm"
 
 
  
@@ -138,9 +141,23 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
           </Container>
         </div>
         <Divider variant="middle" />
+        {/* <div>
+          <StripeProvider apiKey="pk_test_vzAvHy9DyOYmnXgn5fLZ3YEZ00xwGEz8Pv">
+          <div className="example">
+            <h1>React Stripe Elements Example</h1>
+            <Elements>
+              <CheckoutForm />
+            </Elements>
+          </div>
+          </StripeProvider>
+        </div> */}
+        
+          
+        
+     
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}         
-           
+          {/* End hero unit */} 
+                  
           <Grid container spacing={4}>
             {[...mechanicList].map(mechanic => ( 
 

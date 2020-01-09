@@ -11,6 +11,10 @@ const io = require('socket.io')(server)
 
 const cors = require("cors")
 
+// Stripe
+const stripe = require("stripe")('sk_test_jtfqKWVP9pjeYFF65CewtswD00sqjK02iA');
+App.use(require("body-parser").text());
+
 // Express Configuration
 App.use(cors())
 App.use(BodyParser.json());
@@ -209,6 +213,28 @@ App.post('/api/user-login', async (req, res) => {
   if (isMatch === false) {
     return res.status(404).json({ message: 'Password is incorrect' })
   } else { return res.status(200).json({ user }) }
+});
+
+// STRIPE
+App.post("/api/charge", async (req, res) => {
+  // console.log("POST", response)
+  // console.log(stripeInfo.options.amount)
+  try {
+    const stripeInfo = JSON.parse(req.body)
+    let {status} = await stripe.charges.create({
+      amount: stripeInfo.options.amount,
+      currency: "cad",
+      description: "FixIt client Charge",
+      source: stripeInfo.options.token.id
+    });
+    
+    res.json({status});
+    console.log(status)
+  } catch (err) {
+    console.log("Errorrr", err);
+    res.json({err})
+    res.status(500).end();
+  }
 });
 
 
