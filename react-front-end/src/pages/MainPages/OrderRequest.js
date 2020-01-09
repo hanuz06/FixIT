@@ -15,7 +15,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Container from '@material-ui/core/Container';
 import CardMedia from '@material-ui/core/CardMedia';
-import RatingSize from '../../components/RatingSize';
+import MechanicCardRating from '../../components/MechanicCardRating';
 import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
 import { cars, carMakeYear } from '../../helpers/helperData'
@@ -90,6 +90,10 @@ const useStyles = makeStyles(theme => ({
   PlaceAutoFillStyle: {
     width: '500px',
     border: 'solid red 1px'
+  },
+  addressStyle: {
+    width: '100%',
+    border: 'solid red 1px'
   }
 }));
 
@@ -113,7 +117,8 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
 
   const [description, setDescription] = useState('');
   const [descriptionError, setDescriptionError] = useState(false);
-  const [descriptionErrorText, setDescriptionErrorText] = useState('');  
+  const [descriptionErrorText, setDescriptionErrorText] = useState(''); 
+  
   const [userAddress, setUserAddress] = useState(''); 
   
   const onPlaceLoaded = (userAddress) => {
@@ -197,7 +202,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             image = {mechanic.avatar}
             title="Image title"
           />   
-          < RatingSize />               
+          < MechanicCardRating stars={mechanic.avg} />               
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
               {mechanic.first_name} {mechanic.last_name}
@@ -278,9 +283,12 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
               </option>
             ))}
           </TextField>
+          
            Please note our mechanics will only service Calgary addresses
-          <PlacesAutoFill onPlaceLoaded={onPlaceLoaded}/>
-            
+           <div className={classes.addressStyle}>
+            <PlacesAutoFill value={userAddress} onPlaceLoaded={onPlaceLoaded}/> 
+           </div>        
+
           <TextField
             variant="outlined"
             margin="normal"

@@ -80,8 +80,8 @@ function ScrollTop(props) {
 //This file contains all functions and global state for SPA. 
 export default function MainPage(props) {
 const inspectionNumber = sessionStorage.getItem('inspectionId')
+let inspectionID = JSON.parse(JSON.parse(inspectionNumber))
 const currentUserId = sessionStorage.getItem('userId'); 
-
 
   const REQUEST = "REQUEST";
   const CONFIRM = "CONFIRM";
@@ -118,7 +118,8 @@ const currentUserId = sessionStorage.getItem('userId');
   hourly_rate: 60,
   active: true,
   description: "best mechanic EVER",
-  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
+  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg",
+  avg:3
 }
   );
 // );   
@@ -129,6 +130,8 @@ const currentUserId = sessionStorage.getItem('userId');
     
   // }
   
+  
+     
 
   useEffect(() => { 
 
@@ -168,6 +171,25 @@ const currentUserId = sessionStorage.getItem('userId');
       setUsers(all[2])
       setInspections(all[3])
 
+      all[1].forEach( rating => {
+        
+      })
+
+
+      if (inspectionID){
+        all[3].forEach(inspection=>{
+          //console.log('TYPEOF ', typeof inspection.id)
+          if(inspection.id===inspectionID && !inspection.isCompleted ){
+            setInspection(inspection)
+            transition(CONFIRM)
+          }
+          if (inspection.id===inspectionID && inspection.isCompleted) {
+            transition(RATING)
+            setInspection(inspection)
+          }
+        })
+          
+      }  
     }).catch(err => {
       console.log(err)
     })
@@ -185,30 +207,37 @@ const currentUserId = sessionStorage.getItem('userId');
   socket.on(
     'inspections', function (data) {
       console.log(data);
-      // socket.emit('my other event', { my: 'data' });
-    }
-  )  
-
-  if(inspection.isCompleted === true){
-    transition(RATING)
-    console.log('GO TO RATING')
-   }   
-
-  },[setMechanics,setRatings,setUsers,setInspections, inspection])
-
-
-  window.onload = function(){
-    let inspectionID = JSON.parse(JSON.parse(inspectionNumber)) 
-    if (inspectionID){
-      inspections.forEach(inspection=>{
+      setInspections(data);      
+      data.forEach(inspection=>{
         //console.log('TYPEOF ', typeof inspection.id)
-        if(inspection.id===inspectionID){
+        if(inspection.id===inspectionID && !inspection.isCompleted ){
+          setInspection(inspection)
+          transition(CONFIRM)
+        }
+        if (inspection.id===inspectionID && inspection.isCompleted) {
+          transition(RATING)
           setInspection(inspection)
         }
-      })
-      transition(CONFIRM)  
-    }    
-  }   
+      }
+        
+      )       
+    }
+  )    
+  },[setMechanics,setRatings,setUsers,setInspections])
+
+
+  // window.onload = function(){
+     
+  //   if (inspectionID){
+  //     inspections.forEach(inspection=>{
+  //       //console.log('TYPEOF ', typeof inspection.id)
+  //       if(inspection.id===inspectionID){
+  //         setInspection(inspection)
+  //       }
+  //     })
+  //     transition(CONFIRM)  
+  //   }    
+  // }   
 
   const setRating = (data) => {
     // const ratingData = {
@@ -271,7 +300,7 @@ return (
     <CircularProgress /> 
   </Box>
   }>  
-    <MechanicRating setRating={setRating} onCancel={()=>back()} />      
+    <MechanicRating inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
   </Suspense>)} 
   
 

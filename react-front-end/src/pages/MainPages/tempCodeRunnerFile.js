@@ -1,0 +1,1 @@
+ < RatingSize stars={stars} setStars={setStars}/> 

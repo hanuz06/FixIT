@@ -13,7 +13,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import RatingSize from '../components/RatingSize';
+import MechanicCardRating from '../components/MechanicCardRating';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -104,7 +104,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
           > 
           <img src={mechanic.avatar} alt="Best mechanic" className={classes.image} />
           </CardMedia>  
-          < RatingSize />               
+          < MechanicCardRating stars={mechanic.avg} />               
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
               {mechanic.first_name} {mechanic.last_name}

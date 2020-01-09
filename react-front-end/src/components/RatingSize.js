@@ -15,6 +15,6 @@ export default function RatingSize({ setStars, stars }) {
 
   return (
     <Box display="flex" >      
-      <Rating name="simple-controlled" value={stars} size="large" onChange={setMechanicRating} style={{cursor: 'pointer'}}/>
+      <Rating name="simple-controlled" value={stars} size="large" onChange={setMechanicRating} style={{cursor: 'pointer'}} precision={0.5}/>
     </Box>
   )};

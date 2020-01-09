@@ -37,25 +37,9 @@ class PlacesAutoFill extends React.Component {
   render() {
     return (
         
-        <input ref={this.autocompleteInput} id="autocomplete" placeholder="Enter your address"
-         type="text"></input>  
-         
-        //  <TextField
-        //  ref={this.autocompleteInput}
-        //  variant="outlined"
-        //  margin="normal"
-        //  required
-        //  fullWidth
-        //  id="autocomplete"
-        //  label="Enter your address"
-        //  name="location"            
-        //  autoFocus
-         //value={location}
-        //  onChange={e => setCarModel(e.target.value)}
-        //  onFocus={clearForm}
-        //  error={carModelError}
-        //  helperText={carModelErrorText}
-      //  />
+        <input ref={this.autocompleteInput} id="autocomplete" placeholder="Enter your address" type="text" style={{width:'100%'}}
+        /> 
+       
     );  
   }
 }

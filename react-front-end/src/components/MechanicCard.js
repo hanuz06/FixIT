@@ -16,6 +16,7 @@ import purple from '@material-ui/core/colors/purple';
 import SimpleDialogDemo from '../../components/openDialog';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import MechanicRating from '../pages/MainPages/MechanicRating';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -110,7 +111,7 @@ export default function MechanicCard({ mechanic }) {
                     image = {mechanic.avatar}
                     title="Image title"
                   />   
-                  < RatingSize />               
+                  < MechanicRating stars={4}/>               
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {mechanic.first_name} {mechanic.last_name}

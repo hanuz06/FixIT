@@ -85,38 +85,38 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MechanicRating({ onCancel, setRating }) {  
+export default function MechanicRating({ mechanic, inspection, setRating }) {  
   const classes = useStyles()
 
   const [stars, setStars] = useState(0)
-  console.log('STARSSS ', setRating)
+  console.log('STARSSS ', stars)
 
-  const [mechanic, setMechanicInfo]=useState(
-    {
-   id: 1,
-   first_name: "Mike",
-   last_name: "Smith",
-   email: "granttaylor448@gmail.com",
-   password_digest: "123",
-   phone: 4037000357,
-   location: "Calgary",
-   hourly_rate: 60,
-   active: true,
-   description: "best mechanic EVER",
-   avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
- }
-   ); 
+//   const [mechanic, setMechanicInfo]=useState(
+//     {
+//    id: 1,
+//    first_name: "Mike",
+//    last_name: "Smith",
+//    email: "granttaylor448@gmail.com",
+//    password_digest: "123",
+//    phone: 4037000357,
+//    location: "Calgary",
+//    hourly_rate: 60,
+//    active: true,
+//    description: "best mechanic EVER",
+//    avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg"
+//  }
+//    ); 
   
-  const [inspection, setInspection]=useState({        "id":34,
-    "user_id": 21,
-    "mechanic_id": 22,      
-    "car_make": `ford`,
-    "year": 2005,
-    "location": "calgary",
-    "description_of_problem": "brake",
-    "isConfirmed": false,
-    "isCompleted": false  
-  }); 
+//   const [inspection, setInspection]=useState({        "id":34,
+//     "user_id": 21,
+//     "mechanic_id": 22,      
+//     "car_make": `ford`,
+//     "year": 2005,
+//     "location": "calgary",
+//     "description_of_problem": "brake",
+//     "isConfirmed": false,
+//     "isCompleted": false  
+//   }); 
 
   const {show, hide} = useContext(AlertContext); 
 
@@ -125,8 +125,8 @@ export default function MechanicRating({ onCancel, setRating }) {
 
       user_id: inspection.user_id,
       mechanic_id: inspection.mechanic_id, 
-      inspection_id: inspection.id,     
-      rating: stars
+      inspection_id: Number(inspection.id),     
+      inspection_rating: stars
     }
     console.log('ratingggg ', rating)
     setRating(rating)
@@ -140,7 +140,7 @@ export default function MechanicRating({ onCancel, setRating }) {
           PLEASE RATE US!    
           <CardMedia
             className={classes.cardMedia}
-            image="https://previews.123rf.com/images/yupiramos/yupiramos1708/yupiramos170811188/83799231-mechanic-avatar-character-icon-vector-illustration-design.jpg"
+            image={mechanic.avatar}
             title="Image title"
           />          
           < RatingSize stars={stars} setStars={setStars}/>               
