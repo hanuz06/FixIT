@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',    
-    minHeight: '100vh',
+    minHeight: '100%',
     width: '100%',
     padding: '20px',    
     [`@media (max-width:380px)`]:{
@@ -89,10 +89,6 @@ const useStyles = makeStyles(theme => ({
   }, 
   PlaceAutoFillStyle: {
     width: '500px',
-    border: 'solid red 1px'
-  },
-  addressStyle: {
-    width: '100%',
     border: 'solid red 1px'
   }
 }));
@@ -214,10 +210,10 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
           <CardActions>
             {/* <Button size="small" color="primary">
               View
-            </Button> */}
+            </Button>
             <Button size="small" color="primary">
               Request {mechanic.first_name}
-            </Button>                     
+            </Button>                      */}
           </CardActions> 
         </Card>              
       </div>
@@ -284,10 +280,8 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             ))}
           </TextField>
           
-           Please note our mechanics will only service Calgary addresses
-           <div className={classes.addressStyle}>
-            <PlacesAutoFill value={userAddress} onPlaceLoaded={onPlaceLoaded}/> 
-           </div>        
+           Please note our mechanics will only service Calgary addresses          
+            <PlacesAutoFill onPlaceLoaded={onPlaceLoaded}/>         
 
           <TextField
             variant="outlined"

@@ -157,7 +157,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                     <Typography gutterBottom variant="h5" component="h5">
                       {mechanic.first_name} {mechanic.last_name}
                     </Typography>
-                    <Typography gutterBottom variant="h7" component="h6">                    
+                    <Typography gutterBottom variant="h6" component="h6">                    
                       Inspecion Fee: ${mechanic.hourly_rate} 
                     </Typography>
                     <Typography>
@@ -174,7 +174,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                       <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} style={{cursor:'pointer'}} >
                         Request {mechanic.first_name}
                       </Button> }
-                      <Button size="small" color="primary" type="button" onClick={()=>mechanicRequest(mechanic)} className={classes.goToTopButton}></Button>
+
                       {/* <SimpleDialogDemo mechanic={mechanic}/>  */}        
                     </CardActions> 
                     

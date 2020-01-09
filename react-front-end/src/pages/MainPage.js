@@ -1,9 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import MainPages from './MainPages';
-// import LandingPage from './MainPages/LandingPage';
-//import OrderRequest from './MainPages/OrderRequest';
-//import ConfirmPage from './MainPages/ConfirmPage';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -14,7 +11,8 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { flexbox } from '@material-ui/system';
-import useVisualMode from '../hooks/useVisualMode'
+import useVisualMode from '../hooks/useVisualMode';
+import SignUp from './Signup';
 const io = require('socket.io-client');
 
 
@@ -24,11 +22,10 @@ const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 const MechanicRating = React.lazy(()=>import('./MainPages/MechanicRating'));
 
-
-
 const useStyles = makeStyles(theme  => ({
   root: {
-    minHeight: '80vh'
+    minHeight: '80vh',
+    paddingTop: theme.spacing(8)
   },
   backToTopButton: {
     position: 'fixed',
@@ -37,8 +34,7 @@ const useStyles = makeStyles(theme  => ({
     opacity: '0.7'
   },
   loading: {    
-    marginTop: '15vh',
-    //textAlign: 'center'  
+    marginTop: '15vh',    
   },
   loadingStyle: {
     display: 'flex',
@@ -51,6 +47,7 @@ const useStyles = makeStyles(theme  => ({
 function ScrollTop(props) {
   const { children, window } = props;
   const classes = useStyles();
+
   // Note that you normally won't need to set the window ref as useScrollTrigger
   // will default to window.
   // This is only being set here because the demo is in an iframe.
@@ -78,9 +75,9 @@ function ScrollTop(props) {
 }
 
 //This file contains all functions and global state for SPA. 
-export default function MainPage(props) {
+export default function MainPage() {
 const inspectionNumber = sessionStorage.getItem('inspectionId')
-let inspectionID = JSON.parse(JSON.parse(inspectionNumber))
+let inspectionID = inspectionNumber;
 const currentUserId = sessionStorage.getItem('userId'); 
 
   const REQUEST = "REQUEST";
@@ -130,9 +127,6 @@ const currentUserId = sessionStorage.getItem('userId');
     
   // }
   
-  
-     
-
   useEffect(() => { 
 
     // axios.get('/api/mechanics')
@@ -177,13 +171,12 @@ const currentUserId = sessionStorage.getItem('userId');
 
 
       if (inspectionID){
-        all[3].forEach(inspection=>{
-          //console.log('TYPEOF ', typeof inspection.id)
-          if(inspection.id===inspectionID && !inspection.isCompleted ){
+        all[3].forEach(inspection=>{          
+          if(inspection.id===Number(inspectionID) && !inspection.isCompleted ){
             setInspection(inspection)
             transition(CONFIRM)
           }
-          if (inspection.id===inspectionID && inspection.isCompleted) {
+          if (inspection.id===Number(inspectionID) && inspection.isCompleted) {
             transition(RATING)
             setInspection(inspection)
           }
@@ -194,11 +187,10 @@ const currentUserId = sessionStorage.getItem('userId');
       console.log(err)
     })
 
-    // WEB SOCKETS MECHANICS
+  // WEB SOCKETS MECHANICS
   const socket = io('ws://localhost:8080');
   socket.on(
-    'mechanics', function (data) {
-      console.log(data);
+    'mechanics', function (data) {      
       setMechanics(data);
       // console.log(setMechanics(data))
       // socket.emit('my other event', { my: 'data' });
@@ -206,24 +198,26 @@ const currentUserId = sessionStorage.getItem('userId');
   )
   socket.on(
     'inspections', function (data) {
-      console.log(data);
-      setInspections(data);      
-      data.forEach(inspection=>{
-        //console.log('TYPEOF ', typeof inspection.id)
-        if(inspection.id===inspectionID && !inspection.isCompleted ){
+      //console.log(data);
+      setInspections(data);
+      const inspectionID = sessionStorage.getItem('inspectionId')      
+      data.forEach(inspection=>{       
+        //console.log("Foreach", { inspection, data, inspectionID })
+        if(inspection.id===Number(inspectionID) ){
+          console.log("true")
           setInspection(inspection)
           transition(CONFIRM)
         }
-        if (inspection.id===inspectionID && inspection.isCompleted) {
-          transition(RATING)
+        if (inspection.id===Number(inspectionID) && inspection.isCompleted) {
           setInspection(inspection)
+          transition(RATING)
         }
       }
         
       )       
     }
   )    
-  },[setMechanics,setRatings,setUsers,setInspections])
+  },[setMechanics,setRatings,setUsers,setInspections, setInspection])
 
 
   // window.onload = function(){
@@ -255,10 +249,8 @@ const currentUserId = sessionStorage.getItem('userId');
       console.log('ERROR ', error);     
     }) 
   }
-
-  //const inspectionId = sessionStorage.getItem('inspectionId'); 
-  const userInspectionRequest = (data) => {
-    // console.log('userRequestData ', data) 
+  
+  const userInspectionRequest = (data) => {    
     const userID = JSON.parse(currentUserId)
     const userData = {         
       "user_id": userID,
@@ -275,12 +267,10 @@ const currentUserId = sessionStorage.getItem('userId');
     axios.post('/api/new-inspections', userData )
     .then(response => {
       console.log('SUCCESSFUL INSPECTION REQUEST ', response);
-      sessionStorage.setItem('inspectionId', response.data.response[0].id)
-      //let stringObject = JSON.stringify(response.config.data);
+      sessionStorage.setItem('inspectionId', response.data.response[0].id);      
       let parsedObject = JSON.parse(response.config.data);
       setInspection(parsedObject)
-      console.log('MECHANIC LIST ', inspection)
-      //sessionStorage.setItem('inspectionId', stringObject)
+      console.log('MECHANIC LIST ', inspection)      
       transition(CONFIRM)
          
     })
@@ -329,13 +319,7 @@ return (
       < OrderRequest mechanicID={mechanic.id} currentUserId={currentUserId} setInspection={setInspection} userInspectionRequest={userInspectionRequest} 
       mechanic={mechanic} onCancel={()=>back()}
       /> 
-    </Suspense>)  }
-          
-    {/* <Suspense fallback={ <h2 className={classes.loading}>Loading...</h2> }>  
-      <ConfirmPage mechanics={mechanics} />
-    </Suspense>  */}
-
-    {/* < MainPages /> */}
+    </Suspense>)  }   
   </main>
    <ScrollTop >
    <Tooltip title="Go to Top" aria-label="Go to Top button" TransitionComponent={Zoom}>
@@ -349,10 +333,6 @@ return (
 }
 
 ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
+  children: PropTypes.element.isRequired,  
   window: PropTypes.func,
 };

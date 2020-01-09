@@ -30,15 +30,29 @@ class PlacesAutoFill extends React.Component {
 
   handlePlaceChanged(){
     const place = this.autocomplete.getPlace();
-    this.props.onPlaceLoaded(place.name);
+    this.props.onPlaceLoaded(place.formatted_address);
    
   }
 
   render() {
     return (
+
+      <TextField
+      variant="outlined"
+      margin="normal"
+      required
+      fullWidth
+      id="autocomplete"
+      label="Location"
+      name="userAddress"  
+      inputRef={this.autocompleteInput} 
+      type="text"
+      autoComplete='off' 
+      type="text"                 
+    /> 
         
-        <input ref={this.autocompleteInput} id="autocomplete" placeholder="Enter your address" type="text" style={{width:'100%'}}
-        /> 
+        // <input ref={this.autocompleteInput} id="autocomplete" placeholder="Enter your address" type="text" style={{width:'100%', height: '100%'}}
+        // /> 
        
     );  
   }

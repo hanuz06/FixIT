@@ -10,18 +10,16 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import {Alert} from './components/Alert'
-import {AlertState} from './context/alert/AlertState'
-import MechanicRating from './pages/MainPages/MechanicRating'
+import {Alert} from './components/Alert';
+import {AlertState} from './context/alert/AlertState';
+import MechanicRating from './pages/MainPages/MechanicRating';
 
 function App() {
   
   const [loading, setLoading] = useState(false)
   //const [loggedIn, setLogin] = useState(false)
   const userId = sessionStorage.getItem('userId')
-    
 
-   
     return (
       <AlertState>
         <Router>
@@ -34,8 +32,7 @@ function App() {
                 {/* Using the `component` prop */}
                
                 <Route exact path="/" >
-                  < MainPage />                  
-                  {/* <MechanicRating /> */}
+                  < MainPage />                   
                 </Route>
                
                 <Route path="/login">
@@ -44,7 +41,9 @@ function App() {
                 </Route>                     
                 
                 <Route path="/signup">
+                {userId ? <Redirect to="/" /> :
                   <Signup />
+                  }
                 </Route>
               </Switch>  
             < Footer /> 
