@@ -17,13 +17,12 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     minHeight: '90vh',
-    maxHeight: '100%',
-    marginTop: '60px'
+    maxHeight: '100%'    
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     marginTop: theme.spacing(10),
-    padding: theme.spacing(2, 0, 2) ,
+    padding: theme.spacing(0, 0, 2) ,
     color: 'blue' ,
     '@media (max-width:400px)': {
       fontSize: '1.8rem'
