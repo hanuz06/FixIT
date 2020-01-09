@@ -11,7 +11,7 @@ export default function MechanicCardRating({ stars }) {
 
   return (
     <Box display="flex" style={{justifyContent:'space-between', alignItems:'center', padding: '5px 10px', width: '100%'}} >      
-      <Rating name="read-only" style={{color:'#fcce03', opacity:1}} value={ stars } onClick={(e)=>e.preventDefault} size="large" precision={0.5} disabled/>
+      <Rating name="read-only" style={{color:'#fcce03', opacity:1}} value={ Number(stars) } onClick={(e)=>e.preventDefault} size="large" precision={0.5} disabled/>
       <Typography>
       {stars}
       </Typography>

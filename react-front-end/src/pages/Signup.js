@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {AlertContext} from '../context/alert/alertContext';
 import  {Alert} from '../components/Alert';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignUp() {
   const {show, hide} = useContext(AlertContext);
   const classes = useStyles();
-
+    
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -55,6 +56,7 @@ export default function SignUp() {
     passwordConfirmationText: '',
     phoneText: '',
     locationText: '',
+    checked: false,
     firstNameError: false,
     lastNameError: false,
     emailError: false,
@@ -63,6 +65,14 @@ export default function SignUp() {
     phoneError: false,
     locationError: false
   })   
+
+  const handleCheckBox = (e) => {
+    setForm(previouseValues =>(
+      {...previouseValues, 
+        checked: e.target.checked
+      })
+    )
+  }
 
   const changeHandler = event => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -76,8 +86,8 @@ export default function SignUp() {
       emailText: '',
       passwordText: '',
       passwordConfirmationText: '',
-      phoneText: '',
-      locationText: '',
+      phoneText: '',      
+      locationText: '',         
       firstNameError: false,
       lastNameError: false,
       emailError: false,
@@ -97,7 +107,8 @@ export default function SignUp() {
         password: '',
         passwordConfirmation: '',
         phone: '',
-        location: ''}))    
+        location: '',
+        checked: false}))    
     clearForm()       
   }
     
@@ -105,10 +116,12 @@ export default function SignUp() {
     e.preventDefault();
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
 
+    if (form.checked === false){
+      show('Please agree with the terms', 'success')
+    }
     
     if (!form.firstName){ 
-      setForm(previouseValues => ({ ...previouseValues, firstNameText: "First name required", firstNameError: true }));  
-      show('First name required', 'success')     
+      setForm(previouseValues => ({ ...previouseValues, firstNameText: "First name required", firstNameError: true }));             
     }   
       
     if (!form.lastName){ 
@@ -124,7 +137,12 @@ export default function SignUp() {
     }
     
     if (!form.passwordConfirmation){
-      setForm(previouseValues => ({ ...previouseValues, passwordConfirmationText: "Password confirmation required", passwordConfirmationError: true }));          
+      setForm(previouseValues => ({ ...previouseValues, passwordConfirmationText: "Password confirmation required", passwordConfirmationError: true }));       
+    }
+
+    if (form.password !== form.passwordConfirmation){
+      show("Please check that password and password confirmation are the same", 'danger')
+      setForm(previouseValues => ({ ...previouseValues, passwordError: true, passwordConfirmationError: true }));      
     }
 
     if (form.email && !re.test(form.email.toLowerCase())){
@@ -135,13 +153,55 @@ export default function SignUp() {
       setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone required", phoneError: true }));        
     }
 
-    if (isNaN(Number(form.phone)+1)){
+    if (isNaN(Number(form.phone.trim())+1)){
       setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone number should be numbers", phoneError: true }));         
     }
 
     if (!form.location){
       setForm(previouseValues => ({ ...previouseValues, locationText: "Location required", locationError: true }));      
-    }
+    }    
+
+    const userData = {
+      'first_name':form.firstName.trim(),
+      'last_name':form.lastName.trim(),
+      'email':form.email.trim(),
+      'password_digest':form.password.trim(),
+      'phone':form.phone.trim(),
+      'location':form.location.trim()
+    }  
+
+form.firstName && 
+form.lastName && 
+form.email&& 
+form.password && 
+form.passwordConfirmation && 
+form.phone && 
+form.location && 
+form.firstNameError === false && 
+form.lastNameError === false && 
+form.emailError === false && 
+form.passwordError === false && 
+form.phoneError === false && 
+form.locationError === false && 
+form.checked === true && 
+form.firstNameText == '' && 
+form.lastNameText === '' && 
+form.emailText === '' && 
+form.passwordText === '' && 
+form.passwordConfirmationText === '' && 
+form.phoneText === '' && 
+form.locationText === '' && 
+axios.post('/api/user-signup',userData )
+        .then(response => {
+          console.log('SUCCESSFUL SIGNUP IN REACT ',response.data.userSignUpData[0]);  
+          sessionStorage.setItem('userId', response.data.userSignUpData[0]);  
+          window.location.reload();          
+        })
+        .catch(error => {
+          console.log('FAILED SIGNUP IN REACT ', error.response);  
+           show(error.response.data.message, 'danger');
+          //window.location.reload();    
+        })     
   } 
 
   return (
@@ -154,7 +214,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate autoComplete="off">
+          <form className={classes.form} noValidate autoComplete="off" onSubmit={signUpData}>
           <Alert />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -272,7 +332,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox onChange={handleCheckBox} value="allowExtraEmails" color="primary" />}
                   label="I agree with the terms of service"
                 />
               </Grid>
@@ -282,8 +342,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
-              onClick= {signUpData}
+              className={classes.submit}                            
             >
               Sign Up
             </Button>

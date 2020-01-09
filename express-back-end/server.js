@@ -212,6 +212,23 @@ App.post('/api/user-login', async (req, res) => {
 });
 
 
+App.post('/api/user-signup',  async (req, res) => {
+    
+  const findUser = await db('users').where({email: req.body.email})
+  
+  console.log('findUser ', findUser.length)  
+   if (findUser.length !== 0) {
+     console.log('EMAIL EXISTS')
+     return res.status(401).json({ message: 'Email exists' })
+    } 
+
+    console.log('user not found...')
+  const userSignUpData = await db('users').insert(req.body, 'id')  
+   
+  res.status(200).json({userSignUpData, message: 'User successfully signed up' })  
+});
+
+
 server.listen(PORT, () => {
 //App.listen(PORT, () => { 
   // eslint-disable-next-line no-console

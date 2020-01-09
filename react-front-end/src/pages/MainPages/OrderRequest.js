@@ -90,14 +90,6 @@ const useStyles = makeStyles(theme => ({
   PlaceAutoFillStyle: {
     width: '500px',
     border: 'solid red 1px'
-  },
-  addressStyle: {
-    width: '100%',
-    height: '50px',
-    //borderRadius:'6px'
-  },
-  form: {
-    marginTop: '20px'
   }
 }));
 
