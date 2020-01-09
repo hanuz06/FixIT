@@ -17,7 +17,7 @@ import useVisualMode from '../hooks/useVisualMode'
 
 // WEBSOCKETS
 
-import useVisualMode from '../hooks/useVisualMode';
+
 import SignUp from './Signup';
 const io = require('socket.io-client');
 
