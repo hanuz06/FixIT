@@ -10,9 +10,13 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import {Alert} from './components/Alert';
-import {AlertState} from './context/alert/AlertState';
-import MechanicRating from './pages/MainPages/MechanicRating';
+
+import {Alert} from './components/Alert'
+import {AlertState} from './context/alert/AlertState'
+import MechanicRating from './pages/MainPages/MechanicRating'
+// STRIPE 
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import CheckoutForm from "./components/CheckoutForm"
 
 function App() {
   
@@ -32,7 +36,9 @@ function App() {
                 {/* Using the `component` prop */}
                
                 <Route exact path="/" >
+
                   < MainPage />                   
+
                 </Route>
                
                 <Route path="/login">

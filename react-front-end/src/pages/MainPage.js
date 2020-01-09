@@ -11,6 +11,12 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import { flexbox } from '@material-ui/system';
+
+import useVisualMode from '../hooks/useVisualMode'
+
+
+// WEBSOCKETS
+
 import useVisualMode from '../hooks/useVisualMode';
 import SignUp from './Signup';
 const io = require('socket.io-client');
@@ -21,6 +27,7 @@ const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 const MechanicRating = React.lazy(()=>import('./MainPages/MechanicRating'));
+
 
 const useStyles = makeStyles(theme  => ({
   root: {
@@ -283,7 +290,9 @@ const currentUserId = sessionStorage.getItem('userId');
   
 return (
   <React.Fragment>
-  <main id='back-to-top' className={classes.root}>  
+  <main id='back-to-top' className={classes.root}> 
+  
+   
 
   {mode === RATING && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 
@@ -299,6 +308,7 @@ return (
       <CircularProgress /> 
     </Box> 
     }>
+ 
       <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
        />
     </Suspense>)}       
