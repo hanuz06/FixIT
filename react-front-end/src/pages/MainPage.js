@@ -10,13 +10,21 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
+
 import useVisualMode from '../hooks/useVisualMode';
+
+import { flexbox } from '@material-ui/system';
+
+// WEBSOCKETS
+import SignUp from './Signup';
+
 const io = require('socket.io-client');
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 const MechanicRating = React.lazy(()=>import('./MainPages/MechanicRating'));
+
 
 const useStyles = makeStyles(theme  => ({
   root: {
@@ -115,6 +123,8 @@ const currentUserId = sessionStorage.getItem('userId');
   avg:3
 }
   );
+
+
 // );   
   // const [rating, setRating]= useState(0) 
 
@@ -196,16 +206,18 @@ const currentUserId = sessionStorage.getItem('userId');
     'inspections', function (data) {
       //console.log(data);
       setInspections(data);
-      const inspectionID = sessionStorage.getItem('inspectionId')      
+      const inspectionID = sessionStorage.getItem('inspectionId')
+      const Completed = sessionStorage.getItem('Completed', inspection.isCompleted )      
       data.forEach(inspection=>{       
         //console.log("Foreach", { inspection, data, inspectionID })
-        if(inspection.id===Number(inspectionID) ){
+        if(inspection.id===Number(inspectionID) && !Completed ){
           console.log("true")
           setInspection(inspection)
           transition(CONFIRM)
         }
-        if (inspection.id===Number(inspectionID) && inspection.isCompleted) {
+        if (inspection.id===Number(inspectionID) && inspection.isCompleted && !Completed) {
           setInspection(inspection)
+          sessionStorage.setItem('Completed', inspection.isCompleted )
           transition(RATING)
         }
       }
@@ -219,8 +231,8 @@ const currentUserId = sessionStorage.getItem('userId');
     axios.post('/api/set-rating', data )
     .then(response => {
       console.log('RATING RETURN TO FROND END ', response); 
-      sessionStorage.removeItem('inspectionId')     
-      transition(LANDING)         
+      sessionStorage.setItem('RatingComplete', true)     
+      // transition(LANDING)         
     })
     .catch(error => {
       console.log('ERROR ', error);     
@@ -253,19 +265,29 @@ const currentUserId = sessionStorage.getItem('userId');
     })
     .catch(error => {
       console.log('ERROR ', error);     
+
     })   
+
+    })     
+  }
+  const backToHome = () => {
+    transition(LANDING)
+  }
+  const finishRating = () => {
+    transition(RATING)
+
   }
     
 return (
   <React.Fragment>
-  <main id='back-to-top' className={classes.root}>  
+  <main id='back-to-top' className={classes.root}>    
 
   {mode === RATING && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 
     <CircularProgress /> 
   </Box>
   }>  
-    <MechanicRating inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
+<MechanicRating backToHome={backToHome} finishRating={finishRating} inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
   </Suspense>)} 
   
 
@@ -274,6 +296,7 @@ return (
       <CircularProgress /> 
     </Box> 
     }>
+ 
       <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
        />
     </Suspense>)}       
