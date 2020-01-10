@@ -44,7 +44,6 @@ class PlacesAutoFill extends Component {
       fullWidth
       id="autocomplete"
       label="Location"
-      value={this.props.userAddress}
       name="userAddress"  
       inputRef={this.autocompleteInput} 
       type="text"
