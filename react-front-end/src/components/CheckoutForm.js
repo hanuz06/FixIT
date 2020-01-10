@@ -31,7 +31,7 @@ class CheckoutForm extends Component {
       if(res.status === 200) {
         console.log(res)
         this.setState({complete: true})
-  
+        sessionStorage.setItem('StripePayment', true)
         }
      
       })
@@ -39,9 +39,11 @@ class CheckoutForm extends Component {
     }
   }
 
+  mechanicObj = this.props.mechanic
+
   render() {
 
-    if (this.state.complete) return <h1>Success your payment of ${this.props.mechanic.hourly_rate} to {this.props.mechanic.first_name} succeeded. </h1>;
+    if (this.state.complete) return <h4>Success your payment of ${this.mechanicObj.hourly_rate} to {this.mechanicObj.first_name} succeeded. </h4>;
 
     return (
       <div className="checkout">
