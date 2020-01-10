@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '100%'    
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#f8f9fa',
     marginTop: theme.spacing(10),
     padding: theme.spacing(0, 0, 2) ,
     color: 'blue' ,
@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 export default function ConfirmPage({inspection, mechanic}) {
   const classes = useStyles();
 
+
   const {show, hide} = useContext(AlertContext);
 
   return (
@@ -54,17 +55,13 @@ export default function ConfirmPage({inspection, mechanic}) {
       <div className={classes.root}>
         <Container className={classes.cardContainer} maxWidth="sm">      
           <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
+            { inspection.isConfirmed? <> Sit Tight!<br/>
+            Your mechanic is on the way.<br/> <small>This page will update when your inspection is completed.</small></>:<>
             Thank you!<br/>
-            We will contact you soon.
+            We will contact you soon. </>} 
           </Typography> 
           <Alert />                           
-            <ConfirmTable inspection={inspection} mechanic={mechanic}/>    
-            <div className={classes.buttonStyles}>     
-        
-                <Button variant="contained" color="primary" href="/">
-              Link
-            </Button>
-    </div>   
+            <ConfirmTable inspection={inspection} mechanic={mechanic}/>      
         </Container>          
       </div>
     </React.Fragment>

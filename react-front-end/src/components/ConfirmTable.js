@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Fixit from "../Photos/Fixit_font.png";
+import GreyLogo from "../Photos/mechanic-grey.png";
 
 const uName = sessionStorage.getItem('uName')
 
@@ -73,42 +75,42 @@ export default function ConfirmTable({ inspection, mechanic }) {
       <Table className={classes.table} aria-label="simple table" >
         <TableHead>
           <TableRow>
-            <TableCell className={classes.tableCell} style={{ 'width':'150px'}}>Description</TableCell>
-            <TableCell className={classes.tableCell}>Values</TableCell>
+            <TableCell className={classes.tableCell} style={{ 'width':'150px'}}><img src={Fixit} alt="site logo" height={40}   /> <img src={GreyLogo} alt="site logo" height={40}   /></TableCell>
+            <TableCell className={classes.tableCell}> Inspection Summary</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>          
           <TableRow>  
             <TableCell component="th" scope="row" className={classes.tableCell}>
-            Mechanic name
+            Your Mechanic
             </TableCell>
             <TableCell className={classes.tableCell}>{mechanic.first_name} {mechanic.last_name}</TableCell>
           </TableRow> 
 
           <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
-            Car make&model
+           Your Car
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.car_make}</TableCell>
           </TableRow> 
 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
-            Year
+            Car Year
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.year}</TableCell>
           </TableRow>  
 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
-            Location
+            Your Location
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.location}</TableCell>
           </TableRow>
 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
-          Description_of_problem
+          Your Problem
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.description_of_problem}</TableCell>
           </TableRow> 

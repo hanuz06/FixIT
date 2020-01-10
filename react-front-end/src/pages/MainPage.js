@@ -83,6 +83,7 @@ export default function MainPage() {
 const inspectionNumber = sessionStorage.getItem('inspectionId')
 let inspectionID = inspectionNumber;
 const currentUserId = sessionStorage.getItem('userId'); 
+const mechanicID = sessionStorage.getItem('mechanicId'); 
 
   const REQUEST = "REQUEST";
   const CONFIRM = "CONFIRM";
@@ -119,7 +120,7 @@ const currentUserId = sessionStorage.getItem('userId');
   hourly_rate: 60,
   active: true,
   description: "best mechanic EVER",
-  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there’s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg",
+  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there%E2%80%99s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg",
   avg:3
 }
   );
@@ -186,9 +187,16 @@ const currentUserId = sessionStorage.getItem('userId');
             transition(RATING)
             setInspection(inspection)
           }
-        })
-          
+        })          
       }  
+
+      if(mechanicID){
+        all[0].forEach(mechanic => {
+          if(Number(mechanicID)===mechanic.id){
+            setMechanicInfo(mechanic)
+          }
+        })
+      }
     }).catch(err => {
       console.log(err)
     })
@@ -225,14 +233,14 @@ const currentUserId = sessionStorage.getItem('userId');
       )       
     }
   )    
-  },[setMechanics,setRatings,setUsers,setInspections, setInspection]) 
+  },[setMechanics,setRatings,setUsers,setInspections, setInspection ]) 
 
   const setRating = (data) => {    
     axios.post('/api/set-rating', data )
     .then(response => {
       console.log('RATING RETURN TO FROND END ', response); 
       sessionStorage.setItem('RatingComplete', true)     
-      // transition(LANDING)         
+      transition(RATING)         
     })
     .catch(error => {
       console.log('ERROR ', error);     
@@ -257,7 +265,8 @@ const currentUserId = sessionStorage.getItem('userId');
     axios.post('/api/new-inspections', userData )
     .then(response => {
       console.log('SUCCESSFUL INSPECTION REQUEST ', response);
-      sessionStorage.setItem('inspectionId', response.data.response[0].id);      
+      sessionStorage.setItem('inspectionId', response.data.response[0].id); 
+      sessionStorage.setItem('mechanicId', response.data.response[0].mechanic_id)  
       let parsedObject = JSON.parse(response.config.data);
       setInspection(parsedObject)
       console.log('MECHANIC LIST ', inspection)      
@@ -274,10 +283,7 @@ const currentUserId = sessionStorage.getItem('userId');
   const backToHome = () => {
     transition(LANDING)
   }
-  const finishRating = () => {
-    transition(RATING)
-
-  }
+  
     
 return (
   <React.Fragment>
@@ -288,7 +294,7 @@ return (
     <CircularProgress /> 
   </Box>
   }>  
-<MechanicRating backToHome={backToHome} finishRating={finishRating} inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
+<MechanicRating backToHome={backToHome}  inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
   </Suspense>)} 
   
 

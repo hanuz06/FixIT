@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {CardElement, injectStripe} from 'react-stripe-elements';
-import axios from "axios"
+import axios from "axios";
+import Button from '@material-ui/core/Button';
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -43,14 +44,17 @@ class CheckoutForm extends Component {
 
   render() {
 
-    if (this.state.complete) return <h4>Success your payment of ${this.mechanicObj.hourly_rate} to {this.mechanicObj.first_name} succeeded. </h4>;
+    if (this.state.complete) return <h6>Success your payment of ${this.mechanicObj.hourly_rate} to {this.mechanicObj.first_name} succeeded. </h6>;
 
     return (
       <div className="checkout">
         
         <p> Pay your inspection fee with with Stripe and we'll let you and your mechanic figure out the rest! 4000001240000000</p>
         <CardElement  />
-        <button onClick={this.submit}>Purchase</button>
+        {/* <button onClick={this.submit}>Purchase</button> */}
+        <Button size="small" variant="contained" color="primary" onClick={this.submit} style={{marginTop:'3px'}}>
+        Purchase
+        </Button>
         
       </div>
     );

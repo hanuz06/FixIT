@@ -12,14 +12,14 @@ const useStyles = makeStyles(theme => ({
       flexDirection: 'column'     
     }
   },
-  ContainerStyle: {
-    marginRight: '80px',
+  ContainerStyle: {    
     [theme.breakpoints.down('sm')]: {
       marginRight: 'auto'     
     }
   },
   boxDivide: {
     display: 'flex',
+    flexDirection: "column",
     justifyContent: 'center',
     alignItems: 'center',    
     minHeight: '100vh',
@@ -29,9 +29,10 @@ const useStyles = makeStyles(theme => ({
         minHeight: '70vh'
       }       
   },
+  
   card: {
     height: 'auto',
-    width: '500px',
+    width: '400px',
     maxWidth: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -47,7 +48,8 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '150px',  
     height: '100%', 
     objectFit: 'contain',
-    padding: '65px',
+    padding: '5px 65px',
+    //padding: '65px',
     //padding: '50%',
     paddingTop: '56.25%', // 16:9    
   },
@@ -59,6 +61,17 @@ const useStyles = makeStyles(theme => ({
     width: '250px',
     heigth: '150px',
     border: 'solid red 1px'
+  },
+  secondOrder: {
+    order: 2,
+    marginRight: '150px',
+  },
+  firstOrder: {
+    order: 1
+  },
+  StripeCardStyle: {
+    padding: '8px',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
   }
 }));
 

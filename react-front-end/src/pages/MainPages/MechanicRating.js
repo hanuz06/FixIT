@@ -159,9 +159,11 @@ import transitions from '@material-ui/core/styles/transitions';
 export default function MechanicRating({ mechanic, inspection, setRating, backToHome, finishRating }) {  
   const classes = useStyles()
 
+  console.log('mechanic list in MechanicRating ', mechanic)
+
   const stripeComplete = sessionStorage.getItem("StripePayment")
   const ratingComplete = sessionStorage.getItem("RatingComplete")
-  console.log(ratingComplete)
+  //console.log(ratingComplete)
 
   const [stars, setStars] = useState(0)
   
@@ -169,17 +171,18 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
   const {show, hide} = useContext(AlertContext); 
 
   const setDataForRating = () => {
-    const rating = { 
-
+    const rating = {
       user_id: inspection.user_id,
       mechanic_id: inspection.mechanic_id, 
       inspection_id: Number(inspection.id),     
       inspection_rating: stars
     }
-    console.log('ratingggg ', rating)
     setRating(rating)
-    finishRating()
+    
+    
   }
+
+
 
   const completeSession = () => {
     sessionStorage.removeItem("Completed")
@@ -191,13 +194,13 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
 
   return (
     <Box component="div"  className={classes.root}>       
-
+<Container maxWidth="sm" className={classNames(classes.ContainerStyle, classes.secondOrder)}>
     
-      <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
+      {/* <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
         <Card className={classes.card}>
         <Typography gutterBottom variant="h5" component="h5">   
           Please rate {mechanic.first_name}! 
-        </Typography>   
+        </Typography>    4000001240000000
           <CardMedia
             className={classes.cardMedia}
             image={mechanic.avatar}
@@ -211,17 +214,17 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
             {/* <Typography>
               mechanic.description
             </Typography> */}
-          </CardContent>
+          {/* </CardContent>
           <CardActions>
             <Button size="small" variant="contained" color="primary" onClick={setDataForRating}>
               Submit
-            </Button>
+            </Button> */}
             {/* <Button size="small" color="primary">
               Request mechanic.first_name
             </Button>                      */}
-          </CardActions>  
-        </Card>              
-      </div>
+          {/* </CardActions>   */}
+      {/* //   </Card>               */}
+      {/* // </div> */} 
 
       {/* <div style={{display: "flex", flexDirection: "column", border: "solid red 1px"}}> */}
         <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
@@ -234,31 +237,25 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
               className={classes.cardMedia}
               image={mechanic.avatar}
               title="Image title"
-              
-
             />          
             < RatingSize stars={stars} setStars={setStars}/>               
-            <CardContent className={classes.cardContent}>
+            {/* <CardContent className={classes.cardContent}> */}
               {/* <Typography gutterBottom variant="h5" component="h2">
                { mechanic.first_name} {mechanic.last_name}
               </Typography> */}
               {/* <Typography>
                 mechanic.description
               </Typography> */}
-            </CardContent>
+            {/* </CardContent> */}
 
-            <CardContent className={classes.cardContent}>
-            <div>
-            
-          </div>
-            </CardContent>
+            {/* <CardContent className={classes.cardContent}> */}           
             <CardActions>
                { !ratingComplete && <Button size="small" variant="contained" color="primary" onClick={setDataForRating}>
                 Submit
               </Button> }
             { ratingComplete && !stripeComplete &&  <h4>Thank you for your feedback!</h4> }   
             {ratingComplete && stripeComplete && <> <h4>Thats it!</h4>
-                <Button size="large" variant="contained" color="primary" onClick={completeSession}>
+                <Button size="large" variant="contained" color="primary" onClick={completeSession} >
                   Finish
               </Button>
              </>}
@@ -267,11 +264,11 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
           </Card>  
 
         <div>  
-          <Card className={classes.card}> 
+          <Card className={classes.StripeCardStyle}> 
           <StripeProvider apiKey="pk_test_vzAvHy9DyOYmnXgn5fLZ3YEZ00xwGEz8Pv">
             <div className="example">
               <div style={{display: "flex", justifyContent: "space-between", padding: "2px"}}>
-                <h3>Pay with Stripe</h3>
+                <h5>Pay with Stripe</h5>
                 <img src={"https://stripe.com/img/v3/home/social.png"} alt="site logo" height={40}   />
                 </div>
               <Elements>
@@ -284,22 +281,21 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
         </div>
       
       {/* </div> */}
+      </Container>
 
-      <Container maxWidth="sm" className={classes.ContainerStyle}>
-      <div component="div" className={classes.boxDivide}>
-      <Container className={classes.cardContainer} maxWidth="sm">      
-          <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
-            One more thing!<br/>
-            It's time to rate and pay your mechanic.
-          </Typography>                           
-            <ConfirmTable inspection={inspection}/>    
-            {/* <div className={classes.buttonStyles}>          
-              <Button variant="contained" color="primary" href="/">
-                Link
-              </Button>
-            </div>    */}
-        </Container>
-      </div>
+      <Container maxWidth="sm" className={classNames(classes.ContainerStyle, classes.firstOrder)}>
+        <div component="div" className={classes.boxDivide}>          
+            <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
+              One more thing!<br/>
+              It's time to rate and pay your mechanic.
+            </Typography>                           
+              <ConfirmTable inspection={inspection} mechanic={mechanic}/>    
+              {/* <div className={classes.buttonStyles}>          
+                <Button variant="contained" color="primary" href="/">
+                  Link
+                </Button>
+              </div>    */}        
+        </div>
       </Container>
     </Box>
   );
