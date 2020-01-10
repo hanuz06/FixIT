@@ -91,7 +91,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MechanicRating({ mechanic, inspection, setRating, backToHome }) {  
+export default function MechanicRating({ mechanic, inspection, setRating, backToHome, finishRating }) {  
   const classes = useStyles()
 
   const stripeComplete = sessionStorage.getItem("StripePayment")
@@ -113,6 +113,7 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
     }
     console.log('ratingggg ', rating)
     setRating(rating)
+    finishRating()
   }
 
   const completeSession = () => {

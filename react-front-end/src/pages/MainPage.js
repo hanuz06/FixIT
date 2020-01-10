@@ -287,11 +287,13 @@ const currentUserId = sessionStorage.getItem('userId');
     })
     .catch(error => {
       console.log('ERROR ', error);     
-    })    
-   
+    })     
   }
   const backToHome = () => {
     transition(LANDING)
+  }
+  const finishRating = () => {
+    transition(RATING)
   }
 
   
@@ -306,7 +308,7 @@ return (
     <CircularProgress /> 
   </Box>
   }>  
-  <MechanicRating backToHome={backToHome} inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
+<MechanicRating backToHome={backToHome} finishRating={finishRating} inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
   </Suspense>)} 
   
 
