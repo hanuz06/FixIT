@@ -252,6 +252,7 @@ const currentUserId = sessionStorage.getItem('userId');
       "isCompleted": false  
     } 
     console.log('INSPECTION ', {inspection})
+  
     
     axios.post('/api/new-inspections', userData )
     .then(response => {
@@ -268,8 +269,8 @@ const currentUserId = sessionStorage.getItem('userId');
 
     })   
 
-    })     
-  }
+  }     
+  
   const backToHome = () => {
     transition(LANDING)
   }
