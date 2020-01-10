@@ -18,80 +18,14 @@ import CardMedia from '@material-ui/core/CardMedia';
 import MechanicCardRating from '../../components/MechanicCardRating';
 import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
-import { cars, carMakeYear } from '../../helpers/helperData'
+import { cars, carMakeYear } from '../../helpers/helperData';
+import useStyles from './OrderRequestStyles.js';
 
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
 
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-// import placesAutofill from "../../helpers/placesAutofill"
-import Script from 'react-load-script';
-// import { SearchBar as SearchPlace }  from 'material-ui-search-bar';
-import PlacesAutoFill from "../../components/PlacesAutoFill"
+import PlacesAutoFill from "../../components/PlacesAutoFill";
 
-
-const useStyles = makeStyles(theme => ({    
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',    
-    minHeight: '90vh',
-    maxWidth: '100%', 
-    marginTop: theme.spacing(1),   
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column'     
-    }
-  },
-  ContainerStyle: {
-    marginRight: '80px',
-    [theme.breakpoints.down('sm')]: {
-      marginRight: 'auto'     
-    }
-  },
-  boxDivide: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',    
-    minHeight: '100%',
-    width: '100%',
-    padding: '20px',    
-    [`@media (max-width:380px)`]:{
-        minHeight: '70vh'
-      }       
-  },
-  card: {
-    height: 'auto',
-    width: '500px',
-    maxWidth: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '10px', 
-    margin: '25px',    
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-  },  
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-    maxWidth: '100%'
-  },
-  cardContent: {
-    flexGrow: 1    
-  },
-  selectStyle: {    
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(1),
-      width: '100%',    
-  }, 
-  PlaceAutoFillStyle: {
-    width: '500px',
-    border: 'solid red 1px'
-  }
-}));
 
 export default function OrderRequest({onCancel, userInspectionRequest, mechanic, setInspection, currentUserId, isConfirmed, isCompleted}) {  
   const classes = useStyles()
@@ -100,14 +34,14 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
   const [carSelectError, setCarSelectError] = useState(false);
   const [carSelectErrorText, setCarSelectErrorText] = useState('');
 
-  const [makeYear, setMakeYear] = useState(0);
-  const [mechanicData, setMechanicData] = useState('');
-
+  //const [mechanicData, setMechanicData] = useState('');
+  
   const [carModel, setCarModel] = useState('');
   const [carModelError, setCarModelError] = useState(false);
   const [carModelErrorText, setCarModelErrorText] = useState('');
-
+  
   // const [yearMake, setYearMake] = useState('');
+  const [makeYear, setMakeYear] = useState(0);
   const [makeYearError, setMakeYearError] = useState(false);
   const [makeYearErrorText, setMakeYearErrorText] = useState('');
 
@@ -119,8 +53,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
   
   const onPlaceLoaded = (userAddress) => {
     setUserAddress(userAddress)
-  }
-  console.log('userAddress ',userAddress)
+  }  
 
   const handleChange = event => {
     setCarSelect(event.target.value);
@@ -152,9 +85,12 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
 
     if (!description){
       setDescriptionError(true)
-      setDescriptionErrorText('Please enter problem description')
-      
+      setDescriptionErrorText('Please enter problem description')      
     }  
+
+    if (!userAddress){
+      show('Please enter your location in Calgary', 'success')
+    }
 
     const userRequestData = {
       carSelect,
@@ -164,20 +100,19 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
       description
     }
 
-    makeYear&&carSelect&& carModel && description && userInspectionRequest(userRequestData)    
-    
-    // console.log('AAAAAAAAAA ', mechanicData)
+    makeYear&&carSelect&& carModel && description && userAddress && userInspectionRequest(userRequestData)      
   }
 
   const clearForm = () => {
     setCarModelErrorText('')
-    // setYearMakeErrorText('')
+    setMakeYearErrorText('')
     setDescriptionErrorText('')
-    setCarSelectErrorText('')
-    setCarModelError(false)
-    // setYearMakeError(false)
+    setCarSelectErrorText('')    
+    setCarModelError(false)   
+    setMakeYearError(false)
     setDescriptionError(false)
-    setCarSelectError(false)    
+    setCarSelectError(false)  
+    hide()  
   }
 
   const clearData = () => {
@@ -217,14 +152,13 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
           </CardActions> 
         </Card>              
       </div>
-      <Container maxWidth="sm" className={classes.ContainerStyle}>
+      <Container maxWidth="sm" className={classes.ContainerStyle}>        
       <div component="div" className={classes.boxDivide}>
       <form className={classes.form} onSubmit={userRequestSubmit} noValidate autoComplete='off'>
           <TextField
             className={classes.selectStyle}        
             id="car-make"
-            select
-            //label="Car make"
+            select            
             name='car_make'
             value={carSelect}
             onChange={handleChange}
@@ -260,8 +194,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
           <TextField
             className={classes.selectStyle}        
             id="outlined-car-select"
-            select
-            //label="Make year"
+            select            
             value={makeYear}
             name='year'
             onChange={handleMakeYearChange}
@@ -280,8 +213,8 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             ))}
           </TextField>
           
-           Please note our mechanics will only service Calgary addresses          
-            <PlacesAutoFill onPlaceLoaded={onPlaceLoaded}/>         
+           Please note our mechanics will only service Calgary addresses    <Alert />      
+            <PlacesAutoFill userAddress={userAddress} onPlaceLoaded={onPlaceLoaded}/>         
 
           <TextField
             variant="outlined"
@@ -299,11 +232,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             onFocus={clearForm}
             error={descriptionError}
             helperText={descriptionErrorText}            
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          />          
           <Button
             type="submit"
             fullWidth
@@ -319,8 +248,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
               isConfirmed: false,
               isCompleted: false                          
             })} 
-            >                     
-          
+            >         
             Confirm the request
           </Button>          
           <Button

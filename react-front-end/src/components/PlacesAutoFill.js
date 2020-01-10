@@ -1,5 +1,5 @@
 // Imports
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 /* global google */
@@ -13,7 +13,7 @@ import Script from 'react-load-script';
 // import { TextField } from '@material-ui/core';
 // import AutoComplete from 'material-ui/AutoComplete';
 
-class PlacesAutoFill extends React.Component {
+class PlacesAutoFill extends Component {
   constructor(props) {
     super(props);
     this.autocompleteInput = React.createRef();
@@ -44,6 +44,7 @@ class PlacesAutoFill extends React.Component {
       fullWidth
       id="autocomplete"
       label="Location"
+      value={this.props.userAddress}
       name="userAddress"  
       inputRef={this.autocompleteInput} 
       type="text"

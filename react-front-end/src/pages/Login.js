@@ -54,23 +54,6 @@ export default function SignIn() {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
-  // async function loginPostRequest(url, data){
-  //   const response = await fetch(url, {
-  //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-  //     mode: 'cors', // no-cors, *cors, same-origin
-  //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  //     credentials: 'same-origin', // include, *same-origin, omit
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //       // 'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     redirect: 'follow', // manual, *follow, error
-  //     referrerPolicy: 'no-referrer', // no-referrer, *client
-  //     body: data // body data type must match "Content-Type" header
-  //   });
-  //   return await response.json(); // parses JSON response into native JavaScript objects
-  // }
-
   const classes = useStyles();
   const {show, hide} = useContext(AlertContext);
 
@@ -97,12 +80,14 @@ export default function SignIn() {
     form.email && form.password && 
     axios.post('/api/user-login', userData )
     .then(response => {
-      console.log('11111111SUCCESSFUL LOGIN ', response.data.user[0].id);  
+      console.log('11111111SUCCESSFUL LOGIN ', response.data.user[0]);  
       sessionStorage.setItem('userId', response.data.user[0].id);   
+      sessionStorage.setItem('uName', `${response.data.user[0].first_name} ${response.data.user[0].last_name}`); 
+      sessionStorage.setItem('uEmail', `${response.data.user[0].email}`); 
       window.location.reload();     
     })
     .catch(error => {
-      console.log('FAILED LOGIN ERROR ', error.response);  
+      // console.log('FAILED LOGIN ERROR ', error.response);  
       show(error.response.data.message, 'danger');
       //window.location.reload();    
     })

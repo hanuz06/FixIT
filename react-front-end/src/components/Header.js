@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,8 +13,10 @@ import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import logo from "../Photos/mechanic-white.png";
+import Avatar from '@material-ui/core/Avatar';
 
 const userId = sessionStorage.getItem('userId')
+const uName = sessionStorage.getItem('uName')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,12 +33,18 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: 'yellow'
     }
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   }
 }));
 
 const logoutFunction = () => {
   sessionStorage.removeItem('userId');
   sessionStorage.removeItem('inspectionId');  
+  sessionStorage.removeItem('uName');  
+  sessionStorage.removeItem('uEmail');  
 }
 
 function HideOnScroll(props) {
@@ -82,12 +90,28 @@ export default function ButtonAppBar() {
             <Typography variant="h6" className={classes.title}>
               
             </Typography>
-            <Tooltip title="Sign in" aria-label="Sign in button" TransitionComponent={Zoom} placement='bottom'>
-              {userId? <Button className={classes.buttonStyle} onClick={logoutFunction} href="/">Logout</Button> : <Button className={classes.buttonStyle} href="/login">Login</Button> }
-            </Tooltip>
-            <Tooltip title="Sign up" aria-label="Sign up button" TransitionComponent={Zoom} placement='bottom'>
-              <Button className={classes.buttonStyle} href="/signup">Signup</Button> 
-            </Tooltip>         
+            
+              {userId?
+                  <>
+                 <Avatar src="/broken-image.jpg" style={{marginRight:'5px'}} className={classes.small}/>
+                  {uName}
+                  <Tooltip title="Logout" aria-label="Logout button" TransitionComponent={Zoom} placement='bottom'>
+                  <Button className={classes.buttonStyle} onClick={logoutFunction} href="/">Logout</Button></Tooltip>
+                  </> : 
+                  <>
+                  <Tooltip title="Login" aria-label="Login button" TransitionComponent={Zoom} placement='bottom'>
+                  <Button className={classes.buttonStyle} href="/login">Login
+                  </Button>
+                  </Tooltip>
+                  <Tooltip title="Sign up" aria-label="Sign up button" TransitionComponent={Zoom} placement='bottom'>
+                    <Button className={classes.buttonStyle} href="/signup">Signup</Button> 
+                </Tooltip>
+                  </>                  
+                }
+
+
+            
+                     
           </Toolbar>
         </AppBar>
       </HideOnScroll>

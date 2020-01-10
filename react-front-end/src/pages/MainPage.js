@@ -10,18 +10,15 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
+
+import useVisualMode from '../hooks/useVisualMode';
+
 import { flexbox } from '@material-ui/system';
 
-import useVisualMode from '../hooks/useVisualMode'
-
-
 // WEBSOCKETS
-
-
 import SignUp from './Signup';
+
 const io = require('socket.io-client');
-
-
 
 const LandingPage = React.lazy(()=>import('./MainPages/LandingPage'));
 const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
@@ -228,28 +225,9 @@ const currentUserId = sessionStorage.getItem('userId');
       )       
     }
   )    
-  },[setMechanics,setRatings,setUsers,setInspections, setInspection])
+  },[setMechanics,setRatings,setUsers,setInspections, setInspection]) 
 
-
-  // window.onload = function(){
-     
-  //   if (inspectionID){
-  //     inspections.forEach(inspection=>{
-  //       //console.log('TYPEOF ', typeof inspection.id)
-  //       if(inspection.id===inspectionID){
-  //         setInspection(inspection)
-  //       }
-  //     })
-  //     transition(CONFIRM)  
-  //   }    
-  // }   
-
-  const setRating = (data) => {
-    // const ratingData = {
-    //   user_id, mechanic_id, rating,
-    //   inspection_id: inspection.id
-    // }
-    console.log('rrrrrr ', data)
+  const setRating = (data) => {    
     axios.post('/api/set-rating', data )
     .then(response => {
       console.log('RATING RETURN TO FROND END ', response); 
@@ -287,6 +265,9 @@ const currentUserId = sessionStorage.getItem('userId');
     })
     .catch(error => {
       console.log('ERROR ', error);     
+
+    })   
+
     })     
   }
   const backToHome = () => {
@@ -294,14 +275,12 @@ const currentUserId = sessionStorage.getItem('userId');
   }
   const finishRating = () => {
     transition(RATING)
-  }
 
-  
+  }
+    
 return (
   <React.Fragment>
-  <main id='back-to-top' className={classes.root}> 
-  
-   
+  <main id='back-to-top' className={classes.root}>    
 
   {mode === RATING && (<Suspense fallback={ 
     <Box component='div' className={classes.loadingStyle}> 
@@ -328,7 +307,7 @@ return (
       <CircularProgress /> 
     </Box>
      }>  
-      <ConfirmPage inspection={inspection} />      
+      <ConfirmPage inspection={inspection} mechanic={mechanic} />      
     </Suspense>)}
 
     {mode === REQUEST && (<Suspense fallback={
@@ -341,12 +320,12 @@ return (
     </Suspense>)  }   
   </main>
    <ScrollTop >
-   <Tooltip title="Go to Top" aria-label="Go to Top button" TransitionComponent={Zoom}>
-     <Fab color="secondary" size="medium" aria-label="scroll back to top">
-       <KeyboardArrowUpIcon />
-     </Fab>
-   </Tooltip>   
- </ScrollTop>
+    <Tooltip title="Go to Top" aria-label="Go to Top button" TransitionComponent={Zoom}>
+      <Fab color="secondary" size="medium" aria-label="scroll back to top" style={{outline:'none'}}>
+        <KeyboardArrowUpIcon />
+      </Fab>
+    </Tooltip>   
+  </ScrollTop>
 </React.Fragment>
 )
 }

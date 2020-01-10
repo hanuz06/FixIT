@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+const uName = sessionStorage.getItem('uName')
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -32,12 +34,10 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ConfirmTable({inspection}) {
+export default function ConfirmTable({ inspection, mechanic }) {
   const classes = useStyles();  
 
-  const [open, setOpen] = React.useState(false);
-
-  //const openAlert = () => setOpen(true)};  
+  const [open, setOpen] = React.useState(false);  
    
   useEffect(() => {
    
@@ -55,27 +55,8 @@ export default function ConfirmTable({inspection}) {
 
 
   const handleClose = () => {
-    // if (reason === 'clickaway') {
-    //   return;
-    // }
-
     setOpen(false);
-  };
-  
-  // const handleClick = () => {
-  //   setOpen(true);
-  // };
-
-  // const openCloseAlert = () => {
-  //   if (inspection.isConfirmed) {
-  //     setOpen(true)
-  //   } else {
-  //     setOpen(false)};  
-  // }
-  
-  // let parsedObj = JSON.parse(inspection)
-  //console.log('insepeeeeee ',  inspection)
-  
+  }; 
 
   return (
     <Fragment>
@@ -93,34 +74,24 @@ export default function ConfirmTable({inspection}) {
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableCell} style={{ 'width':'150px'}}>Description</TableCell>
-            <TableCell className={classes.tableCell}>Values</TableCell>                
+            <TableCell className={classes.tableCell}>Values</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell component="th" scope="row" className={classes.tableCell}>
-              User_id
-            </TableCell>
-            <TableCell className={classes.tableCell} align='left'>{inspection.user_id}</TableCell>
-          </TableRow> 
+        <TableBody>          
           <TableRow>  
             <TableCell component="th" scope="row" className={classes.tableCell}>
-            mechanic_id
+            Mechanic name
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection.mechanic_id}</TableCell>
+            <TableCell className={classes.tableCell}>{mechanic.first_name} {mechanic.last_name}</TableCell>
           </TableRow> 
-          {/* <TableRow> 
-            <TableCell component="th" scope="row" className={classes.tableCell}>
-            inspection_time
-            </TableCell>
-            <TableCell className={classes.tableCell}>{inspection.inspection_time}</TableCell>
-          </TableRow>  */}
+
           <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
-            car_make
+            Car make&model
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.car_make}</TableCell>
           </TableRow> 
+
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
             Year
@@ -135,10 +106,9 @@ export default function ConfirmTable({inspection}) {
             <TableCell className={classes.tableCell}>{inspection.location}</TableCell>
           </TableRow>
 
-          
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
-          description_of_problem
+          Description_of_problem
             </TableCell>
             <TableCell className={classes.tableCell}>{inspection.description_of_problem}</TableCell>
           </TableRow> 
@@ -155,8 +125,7 @@ export default function ConfirmTable({inspection}) {
           Completed
             </TableCell>
             <TableCell className={classes.tableCell}>Your mechanic is all done</TableCell>
-          </TableRow>}          
-
+          </TableRow>} 
         </TableBody>
       </Table>
     </TableContainer>
