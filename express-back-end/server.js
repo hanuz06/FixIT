@@ -191,15 +191,14 @@ App.post('/api/user-login', async (req, res) => {
   const {email, password} = req.body
   
   const user = await db('users').where({email})
+  console.log('USER ', user)
 
    if (!user[0] ) {
      return res.status(400).json({ message: 'User not found' })
      console.log('USER NOT FOUND BY PG')
     } 
-    
-  //console.log('user ',  user[0])
-
-  let isMatch = false
+ 
+   let isMatch = false
 
   if (password === user[0].password_digest){
     isMatch=true
@@ -222,8 +221,8 @@ App.post('/api/user-signup',  async (req, res) => {
      return res.status(401).json({ message: 'Email exists' })
     } 
 
-    console.log('user not found...')
-  const userSignUpData = await db('users').insert(req.body, 'id')  
+    //console.log('user not found...')
+  const userSignUpData = await db('users').insert(req.body, (['id', 'first_name', 'last_name']))  
    
   res.status(200).json({userSignUpData, message: 'User successfully signed up' })  
 });

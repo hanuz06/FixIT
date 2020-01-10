@@ -194,8 +194,9 @@ form.locationText === '' &&
 axios.post('/api/user-signup',userData )
         .then(response => {
           console.log('SUCCESSFUL SIGNUP IN REACT ',response.data.userSignUpData[0]);  
-          sessionStorage.setItem('userId', response.data.userSignUpData[0]);  
-          window.location.reload();          
+          sessionStorage.setItem('userId', response.data.userSignUpData[0].id);  
+          sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
+           window.location.reload();          
         })
         .catch(error => {
           console.log('FAILED SIGNUP IN REACT ', error.response);  

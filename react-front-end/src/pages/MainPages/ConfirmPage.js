@@ -10,8 +10,6 @@ import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
 import Button from '@material-ui/core/Button';
 
-//import { database } from '../../db/database'
-
 const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(1),
@@ -45,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ConfirmPage({inspection, getInspectionData}) {
+export default function ConfirmPage({inspection, mechanic}) {
   const classes = useStyles();
 
   const {show, hide} = useContext(AlertContext);
@@ -60,7 +58,7 @@ export default function ConfirmPage({inspection, getInspectionData}) {
             We will contact you soon.
           </Typography> 
           <Alert />                           
-            <ConfirmTable inspection={inspection}/>    
+            <ConfirmTable inspection={inspection} mechanic={mechanic}/>    
             <div className={classes.buttonStyles}>     
         
                 <Button variant="contained" color="primary" href="/">

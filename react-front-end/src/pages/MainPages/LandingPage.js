@@ -29,8 +29,7 @@ import MechanicCardRating from '../../components/MechanicCardRating'
 
 
  
-export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
-  // const [loading, setLoading] = useState(false)
+export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {  
   const [modalOpen, setModalOpen] = useState(false)
   const [mechanicData, setMechanic] = useState({})
   const [select, setSelect] = useState('')
@@ -39,20 +38,10 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
   const {show, hide} = useContext(AlertContext);
   const classes = useStyles(); 
 
-
-  const rectangle = <div className={classes.shape} />;
-  const circle = <div className={clsx(classes.shape, classes.shapeCircle)} />;
-
-  // var options = {
-  // const LoadingFunction = () => {
-  //    loading? setLoading(false) : setLoading(true)}
-
   const openModal = (id) => {    
-    
     const filteredMechanic = mechanics.filter(mechanic=>{
          return mechanic.id === id
-    })
-    //console.log('filteredMechanic ',filteredMechanic)
+    })    
     setMechanic(filteredMechanic[0])
     setModalOpen(true);
   }
@@ -65,8 +54,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     //e.preventDefault();
     //e.stopPropagation();
     onRequest();  
-    setMechanicInfo(mechanic)    
-    //console.log("This is a mechanic request")    
+    setMechanicInfo(mechanic)      
   }
 
   const selectMechanic = (e) => setSelect(e.target.value);
@@ -78,15 +66,12 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
   useEffect(() => {            
       const filtered = mechanics.filter(mechanic => 
         mechanic.first_name.toLowerCase().search(select.toLowerCase()) !== -1 ||
-        mechanic.last_name.toLowerCase().search(select.toLowerCase()) !== -1 
-        //console.log('MECHANIC ', mechanic)
+        mechanic.last_name.toLowerCase().search(select.toLowerCase()) !== -1         
       ); 
       filtered.length !== 0? setMechanicList(filtered) : setMechanicList(mechanics)  
       !select && hide()
-      select && mechanicList === mechanics && show(' No match found', 'success')
-      //console.log('select ', select.length)          
-    },[select, mechanics]);
-    //console.log('MechanicList ',mechanicList)  
+      select && mechanicList === mechanics && show(' No match found', 'success')                
+    },[select, mechanics]);    
     
     const userId = sessionStorage.getItem('userId')
 
