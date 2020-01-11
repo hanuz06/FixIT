@@ -30,7 +30,7 @@ import PlacesAutoFill from "../../components/PlacesAutoFill";
 export default function OrderRequest({onCancel, userInspectionRequest, mechanic, setInspection, currentUserId, isConfirmed, isCompleted}) {  
   const classes = useStyles()
   
-  const [carSelect, setCarSelect] = useState('select');
+  const [carSelect, setCarSelect] = useState('');
   const [carSelectError, setCarSelectError] = useState(false);
   const [carSelectErrorText, setCarSelectErrorText] = useState('');
 
@@ -68,7 +68,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
   const userRequestSubmit = e => {
     e.preventDefault();
 
-    if (carSelect==='select'){
+    if (carSelect===''){
       setCarSelectError(true)
       setCarSelectErrorText('Car make required')      
     }
@@ -118,7 +118,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
   const clearData = () => {
     setCarModel('');    
     setDescription('');
-    setCarSelect('select')
+    setCarSelect('')
     setMakeYear(0);
     clearForm();    
   } 

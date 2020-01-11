@@ -3,15 +3,6 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 /* global google */
-// import "https://maps.googleapis.com/maps/api/js?key=AIzaSyBJqPHZ2J_DUY1hR4NZGZdys3g4R4oZe50&libraries=places&callback=initMap";
-
-// Import Search Bar Components
-// import SearchBar from 'material-ui-search-bar';
-
-// Import React Scrit Libraray to load Google object
-import Script from 'react-load-script';
-// import { TextField } from '@material-ui/core';
-// import AutoComplete from 'material-ui/AutoComplete';
 
 class PlacesAutoFill extends Component {
   constructor(props) {
@@ -43,18 +34,12 @@ class PlacesAutoFill extends Component {
       required
       fullWidth
       id="autocomplete"
-      label="Location"
-      value={this.props.userAddress}
+      label="Location"     
       name="userAddress"  
       inputRef={this.autocompleteInput} 
       type="text"
-      autoComplete='off' 
-      type="text"                 
-    /> 
-        
-        // <input ref={this.autocompleteInput} id="autocomplete" placeholder="Enter your address" type="text" style={{width:'100%', height: '100%'}}
-        // /> 
-       
+      autoComplete='off'                       
+    />   
     );  
   }
 }

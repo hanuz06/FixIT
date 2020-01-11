@@ -14,11 +14,9 @@ import Container from '@material-ui/core/Container';
 import  {Alert} from '../components/Alert';
 import {AlertContext} from '../context/alert/alertContext';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    //marginTop: theme.spacing(8),
+  paper: {    
     display: 'flex',
     flexDirection: 'column',    
     alignItems: 'center',        
@@ -31,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '10px'
   },  
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -46,10 +44,9 @@ export default function SignIn() {
     emailError: false,
     passwordError: false,
     emailHelperText:'',
-    passwordHelperText:'',
-    loginDataValid: true
+    passwordHelperText:'',    
   }) 
-
+  
   const changeHandler = event => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
@@ -58,41 +55,42 @@ export default function SignIn() {
   const {show, hide} = useContext(AlertContext);
 
   const loginValidation = e => {
+    let dataValid = true;
     e.preventDefault();
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
-    if (!form.email){       
-      setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true, loginDataValid: false }))      
+    if (!form.email.length){       
+      setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true }));
+      dataValid = false;           
     } 
 
     if (!form.password){      
-    setForm(previouseValues => ({ ...previouseValues, passwordHelperText: "Password required", passwordError: true, loginDataValid: false }))       
+    setForm(previouseValues => ({ ...previouseValues, passwordHelperText: "Password required", passwordError: true }))
+    dataValid = false;        
     }  
 
     if (form.email && !re.test(form.email.toLowerCase())){
-      setForm(previouseValues =>({ ...previouseValues, emailHelperText: "Email format is incorrect",emailError: true, loginDataValid: false }))      
+      setForm(previouseValues =>({ ...previouseValues, emailHelperText: "Email format is incorrect",emailError: true}));   
+      dataValid = false;     
     } 
 
     const userData = {
-      'email':form.email,
-      'password':form.password
+      'email':form.email.trim(),
+      'password':form.password.trim()
     }
-
-    form.email && form.password && 
+ 
+  if (dataValid){
     axios.post('/api/user-login', userData )
-    .then(response => {
-      console.log('11111111SUCCESSFUL LOGIN ', response.data.user[0]);  
+    .then(response => {     
       sessionStorage.setItem('userId', response.data.user[0].id);   
       sessionStorage.setItem('uName', `${response.data.user[0].first_name} ${response.data.user[0].last_name}`); 
       sessionStorage.setItem('uEmail', `${response.data.user[0].email}`); 
       window.location.reload();     
     })
-    .catch(error => {
-      // console.log('FAILED LOGIN ERROR ', error.response);  
-      show(error.response.data.message, 'danger');
-      //window.location.reload();    
+    .catch(error => {        
+      show(error.response.data.message, 'danger');          
     })
-  }
-  
+  } 
+  }  
   
   const clearForm = () => {
     setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))  
@@ -102,8 +100,7 @@ export default function SignIn() {
   const clearData = () => {    
     setForm(previouseValues => ({ ...previouseValues, email: "", password: ""}))    
     clearForm();    
-  }
-  
+  }  
 
   return (
     <Box className={classes.paper}>
@@ -127,10 +124,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               onChange={changeHandler}
-              onFocus={clearForm}
-              //errorText={state.error}
-              error={form.emailError}
-              //errorText={'ERRRROR'}
+              onFocus={clearForm}              
+              error={form.emailError}              
               helperText={form.emailHelperText}
               autoFocus
             />
@@ -146,8 +141,7 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
               onChange={changeHandler}
-              onFocus={clearForm}
-              //errorText={'ERRRROR'}
+              onFocus={clearForm}              
               error={form.passwordError}
               helperText={form.passwordHelperText}              
             />
@@ -168,8 +162,7 @@ export default function SignIn() {
             <Button
               type="button"
               fullWidth
-              variant="contained"
-              //color="secondary"
+              variant="contained"              
               className={classes.submit}
               onClick= {clearData}
               style={{backgroundColor:'grey', outline: 'none'}}
