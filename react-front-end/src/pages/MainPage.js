@@ -194,9 +194,15 @@ const mechanicID = sessionStorage.getItem('mechanicId');
     }).catch(err => {
       console.log(err)
     })
-
+  
   // WEB SOCKETS MECHANICS
-  const socket = io('ws://localhost:8080');
+  // if (process.env.REACT_APP_API_BASE_URL) {
+  //   socket = io('ws:fix-it-backend.herokuapp.com');
+  // } else {
+  //   socket = io('ws://localhost:8080');
+  // }
+
+  const socket = io('ws:fix-it-backend.herokuapp.com') || io('ws://localhost:8080');
   socket.on(
     'mechanics', function (data) {      
       setMechanics(data);
