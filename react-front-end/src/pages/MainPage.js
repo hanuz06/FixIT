@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
-import MainPages from './MainPages';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -12,11 +11,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
 import useVisualMode from '../hooks/useVisualMode';
-
-import { flexbox } from '@material-ui/system';
-
-// WEBSOCKETS
-import SignUp from './Signup';
 
 const io = require('socket.io-client');
 

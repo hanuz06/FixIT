@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './App.scss';
-import RouterPage from './RouterPage.js'
 import Header from './components/Header.js'
 import Footer from './components/Footer.js'
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,17 +8,13 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
-import {Alert} from './components/Alert'
 import {AlertState} from './context/alert/AlertState'
-import MechanicRating from './pages/MainPages/MechanicRating'
 // STRIPE 
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutForm from "./components/CheckoutForm"
 
-function App() {
+function App() {  
   
-  const [loading, setLoading] = useState(false)
   //const [loggedIn, setLogin] = useState(false)
   const userId = sessionStorage.getItem('userId')
 

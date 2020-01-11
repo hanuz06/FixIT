@@ -240,7 +240,20 @@ App.post("/api/charge", async (req, res) => {
 });
 
 
-App.post('/api/user-signup',  async (req, res) => {
+App.post('/api/user-signup',[
+  check('email', 'Некорректный email').isEmail(),
+  check('password', 'Минимальная длина пароля 6 символов')
+    .isLength({ min: 6 })
+], async (req, res) => {
+
+  const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+        message: 'Некорректный данные при регистрации'
+      })
+    }
     
   const findUser = await db('users').where({email: req.body.email})
   

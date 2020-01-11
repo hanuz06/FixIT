@@ -51,7 +51,7 @@ export default function SignUp() {
     location: '',
     firstNameText: '',
     lastNameText: '',
-    emailText: '',
+    emailText: '',    
     passwordText: '',
     passwordConfirmationText: '',
     phoneText: '',
@@ -59,11 +59,12 @@ export default function SignUp() {
     checked: false,
     firstNameError: false,
     lastNameError: false,
-    emailError: false,
+    emailError: false,    
     passwordError: false,
     passwordConfirmationError: false,
     phoneError: false,
     locationError: false
+    
   })   
 
   const handleCheckBox = (e) => {
@@ -75,7 +76,7 @@ export default function SignUp() {
   }
 
   const changeHandler = event => {
-    setForm({ ...form, [event.target.name]: event.target.value })
+    setForm({ ...form, [event.target.name]: event.target.value.trim() })
   }  
 
   const clearForm = () => { 
@@ -83,18 +84,19 @@ export default function SignUp() {
     {...previouseValues, 
       firstNameText: '',
       lastNameText: '',
-      emailText: '',
+      emailText: '',     
       passwordText: '',
       passwordConfirmationText: '',
       phoneText: '',      
       locationText: '',         
       firstNameError: false,
       lastNameError: false,
-      emailError: false,
-      passwordError: false,
+      emailError: false,      
+      passwordError: false,      
       passwordConfirmationError: false,
       phoneError: false,
-      locationError: false })
+      locationError: false
+      })
       )
     hide();
   }    
@@ -107,60 +109,71 @@ export default function SignUp() {
         password: '',
         passwordConfirmation: '',
         phone: '',
-        location: '',
+        location: '',        
         checked: false}))    
     clearForm()       
   }
-    
-  const signUpData = e =>{
+
+  const signUpData = (e) =>{
     e.preventDefault();
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    let dataValid = true
 
     if (form.checked === false){
       show('Please agree with the terms', 'success')
     }
     
     if (!form.firstName){ 
-      setForm(previouseValues => ({ ...previouseValues, firstNameText: "First name required", firstNameError: true }));             
+      setForm(previouseValues => ({ ...previouseValues, firstNameText: "First name required", firstNameError: true}));
+      dataValid = false;
     }   
       
     if (!form.lastName){ 
-      setForm(previouseValues => ({ ...previouseValues, lastNameText: "Last name required", lastNameError: true }));     
+      setForm(previouseValues => ({ ...previouseValues, lastNameText: "Last name required", lastNameError: true}));  
+      dataValid = false; 
     }     
 
     if (!form.email){
-      setForm(previouseValues => ({ ...previouseValues, emailText: "Email required", emailError: true }));     
+      setForm(previouseValues => ({ ...previouseValues, emailText: "Email required", emailError: true})); 
+      dataValid = false;    
     } 
     
      if (!form.password){
-      setForm(previouseValues => ({ ...previouseValues, passwordText: "Password required", passwordError: true }));      
+      setForm(previouseValues => ({ ...previouseValues, passwordText: "Password required", passwordError: true})); 
+      dataValid = false;     
     }
     
     if (!form.passwordConfirmation){
-      setForm(previouseValues => ({ ...previouseValues, passwordConfirmationText: "Password confirmation required", passwordConfirmationError: true }));       
+      setForm(previouseValues => ({ ...previouseValues, passwordConfirmationText: "Password confirmation required", passwordConfirmationError: true})); 
+      dataValid = false;      
     }
 
     if (form.password !== form.passwordConfirmation){
       show("Please check that password and password confirmation are the same", 'danger')
-      setForm(previouseValues => ({ ...previouseValues, passwordError: true, passwordConfirmationError: true }));      
+      setForm(previouseValues => ({ ...previouseValues, passwordError: true, passwordConfirmationError: true})); 
+      dataValid = false;
     }
 
-    if (form.email && !re.test(form.email.toLowerCase())){
-      setForm(previouseValues => ({ ...previouseValues, emailText: "Email format is incorrect", emailError: true }));    
-    } 
-
     if (!form.phone){
-      setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone required", phoneError: true }));        
+      setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone required", phoneError: true})); 
+      dataValid = false;       
     }
 
     if (isNaN(Number(form.phone.trim())+1)){
-      setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone number should be numbers", phoneError: true }));         
+      setForm(previouseValues => ({ ...previouseValues, phoneText: "Phone number should be numbers", phoneError: true}));
+      dataValid = false;         
     }
 
     if (!form.location){
-      setForm(previouseValues => ({ ...previouseValues, locationText: "Location required", locationError: true }));      
-    }    
-
+      setForm(previouseValues => ({ ...previouseValues, locationText: "Location required", locationError: true})); 
+      dataValid = false;     
+    }   
+    
+    if (!re.test(form.email.toLowerCase())){
+        setForm(previouseValues => ({ ...previouseValues, emailText: "Email format is incorrect", emailError: true}));
+        dataValid = false;    
+      }     
+     
     const userData = {
       'first_name':form.firstName.trim(),
       'last_name':form.lastName.trim(),
@@ -168,42 +181,25 @@ export default function SignUp() {
       'password_digest':form.password.trim(),
       'phone':form.phone.trim(),
       'location':form.location.trim()
-    }  
+    }      
 
-form.firstName && 
-form.lastName && 
-form.email&& 
-form.password && 
-form.passwordConfirmation && 
-form.phone && 
-form.location && 
-form.firstNameError === false && 
-form.lastNameError === false && 
-form.emailError === false && 
-form.passwordError === false && 
-form.phoneError === false && 
-form.locationError === false && 
-form.checked === true && 
-form.firstNameText == '' && 
-form.lastNameText === '' && 
-form.emailText === '' && 
-form.passwordText === '' && 
-form.passwordConfirmationText === '' && 
-form.phoneText === '' && 
-form.locationText === '' && 
-axios.post('/api/user-signup',userData )
-        .then(response => {
-          console.log('SUCCESSFUL SIGNUP IN REACT ',response.data.userSignUpData[0]);  
-          sessionStorage.setItem('userId', response.data.userSignUpData[0].id);  
-          sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
-           window.location.reload();          
-        })
-        .catch(error => {
-          console.log('FAILED SIGNUP IN REACT ', error.response);  
-           show(error.response.data.message, 'danger');
-          //window.location.reload();    
-        })     
-  } 
+    if (dataValid === true){ 
+      return  axios.post('/api/user-signup',userData )
+              .then(response => {
+                console.log('SUCCESSFUL SIGNUP IN REACT ',response.data.userSignUpData[0]);  
+                sessionStorage.setItem('userId', response.data.userSignUpData[0].id);  
+                sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
+                window.location.reload();          
+              })
+              .catch(error => {
+                console.log('FAILED SIGNUP IN REACT ', error.response);  
+                show(error.response.data.errors[0].msg, 'danger');
+                // window.location.reload();    
+              }) 
+            }       
+      
+    }
+    
 
   return (
    
@@ -255,12 +251,13 @@ axios.post('/api/user-signup',userData )
                   variant="outlined"
                   required
                   fullWidth
+                  type="email"
                   id="email"
                   label="Email Address"                 
                   value={form.email}
                   onChange={changeHandler}
                   name="email"  
-                  helperText={form.emailText} 
+                  helperText={form.emailText}
                   error={form.emailError}  
                   onFocus={clearForm}      
                 />
@@ -271,7 +268,7 @@ axios.post('/api/user-signup',userData )
                   required
                   fullWidth
                   name="password"
-                  label="Password"                  
+                  label="Password should have minimum 6 characters"                  
                   value={form.password}
                   onChange={changeHandler}
                   type="password"

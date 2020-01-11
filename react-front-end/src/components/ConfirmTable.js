@@ -12,8 +12,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Fixit from "../Photos/Fixit_font.png";
 import GreyLogo from "../Photos/mechanic-grey.png";
 
-const uName = sessionStorage.getItem('uName')
-
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -84,7 +82,7 @@ export default function ConfirmTable({ inspection, mechanic }) {
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableCell} style={{ 'width':'150px'}}><img src={Fixit} alt="site logo" height={40}   /> <img src={GreyLogo} alt="site logo" height={40}   /></TableCell>
-            <TableCell className={classes.tableCell}> Inspection Summary</TableCell>
+            <TableCell className={classes.tableCell} style={{ 'fontSize':'1.6rem'}}> Inspection Summary</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>          

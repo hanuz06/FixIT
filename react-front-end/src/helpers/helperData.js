@@ -1,6 +1,6 @@
 export const cars = [
   {
-    value: 'select',
+    value: 'selectCar',
     label: 'Select car make',
   },
   {

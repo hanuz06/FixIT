@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 
@@ -8,10 +8,6 @@ export default function RatingSize({ setStars, stars }) {
     e.stopPropagation();     
     setStars(newValue)
   }
-
-  // useEffect(() => {
-  //   setStars(rating)
-  // });
 
   return (
     <Box display="flex" >      
