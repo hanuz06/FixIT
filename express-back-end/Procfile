@@ -1,0 +1,1 @@
+web: knex migrate:rollback && knex migrate:lates && knex seed:run --specific=user.js && knex seed:run --specific=mechanic.js && knex seed:run --specific=inspection.js && knex seed:run --specific=rating.js && node server.js 
