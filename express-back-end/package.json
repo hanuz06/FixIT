@@ -19,10 +19,10 @@
     "npx": "^10.2.0",
     "pg": "^7.17.0",
     "socket.io": "^2.3.0",
-    "stripe": "^8.0.1"
+    "stripe": "^8.0.1",
+    "twilio": "^3.33.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2",
-    "twilio": "^3.33.0"
+    "nodemon": "^2.0.2"    
   }
 }
