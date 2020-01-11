@@ -1,5 +1,9 @@
 # React + Express No-Fluff Boilerplate
 
+psql -h ec2-174-129-33-230.compute-1.amazonaws.com -p 5432 -U odhaiescgyvsej -d d71d6dvvq99sm1
+
+git subtree push --prefix express-back-end heroku master
+
 sudo lsof -t -i:8080
 sudo kill -9 <PID>
 
