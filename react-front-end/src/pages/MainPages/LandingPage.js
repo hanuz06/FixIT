@@ -28,6 +28,8 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
   const {show, hide} = useContext(AlertContext);
   const classes = useStyles(); 
 
+  const userId = sessionStorage.getItem("userId")
+
   const openModal = (id) => {    
     const filteredMechanic = mechanics.filter(mechanic=>{
          return mechanic.id === id
@@ -63,7 +65,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       select && mechanicList === mechanics && show(' No match found', 'success')                
     },[select, mechanics]);    
     
-    const userId = sessionStorage.getItem('userId')
+
 
   return (
     <React.Fragment> 
@@ -98,7 +100,9 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
         
      
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */} 
+          {!userId &&  <Typography component="h3"  variant="h3" align="center" color="textPrimary" gutterBottom  className={classes.gutterBottom}>
+            Log in or Sign up to start using the app
+          </Typography>} 
                   
           <Grid container spacing={4}>
             {[...mechanicList].map(mechanic => ( 
