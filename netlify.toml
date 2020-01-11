@@ -14,14 +14,3 @@ command = "npm run build"
 [build.environment]
 REACT_APP_API_BASE_URL = "https://fix-it-backend.herokuapp.com/"
 REACT_APP_WEBSOCKET_URL = "ws://fix-it-backend.herokuapp.com/"
-
-
-[[redirects]]
-  from = "/*"
-  to = "/login"
-  status = 302
-
-[[redirects]]
-  from = "/*"
-  to = "/signup"
-  status = 302
