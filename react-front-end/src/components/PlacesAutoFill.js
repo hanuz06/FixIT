@@ -34,7 +34,7 @@ class PlacesAutoFill extends Component {
       required
       fullWidth
       id="autocomplete"
-      label="Location"     
+      label="Location"      
       name="userAddress"  
       inputRef={this.autocompleteInput} 
       type="text"

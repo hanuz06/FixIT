@@ -61,13 +61,21 @@ export default function ConfirmTable({ inspection, mechanic }) {
   return (
     <Fragment>
 
-    <div >      
+    {inspection.isConfirmed && !inspection.isCompleted && <div >      
       <Snackbar open={open} onClose={handleClose}>
         <Alert onClose={handleClose} color="success">
-          This is a success message!
+          Your Mechanic is on the way!
         </Alert>
       </Snackbar>      
-    </div>
+    </div>}
+
+    {inspection.isConfirmed && inspection.isCompleted && <div >      
+      <Snackbar open={open} onClose={handleClose}>
+        <Alert onClose={handleClose} color="success">
+          Your Mechanic is all done! Time to rate and pay!
+        </Alert>
+      </Snackbar>      
+    </div>}
 
     <TableContainer component={Paper} style={{"overflowX":"auto"}}>
       <Table className={classes.table} aria-label="simple table" >
