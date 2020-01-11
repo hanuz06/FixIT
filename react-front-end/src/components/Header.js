@@ -29,9 +29,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   buttonStyle: {
+    margin: "5px",
     color:'inherit',
     '&:hover': {
-      color: 'yellow'
+      color: 'white',
+      border: 'white solid 1px',
     }
   },
   small: {

@@ -3,6 +3,7 @@ const App = Express();
 const http = require("http");
 const BodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
 const knex = require('knex');
 const {check, validationResult} = require('express-validator')
 const server = http.createServer(App);
@@ -88,9 +89,10 @@ App.get('/api/inspections', async (req, res) => {
   res.json({ inspections });
 });
 
-App.post('/api/new-inspections', (req, res) => {
+App.post('/api/new-inspections', async (req, res) => {
   res.header('Content-Type', 'application/json');
-  //console.log('requeeee ', req.body)  
+  await db('mechanics').where('id', req.body.mechanic_id).update({active: false})
+  
   db('inspections').insert(req.body)
   .returning('*') 
   // START TWILIO MESSAGE
@@ -177,7 +179,7 @@ App.post('/sms-response', async(req, res) => {
   }else if(words[0] == 'complete') {
     const inspectionComplete = await db('inspections').where('id', words[1]).update({isCompleted: true})
     if (inspectionComplete) {
-      twiml.message('We have updated that you have completed the inspection');
+      twiml.message(`We have updated that you have completed the inspection. When you're ready text activate:<Your mechanic id> to Get back to work!`);
     } else {
       twiml.message('We could not confirm that you completed the inspection! Please check your inspection number');
     }
