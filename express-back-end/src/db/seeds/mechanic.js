@@ -82,7 +82,7 @@ exports.seed = function(knex) {
       "hourly_rate": 45,
       "active": true,
       "description": "I specailize in older vehicles, but don't worry I can check out your 2019 F150 too!",
-      "avatar": "https://www.chicagotribune.com/resizer/ngXwcOgjlSIbvb9FxpZ4OE_iHRw=/960x540/filters:quality(80)/arc-goldfish-tronc-thumbnails.s3.amazonaws.com/08-08-2019/t_b9b47a9d6fd745b5aa6e1b3196407c00_name_fl_ne_auto_tech_shortage_01_scaled.jpg"
+      "avatar": "https://media.gettyimages.com/photos/at-car-service-picture-id846734982?s=612x612"
     },
     {
       "id": 7,

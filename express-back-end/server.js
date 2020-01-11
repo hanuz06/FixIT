@@ -5,7 +5,7 @@ const BodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || "development";
 const knex = require('knex');
-const {check, validationResult} = require('express-validator')
+const {check, validationResult} = require('express-validator');
 const server = http.createServer(App);
 const io = require('socket.io')(server)
 
@@ -241,19 +241,18 @@ App.post("/api/charge", async (req, res) => {
   }
 });
 
-
-App.post('/api/user-signup',[
-  check('email', 'Некорректный email').isEmail(),
-  check('password', 'Минимальная длина пароля 6 символов')
+App.post('/api/user-signup',[  
+  check('password_digest', 'Password 6 characters required')
     .isLength({ min: 6 })
 ], async (req, res) => {
-
-  const errors = validationResult(req)
+  try {
+    
+   const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({
+      return res.status(422).json({
         errors: errors.array(),
-        message: 'Некорректный данные при регистрации'
+        message: 'Incorrect input data'
       })
     }
     
@@ -268,7 +267,10 @@ App.post('/api/user-signup',[
     //console.log('user not found...')
   const userSignUpData = await db('users').insert(req.body, (['id', 'first_name', 'last_name']))  
    
-  res.status(200).json({userSignUpData, message: 'User successfully signed up' })  
+  res.status(200).json({userSignUpData, message: 'User successfully signed up' })
+} catch (e) {
+  res.status(500).json({ message: 'Something is wrong, please try again' })
+}  
 });
 
 
