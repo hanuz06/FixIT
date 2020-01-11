@@ -9,28 +9,15 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from './LandingPageStyles.js';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
-import { Link as HyperLink } from 'react-router-dom';
-import RatingSize from '../../components/RatingSize';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import SimpleDialogDemo from '../../components/openDialog';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import TypeSentence from '../../components/TypedSentence';
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import Badge from '@material-ui/core/Badge';
 import UserBadge from '../../components/UserBadge';
-import { createMuiTheme } from '@material-ui/core/styles';
 import FixitLogo from "../../Photos/Fixit_font.png"
 import Avatar from "../../Photos/mechanic-grey.png"
 import MechanicCardRating from '../../components/MechanicCardRating'
-// STRIPE 
-import {Elements, StripeProvider} from 'react-stripe-elements';
-import CheckoutForm from "../../components/CheckoutForm"
-
-
  
 export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {  
   const [modalOpen, setModalOpen] = useState(false)
@@ -79,12 +66,10 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     const userId = sessionStorage.getItem('userId')
 
   return (
-    <React.Fragment>           
-      
-        {/* Hero unit */}
+    <React.Fragment> 
+       
     <div className={classes.heroContent}>
-      <Container maxWidth="sm" >
-      {/* { loading && <CircularProgress color="secondary" /> } */}
+      <Container maxWidth="sm" >      
         <Typography component="h1"  variant="h2" align="center" color="textPrimary" gutterBottom  className={classes.gutterBottom}>
       <img src={Avatar} alt="site logo" height={100} margin="1em"/>
           <img src={FixitLogo} alt="site logo" height={70} />
@@ -94,37 +79,9 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
         <form className="form-inline my-2 my-lg-0">
           <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
           <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={clearSearch}>Clear</button>
-        </form>
-
-            {/* <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div> */}
-
-            {/* <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <HyperLink to="/login"><Button color="inherit">Login</Button> </HyperLink>
-                </Grid>
-                <Grid item>
-                  <Hyp()=>n> </HyperLink>
-                </Grid()=>
-                <Grid ()=>
-                  <But()=>tton> 
-                </Grid()=>
-              </Grid>
-            </div> */}
-          </Container>
-        </div>
+        </form>           
+      </Container>
+    </div>
         <Divider variant="middle" />
         {/* <div>
           <StripeProvider apiKey="pk_test_vzAvHy9DyOYmnXgn5fLZ3YEZ00xwGEz8Pv">
