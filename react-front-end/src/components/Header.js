@@ -45,6 +45,7 @@ const logoutFunction = () => {
   sessionStorage.removeItem('inspectionId');  
   sessionStorage.removeItem('uName');  
   sessionStorage.removeItem('uEmail');  
+  sessionStorage.removeItem('mechanicId');  
 }
 
 function HideOnScroll(props) {
