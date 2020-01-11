@@ -12,6 +12,8 @@ const io = require('socket.io')(server)
 
 const cors = require("cors")
 
+App.set()
+
 // Stripe
 const stripe = require("stripe")(process.env.STRIPE_SK);
 App.use(require("body-parser").text());
