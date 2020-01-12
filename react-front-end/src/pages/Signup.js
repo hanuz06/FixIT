@@ -188,11 +188,10 @@ export default function SignUp() {
                 sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
                 window.location.reload();          
               })
-              .catch(error => {   
-                console.log('error ', error)              
-                // show(error.response.data.errors[0].msg, 'danger');                    
+              .catch(error => {                         
+                show(error.response.data.errors[0].msg, 'danger');                    
               }) 
-            }      
+           }      
     }    
 
   return (   
@@ -204,7 +203,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} onSubmit={signUpData}>
+          <form className={classes.form} noValidate onSubmit={signUpData}>
           <Alert />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -274,7 +273,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="passwordConfirmation"
-                  label="Password Confirmation"                 
+                  label="Password Confirmation"        
                   onChange={changeHandler}
                   type="password"
                   id="passwordConfirmation" 
@@ -326,7 +325,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox onChange={handleCheckBox} value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox onChange={handleCheckBox} required value="allowExtraEmails" color="primary" />}
                   label="I agree with the terms of service"
                 />
               </Grid>
@@ -336,7 +335,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}                            
+              className={classes.submit}               
             >
               Sign Up
             </Button>

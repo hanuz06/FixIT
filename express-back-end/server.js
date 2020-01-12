@@ -247,9 +247,8 @@ App.post('/api/user-signup',[
       })
     }
     
-  const findUser = await db('users').where({email: req.body.email})
-  
-  console.log('findUser ', findUser.length)  
+  const findUser = await db('users').where({email: req.body.email})  
+   
    if (findUser.length !== 0) {     
      return res.status(401).json({ message: 'User exists' })
     } 
