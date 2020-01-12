@@ -125,6 +125,7 @@ export default function SignIn() {
               value={form.email}
               required
               fullWidth
+              type="email"
               id="email"
               label="Email Address"
               name="email"

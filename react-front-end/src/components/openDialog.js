@@ -53,12 +53,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-SimpleDialogDemo.propTypes = {
-  onClose: PropTypes.func    
-};
-
 export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRequest, setMechanicInfo }) {
   const [open, setOpen] = React.useState(false); 
+
+  const { first_name, last_name, avatar, avg, description, active } = mechanic;
 
   const classes = useStyles(); 
 
@@ -95,20 +93,20 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             className={classes.cardMedia}    
             title="Best mechanic"
           > 
-          <img src={mechanic.avatar} alt="Best mechanic" className={classes.image} />
+          <img src={avatar} alt="Best mechanic" className={classes.image} />
           </CardMedia>          
-          < MechanicCardRating stars={mechanic.avg} />               
+          < MechanicCardRating stars={avg} />               
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
-              {mechanic.first_name} {mechanic.last_name}
+              {first_name} {last_name}
             </Typography>
             <Typography>               
-              {mechanic.description}
+              {description}
             </Typography>
           </CardContent>
           <CardActions>            
-            { userId && mechanic.active &&<Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
-              Request {mechanic.first_name}
+            { userId && active &&<Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
+              Request {first_name}
             </Button> }                     
           </CardActions> 
         </Card>
@@ -118,9 +116,16 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
 }
 
 SimpleDialogDemo.propTypes = {
+  onClose: PropTypes.func,
   mechanic: PropTypes.object.isRequired,
   closeModal: PropTypes.func.isRequired,
-  modalOpen: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
   onRequest: PropTypes.func.isRequired,
-  setMechanicInfo: PropTypes.func.isRequired
+  setMechanicInfo: PropTypes.func.isRequired,
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
+  avatar: PropTypes.string,
+  avg: PropTypes.string,
+  description: PropTypes.string,
+  active: PropTypes.bool
 };
