@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     color:'inherit',
     '&:hover': {
       color: 'white',
-      border: 'white solid 1px',
+      border: '#8b8e94 solid 1px',
     }
   },
   small: {

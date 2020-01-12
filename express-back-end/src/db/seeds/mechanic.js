@@ -25,7 +25,7 @@ exports.seed = function(knex) {
       "last_name": "Clarke",
       "email": "granttaylor448@gmail.com",
       "password_digest": "123",
-      "phone": 4037000357,
+      "phone": 8259940224,
       "location": "Calgary",
       "hourly_rate": 50,
       "active": true,

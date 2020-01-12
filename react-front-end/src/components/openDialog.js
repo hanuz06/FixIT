@@ -30,9 +30,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'white',
     opacity: '1'
   },  
-  cardMedia: {
-    //paddingTop: '56.25%', // 16:9,    
-  },
   cardContent: {
     flexGrow: 1
   },
@@ -45,10 +42,7 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
-  },
-  // dialog: {
-  //   opacity: '0.4'    
-  // },
+  },  
   image: {  
     display: 'block',   
     width: '500px',
@@ -98,35 +92,21 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
       <DialogTitle id="simple-dialog-title" style={{textAlign:'center'}}>Best mechanic ever!</DialogTitle>
         <Card className={classes.card}>                        
           <CardMedia
-            className={classes.cardMedia}
-            // image = {mechanic.avatar}
+            className={classes.cardMedia}    
             title="Best mechanic"
           > 
           <img src={mechanic.avatar} alt="Best mechanic" className={classes.image} />
-          </CardMedia> 
-           
+          </CardMedia>          
           < MechanicCardRating stars={mechanic.avg} />               
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h2">
               {mechanic.first_name} {mechanic.last_name}
             </Typography>
-            <Typography>              
-              {/* We have been serving Calgary since 2006
-              We are a full service auto repair facility
-              Warranty approved maintenance centre
-              24 hour key-drop for your convenience
-              Fleet rates available
-              Courtesy cars available
-              Repairs will not be completed without your authorization
-              Free roadside assistance
-            12 months or 20,000km parts and labour warranty on all repairs */}
+            <Typography>               
               {mechanic.description}
             </Typography>
           </CardContent>
-          <CardActions>
-            {/* <Button size="small" color="primary">
-              View
-            </Button> */}
+          <CardActions>            
             { userId && mechanic.active &&<Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
               Request {mechanic.first_name}
             </Button> }                     
@@ -136,3 +116,11 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
   
   );
 }
+
+SimpleDialogDemo.propTypes = {
+  mechanic: PropTypes.object.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  modalOpen: PropTypes.func.isRequired,
+  onRequest: PropTypes.func.isRequired,
+  setMechanicInfo: PropTypes.func.isRequired
+};

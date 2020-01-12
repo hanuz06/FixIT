@@ -11,6 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Fixit from "../Photos/Fixit_font.png";
 import GreyLogo from "../Photos/mechanic-grey.png";
+import PropTypes from 'prop-types';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -140,3 +141,8 @@ export default function ConfirmTable({ inspection, mechanic }) {
     </Fragment>
   );
 }
+// ConfirmTable({ inspection, mechanic
+ConfirmTable.propTypes = {
+  inspection: PropTypes.object.isRequired,
+  mechanic: PropTypes.object.isRequired
+};

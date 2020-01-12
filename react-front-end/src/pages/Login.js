@@ -34,10 +34,16 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(0.5, 0, 0.5),
+  },  
+  clear: {
+    margin: theme.spacing(0.5, 0, 0.5),
+    backgroundColor:'grey',
+    outline: 'none'
   }
 }));
 
-export default function SignIn() {
+export default function SignIn() { 
+  
   const [form, setForm] = useState({
     email: '', 
     password: '',
@@ -57,8 +63,8 @@ export default function SignIn() {
   const loginValidation = e => {
     let dataValid = true;
     e.preventDefault();
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
-    if (!form.email.length){       
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
+    if (!form.email){       
       setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true }));
       dataValid = false;           
     } 
@@ -90,8 +96,8 @@ export default function SignIn() {
       show(error.response.data.message, 'danger');          
     })
   } 
-  }  
-  
+  }   
+
   const clearForm = () => {
     setForm(previouseValues =>({...previouseValues, emailHelperText: "",passwordHelperText:"", emailError: false, passwordError: false, loginDataValid: true}))  
     hide();
@@ -163,17 +169,13 @@ export default function SignIn() {
               type="button"
               fullWidth
               variant="contained"              
-              className={classes.submit}
-              onClick= {clearData}
-              style={{backgroundColor:'grey', outline: 'none'}}
+              className={classes.clear}
+              onClick= {clearData}              
             >
               Clear
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid item xs>                
               </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">

@@ -6,18 +6,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {AlertContext} from '../context/alert/alertContext';
-import  {Alert} from '../components/Alert';
+import { AlertContext } from '../context/alert/alertContext';
+import  { Alert } from '../components/Alert';
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    //marginTop: theme.spacing(8),
+  paper: {    
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -29,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -63,8 +61,7 @@ export default function SignUp() {
     passwordError: false,
     passwordConfirmationError: false,
     phoneError: false,
-    locationError: false
-    
+    locationError: false    
   })   
 
   const handleCheckBox = (e) => {
@@ -116,11 +113,12 @@ export default function SignUp() {
 
   const signUpData = (e) =>{
     e.preventDefault();
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
     let dataValid = true
 
     if (form.checked === false){
-      show('Please agree with the terms', 'success')
+      show('Please agree with the terms', 'success');
+      dataValid = false;
     }
     
     if (!form.firstName){ 
@@ -185,24 +183,19 @@ export default function SignUp() {
 
     if (dataValid === true){ 
       return  axios.post('/api/user-signup',userData )
-              .then(response => {
-                console.log('SUCCESSFUL SIGNUP IN REACT ',response.data.userSignUpData[0]);  
+              .then(response => {                  
                 sessionStorage.setItem('userId', response.data.userSignUpData[0].id);  
                 sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
                 window.location.reload();          
               })
-              .catch(error => {
-                console.log('FAILED SIGNUP IN REACT ', error.response);  
-                show(error.response.data.errors[0].msg, 'danger');
-                // window.location.reload();    
+              .catch(error => {   
+                console.log('error ', error)              
+                // show(error.response.data.errors[0].msg, 'danger');                    
               }) 
-            }       
-      
-    }
-    
+            }      
+    }    
 
-  return (
-   
+  return (   
       <Container component="main" maxWidth="xs" >        
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -211,7 +204,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} noValidate autoComplete="off" onSubmit={signUpData}>
+          <form className={classes.form} onSubmit={signUpData}>
           <Alert />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -222,8 +215,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"                  
-                  value={form.firstName}                
+                  label="First Name"                                
                   onChange={changeHandler}
                   autoFocus
                   helperText={form.firstNameText}
@@ -237,8 +229,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"                  
-                  value={form.lastName}
+                  label="Last Name"                 
                   onChange={changeHandler}
                   name="lastName"  
                   helperText={form.lastNameText}  
@@ -268,8 +259,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password should have minimum 6 characters"                  
-                  value={form.password}
+                  label="Password should have minimum 6 characters"                   
                   onChange={changeHandler}
                   type="password"
                   id="password" 
@@ -284,8 +274,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="passwordConfirmation"
-                  label="Password Confirmation"         
-                  value={form.passwordConfirmation}
+                  label="Password Confirmation"                 
                   onChange={changeHandler}
                   type="password"
                   id="passwordConfirmation" 
@@ -314,19 +303,26 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
+                  margin="normal"
                   required
                   fullWidth
                   name="location"
-                  label="Location"                  
-                  value={form.location}
+                  label="Location"                 
                   onChange={changeHandler}
                   type="location"
-                  id="location"
-                  autoComplete="current-location"
+                  id="location"                  
+                  inputProps={
+                    {
+                      autoComplete: "off",
+                      form: {
+                        autoComplete: "off",
+                      }
+                    } 
+                  }  
                   helperText={form.locationText}
                   error={form.locationError}
                   onFocus={clearForm}
-                />
+                />                
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

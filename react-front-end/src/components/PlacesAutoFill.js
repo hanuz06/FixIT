@@ -38,7 +38,14 @@ class PlacesAutoFill extends Component {
       name="userAddress"  
       inputRef={this.autocompleteInput} 
       type="text"
-      autoComplete='off'                       
+      inputProps={
+        {
+          autoComplete: "new-password",
+          form: {
+            autoComplete: "off",
+          }
+        } 
+      }                      
     />   
     );  
   }
