@@ -18,30 +18,29 @@ class CheckoutForm extends Component {
     }
   }
 
+  mechanicObj = this.props.mechanic
+
    submit = async (ev) => {
      console.log(ev)
     let {token} = await this.props.stripe.createToken({name: "Name"});
-
+    const charge = (this.mechanicObj.hourly_rate * 100)
+    const generatedToken = token.id
+    const data = JSON.stringify({charge, generatedToken})
     if (token) {
-
-      await axios.post('api/charge', {
-            headers: {"Content-Type": "text/plain"},
-            token: token.id,
-            amount: "2000", 
-      }
-    ).then(res => {
-      if(res.status === 200) {
-        console.log(res)
-        this.setState({complete: true})
-        sessionStorage.setItem('StripePayment', true)
-        }
-     
-      })
-      .catch(err => console.log(err))
+    let response = await fetch("/api/charge", {
+      method: "POST",
+      headers: {"Content-Type": "text/plain"},
+      body: data
+    });
+  
+    if (response.ok) {
+      this.setState({complete:true})
+      sessionStorage.setItem('StripePayment', true)
+      console.log("Purchase Complete!")
+    }
     }
   }
 
-  mechanicObj = this.props.mechanic
 
   render() {
 
