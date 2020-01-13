@@ -110,11 +110,8 @@ const mechanicID = sessionStorage.getItem('mechanicId');
     }) 
 
 
-  // const socket = io('wss://fix-it-backend.herokuapp.com')  
-
-    // io('wss://fix-it-backend.herokuapp.com') || 
-
-  const socket = io('ws://localhost:8080') || io('wss://fix-it-backend.herokuapp.com');
+  const socket = io('ws://localhost:8080') 
+  //  io('wss://fix-it-backend.herokuapp.com');
   socket.on(
     'mechanics', function (data) {      
       setMechanics(data);      
