@@ -2,45 +2,31 @@ import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import blue from '@material-ui/core/colors/blue';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Container from '@material-ui/core/Container';
 import CardMedia from '@material-ui/core/CardMedia';
 import MechanicCardRating from '../../components/MechanicCardRating';
-import MenuItem from '@material-ui/core/MenuItem';
 import classNames from 'classnames';
 import { cars, carMakeYear } from '../../helpers/helperData';
 import useStyles from './OrderRequestStyles.js';
-
 import  {Alert} from '../../components/Alert';
 import {AlertContext} from '../../context/alert/alertContext';
-
 import PlacesAutoFill from "../../components/PlacesAutoFill";
+import PropTypes from 'prop-types';
 
-
-export default function OrderRequest({onCancel, userInspectionRequest, mechanic, setInspection, currentUserId, isConfirmed, isCompleted}) {  
+export default function OrderRequest({onCancel, userInspectionRequest, mechanic, setInspection, currentUserId }) {  
   const classes = useStyles()
   
   const [carSelect, setCarSelect] = useState('');
   const [carSelectError, setCarSelectError] = useState(false);
-  const [carSelectErrorText, setCarSelectErrorText] = useState('');
-
-  //const [mechanicData, setMechanicData] = useState('');
+  const [carSelectErrorText, setCarSelectErrorText] = useState('');  
   
   const [carModel, setCarModel] = useState('');
   const [carModelError, setCarModelError] = useState(false);
-  const [carModelErrorText, setCarModelErrorText] = useState('');
+  const [carModelErrorText, setCarModelErrorText] = useState('');  
   
-  // const [yearMake, setYearMake] = useState('');
   const [makeYear, setMakeYear] = useState(0);
   const [makeYearError, setMakeYearError] = useState(false);
   const [makeYearErrorText, setMakeYearErrorText] = useState('');
@@ -99,7 +85,6 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
       userAddress,
       description
     }
-
     makeYear&&carSelect&& carModel && description && userAddress && userInspectionRequest(userRequestData)      
   }
 
@@ -141,15 +126,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             <Typography>
               {mechanic.description}
             </Typography>
-          </CardContent>
-          <CardActions>
-            {/* <Button size="small" color="primary">
-              View
-            </Button>
-            <Button size="small" color="primary">
-              Request {mechanic.first_name}
-            </Button>                      */}
-          </CardActions> 
+          </CardContent>          
         </Card>              
       </div>
       <Container maxWidth="sm" className={classes.ContainerStyle}>        
@@ -213,8 +190,9 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
             ))}
           </TextField>
           
-           Please note our mechanics will only service Calgary addresses    <Alert />      
-            <PlacesAutoFill userAddress={userAddress} onPlaceLoaded={onPlaceLoaded}/>         
+           Please note our mechanics will only service Calgary addresses    
+           <Alert />      
+           <PlacesAutoFill userAddress={userAddress} onPlaceLoaded={onPlaceLoaded}/>         
 
           <TextField
             variant="outlined"
@@ -244,9 +222,7 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
               car_make: `${carSelect} ${carModel}`,
               year: parseInt(makeYear),
               location: userAddress,
-              description_of_problem: description,
-              isConfirmed: false,
-              isCompleted: false                          
+              description_of_problem: description                                        
             })} 
             >         
             Confirm the request
@@ -279,4 +255,11 @@ export default function OrderRequest({onCancel, userInspectionRequest, mechanic,
     </Box>
   );
 }
-
+ 
+OrderRequest.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  userInspectionRequest: PropTypes.func.isRequired,
+  mechanic: PropTypes.object.isRequired,
+  setInspection: PropTypes.func.isRequired,
+  currentUserId: PropTypes.string.isRequired
+}

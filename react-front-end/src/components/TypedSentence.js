@@ -32,8 +32,6 @@ export default function TypedSentence() {
             shuffle={true}
             loop
         /> 
-    </Typography>  
-      
-    
+    </Typography>    
   )
 }

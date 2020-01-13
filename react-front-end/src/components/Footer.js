@@ -1,16 +1,8 @@
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import FolderIcon from '@material-ui/icons/Folder';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles({
   root: {    
@@ -36,12 +28,7 @@ function Copyright() {
 }
 
 export default function LabelBottomNavigation() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState('recents');
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const classes = useStyles();  
 
   return (
     <footer className={classes.root}>

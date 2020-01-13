@@ -1,14 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import RatingSize from '../../components/RatingSize';
+import Box from '@material-ui/core/Box';
 import purple from '@material-ui/core/colors/purple';
-import ConfirmCard from '../../components/ConfirmCard';
 import ConfirmTable from '../../components/ConfirmTable';
-import  {Alert} from '../../components/Alert';
-import {AlertContext} from '../../context/alert/alertContext';
-import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     color: purple['A200']
   },    
   cardMedia: {
-    paddingTop: '20px', // 16:9
+    paddingTop: '20px', 
     maxWidth: '200px',
     maxHeight: '100px',
     margin: 'auto'
@@ -44,26 +41,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ConfirmPage({inspection, mechanic}) {
-  const classes = useStyles();
+  const classes = useStyles(); 
 
-
-  const {show, hide} = useContext(AlertContext);
-
-  return (
-    <React.Fragment>   
-      
-      <div className={classes.root}>
+  return (           
+      <Box component="div" className={classes.root}>
         <Container className={classes.cardContainer} maxWidth="sm">      
           <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
             { inspection.isConfirmed? <> Sit Tight!<br/>
             Your mechanic is on the way.<br/> <small>This page will update when your inspection is completed.</small></>:<>
             Thank you!<br/>
             We will contact you soon. </>} 
-          </Typography> 
-          <Alert />                           
-            <ConfirmTable inspection={inspection} mechanic={mechanic}/>      
+          </Typography>                                 
+          <ConfirmTable inspection={inspection} mechanic={mechanic}/>      
         </Container>          
-      </div>
-    </React.Fragment>
+      </Box>   
   );
+}
+
+ConfirmPage.propTypes = {
+  inspection: PropTypes.object.isRequired,
+  mechanic: PropTypes.object.isRequired  
 }

@@ -48,10 +48,8 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '150px',  
     height: '100%', 
     objectFit: 'contain',
-    padding: '5px 65px',
-    //padding: '65px',
-    //padding: '50%',
-    paddingTop: '56.25%', // 16:9    
+    padding: '5px 65px',    
+    paddingTop: '56.25%',   
   },
   cardContent: {
     flexGrow: 1    

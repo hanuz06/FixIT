@@ -2,13 +2,13 @@ import React, { useState, useEffect, Suspense } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Box from '@material-ui/core/Box';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
+import {ScrollTop} from '../helpers/mainPageHelpers';
 
 import useVisualMode from '../hooks/useVisualMode';
 
@@ -19,21 +19,11 @@ const ConfirmPage = React.lazy(()=>import('./MainPages/ConfirmPage'));
 const OrderRequest = React.lazy(()=>import('./MainPages/OrderRequest'));
 const MechanicRating = React.lazy(()=>import('./MainPages/MechanicRating'));
 
-
 const useStyles = makeStyles(theme  => ({
   root: {
     minHeight: '80vh',
     paddingTop: theme.spacing(8)
-  },
-  backToTopButton: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-    opacity: '0.7'
-  },
-  loading: {    
-    marginTop: '15vh',    
-  },
+  },  
   loadingStyle: {
     display: 'flex',
     justifyContent: 'center',
@@ -42,37 +32,6 @@ const useStyles = makeStyles(theme  => ({
   }
 }));
 
-function ScrollTop(props) {
-  const { children, window } = props;
-  const classes = useStyles();
-
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = event => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top');
-
-    if (anchor) {
-      anchor.scrollIntoView({behavior:'smooth'});
-    }
-  };
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.backToTopButton}>
-        {children}
-      </div>
-    </Zoom>
-  );
-}
-
-//This file contains all functions and global state for SPA. 
 export default function MainPage() {
 const inspectionNumber = sessionStorage.getItem('inspectionId')
 let inspectionID = inspectionNumber;
@@ -92,48 +51,10 @@ const mechanicID = sessionStorage.getItem('mechanicId');
   const [ratings, setRatings]=useState([]);
   const [users, setUsers]=useState([]);
   const [inspections, setInspections]=useState([]);      
-  const [inspection, setInspection]=useState({         
-    // "user_id": 21,
-    // "mechanic_id": 22,      
-    // "car_make": `ford`,
-    // "year": 2005,
-    // "location": "calgary",
-    // "description_of_problem": "brake",
-    // "isConfirmed": false,
-    // "isCompleted": false  
-  });      
-  const [mechanic, setMechanicInfo]=useState(
-   {
-  id: 1,
-  first_name: "Mike",
-  last_name: "Smith",
-  email: "granttaylor448@gmail.com",
-  password_digest: "123",
-  phone: 4037000357,
-  location: "Calgary",
-  hourly_rate: 60,
-  active: true,
-  description: "best mechanic EVER",
-  avatar: "https://www.autotrainingcentre.com/wp-content/uploads/2016/07/there%E2%80%99s-never-been-a-better-time-to-pursue-an-auto-mechanic-career.jpg",
-  avg:3
-}
-  );
-
-
-// );   
-  // const [rating, setRating]= useState(0) 
-
-  // const setStars = (newValue) => {    
-  //   setRating(newValue);   
-    
-  // }
+  const [inspection, setInspection]=useState({});      
+  const [mechanic, setMechanicInfo]=useState({});
   
-  useEffect(() => { 
-
-    // axios.get('/api/mechanics')
-    //   .then(res=>{                
-    //     return setMechanics(res.data.mechanics)
-    //   })
+  useEffect(() => {     
 
     Promise.all([
       Promise.resolve(
@@ -164,12 +85,7 @@ const mechanicID = sessionStorage.getItem('mechanicId');
       setMechanics(all[0])
       setRatings(all[1])
       setUsers(all[2])
-      setInspections(all[3])
-
-      all[1].forEach( rating => {
-        
-      })
-
+      setInspections(all[3])     
 
       if (inspectionID){
         all[3].forEach(inspection=>{          
@@ -191,35 +107,22 @@ const mechanicID = sessionStorage.getItem('mechanicId');
           }
         })
       }
-    }).catch(err => {
-      console.log(err)
-    })
-  
-  // WEB SOCKETS MECHANICS
-  // if (process.env.REACT_APP_API_BASE_URL) {
-  //   socket = io('ws:fix-it-backend.herokuapp.com');
-  // } else {
-  //   socket = io('ws://localhost:8080');
-  // }
+    }) 
 
-  const socket = io('wss://fix-it-backend.herokuapp.com') || io('ws://localhost:8080');
+    // io('wss://fix-it-backend.herokuapp.com') || 
+  const socket = io('ws://localhost:8080');
   socket.on(
     'mechanics', function (data) {      
-      setMechanics(data);
-      // console.log(setMechanics(data))
-      // socket.emit('my other event', { my: 'data' });
+      setMechanics(data);      
     } 
   )
   socket.on(
-    'inspections', function (data) {
-      //console.log(data);
+    'inspections', function (data) {      
       setInspections(data);
       const inspectionID = sessionStorage.getItem('inspectionId')
       const Completed = sessionStorage.getItem('Completed', inspection.isCompleted )      
-      data.forEach(inspection=>{       
-        //console.log("Foreach", { inspection, data, inspectionID })
-        if(inspection.id===Number(inspectionID) && !Completed ){
-          console.log("true")
+      data.forEach(inspection=>{        
+        if(inspection.id===Number(inspectionID) && !Completed ){          
           setInspection(inspection)
           transition(CONFIRM)
         }
@@ -237,14 +140,13 @@ const mechanicID = sessionStorage.getItem('mechanicId');
 
   const setRating = (data) => {    
     axios.post('/api/set-rating', data )
-    .then(response => {
-      console.log('RATING RETURN TO FROND END ', response); 
-      sessionStorage.setItem('RatingComplete', true)     
+    .then(res => {       
+      sessionStorage.setItem('RatingComplete', true)    
       transition(RATING)         
     })
-    .catch(error => {
-      console.log('ERROR ', error);     
-    }) 
+    // .catch(error => {
+    //   show(error.response.data.message, 'danger');    
+    // })  
   }
   
   const userInspectionRequest = (data) => {    
@@ -259,31 +161,23 @@ const mechanicID = sessionStorage.getItem('mechanicId');
       "isConfirmed": false,
       "isCompleted": false  
     } 
-    console.log('INSPECTION ', {inspection})
-  
-    
+        
     axios.post('/api/new-inspections', userData )
-    .then(response => {
-      console.log('SUCCESSFUL INSPECTION REQUEST ', response);
+    .then(response => {      
       sessionStorage.setItem('inspectionId', response.data.response[0].id); 
       sessionStorage.setItem('mechanicId', response.data.response[0].mechanic_id)  
       let parsedObject = JSON.parse(response.config.data);
-      setInspection(parsedObject)
-      console.log('MECHANIC LIST ', inspection)      
-      transition(CONFIRM)
-         
+      setInspection(parsedObject)            
+      transition(CONFIRM)         
     })
     .catch(error => {
-      console.log('ERROR ', error);     
-
-    })   
-
+      console.log('ERROR ', error);   
+    }) 
   }     
   
   const backToHome = () => {
     transition(LANDING)
-  }
-  
+  }  
     
 return (
   <React.Fragment>
@@ -294,7 +188,7 @@ return (
     <CircularProgress /> 
   </Box>
   }>  
-<MechanicRating backToHome={backToHome}  inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
+  <MechanicRating backToHome={backToHome} inspection={inspection} mechanic={mechanic} setRating={setRating} onCancel={()=>back()} />      
   </Suspense>)} 
   
 
@@ -302,8 +196,7 @@ return (
     <Box component='div' className={classes.loadingStyle}> 
       <CircularProgress /> 
     </Box> 
-    }>
- 
+    }> 
       <LandingPage onRequest={()=>transition(REQUEST)} mechanics={mechanics} setMechanicInfo={setMechanicInfo}
        />
     </Suspense>)}       
@@ -321,8 +214,7 @@ return (
     <Box component='div' className={classes.loadingStyle}>
       <CircularProgress />        
     </Box> }> 
-      < OrderRequest mechanicID={mechanic.id} currentUserId={currentUserId} setInspection={setInspection} userInspectionRequest={userInspectionRequest} 
-      mechanic={mechanic} onCancel={()=>back()}
+      < OrderRequest mechanicID={mechanic.id} currentUserId={currentUserId} setInspection={setInspection} userInspectionRequest={userInspectionRequest} mechanic={mechanic} onCancel={()=>back()}
       /> 
     </Suspense>)  }   
   </main>
@@ -338,6 +230,6 @@ return (
 }
 
 ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,  
+  children: PropTypes.element.isRequired, 
   window: PropTypes.func,
 };

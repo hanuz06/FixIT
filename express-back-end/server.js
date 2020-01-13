@@ -9,6 +9,7 @@ const {check, validationResult} = require('express-validator');
 const server = http.createServer(App);
 const io = require('socket.io')(server);
 
+const bcrypt = require('bcryptjs');
 
 const cors = require("cors");
 
@@ -116,11 +117,10 @@ App.post('/api/new-inspections', async(req, res) => {
         .catch(err => {
         // console.log(err);
           res.send(JSON.stringify({ success: false }));
-        });
-
-      
+        });      
     })
     .catch((error)=> console.log('error ', error));
+
 });
 
 App.get('/api/last-inspection', async(req, res) => {
@@ -131,12 +131,19 @@ App.get('/api/last-inspection', async(req, res) => {
   res.json({ currentInspection });
 });
 
+
+// App.post('/api/set-rating', async (req, res) => {   
+//   const ratingRequest = await db('ratings').insert(req.body)
+  
+//   res.status(200).json({ratingRequest}) 
+
 App.post('/api/set-rating', async(req, res) => {
   console.log('RATING REQUEST ', req.body);
   const ratingRequest = await db('ratings').insert(req.body);
   
   console.log('ratingRequest ',ratingRequest);
   res.json({ratingRequest});
+
 
   //  ratingRequest.then(res => {res.status(200).json({ratingRequest})})
   // .catch(error=> {error})
@@ -201,23 +208,35 @@ App.post('/api/user-login', async(req, res) => {
   const user = await db('users').where({email});
   console.log('USER ', user);
 
-  if (!user[0]) {
-    return res.status(400).json({ message: 'User not found' });
-    console.log('USER NOT FOUND BY PG');
-  }
+
+   if (!user[0]) {
+     return res.status(400).json({ message: 'User not found' }) 
+    }
+
+   const isMatch = await bcrypt.compare(password, user[0].password_digest)
+
+  if (!isMatch) {
+    return res.status(404).json({ message: 'Password is incorrect' })
+  } else { return res.status(200).json({ user }) }
+
+//   if (!user[0]) {
+//     return res.status(400).json({ message: 'User not found' });
+//     console.log('USER NOT FOUND BY PG');
+//   }
  
-  let isMatch = false;
+//   let isMatch = false;
 
-  if (password === user[0].password_digest) {
-    isMatch = true;
-  }
+//   if (password === user[0].password_digest) {
+//     isMatch = true;
+//   }
 
-  //console.log('ismatch ', isMatch)
-  if (isMatch === false) {
-    return res.status(404).json({ message: 'Password is incorrect' });
-  } else {
-    return res.status(200).json({ user });
-  }
+//   //console.log('ismatch ', isMatch)
+//   if (isMatch === false) {
+//     return res.status(404).json({ message: 'Password is incorrect' });
+//   } else {
+//     return res.status(200).json({ user });
+//   }
+
 });
 
 // STRIPE
@@ -243,10 +262,11 @@ App.post("/api/charge", async(req, res) => {
   }
 });
 
-App.post('/api/user-signup',[
-  check('password_digest', 'Password 6 characters required')
-    .isLength({ min: 6 })
-], async(req, res) => {
+App.post('/api/user-signup',[  
+  check('password_digest', 'Password 3 characters required')
+    .isLength({ min: 3 })
+], async (req, res) => {
+
   try {
     
     const errors = validationResult(req);
@@ -258,16 +278,36 @@ App.post('/api/user-signup',[
       });
     }
     
-    const findUser = await db('users').where({email: req.body.email});
-  
-    console.log('findUser ', findUser.length);
-    if (findUser.length !== 0) {
-      console.log('EMAIL EXISTS');
-      return res.status(401).json({ message: 'Email exists' });
-    }
 
-    //console.log('user not found...')
-    const userSignUpData = await db('users').insert(req.body, (['id', 'first_name', 'last_name']));
+  const findUser = await db('users').where({email: req.body.email})  
+   
+   if (findUser.length !== 0) {     
+     return res.status(401).json({ message: 'User exists' })
+    } 
+
+  const hashedPassword = await bcrypt.hash(req.body.password_digest, 12)
+
+  const signUpData = {    
+    "first_name": req.body.first_name,
+    "last_name": req.body.last_name,
+    "email": req.body.email,
+    "password_digest": hashedPassword,
+    "phone": req.body.phone,
+    "location": req.body.location
+  }
+
+  const userSignUpData = await db('users').insert(signUpData, (['id', 'first_name', 'last_name']))  
+
+//     const findUser = await db('users').where({email: req.body.email});
+  
+//     console.log('findUser ', findUser.length);
+//     if (findUser.length !== 0) {
+//       console.log('EMAIL EXISTS');
+//       return res.status(401).json({ message: 'Email exists' });
+//     }
+
+//     //console.log('user not found...')
+//     const userSignUpData = await db('users').insert(req.body, (['id', 'first_name', 'last_name']));
    
     res.status(200).json({userSignUpData, message: 'User successfully signed up' });
   } catch (e) {
