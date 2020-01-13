@@ -15,7 +15,7 @@ require('dotenv').config();
 
 App.set();
 // Stripe
-const stripe = require("stripe")(`${process.env.STRIPE_SK}`);
+const stripe = require("stripe")(process.env.STRIPE_SK);
 App.use(require("body-parser").text());
 // Express Configuration
 App.use(cors());
