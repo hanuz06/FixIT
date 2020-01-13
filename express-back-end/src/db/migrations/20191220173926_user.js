@@ -8,9 +8,9 @@ exports.up = knex =>
     table.text('password_digest');
     table.bigInteger('phone');
     table.text('location');
-});
+  });
 
 
 
 exports.down = knex =>
-  knex.schema.dropTableIfExists('users')
+  knex.schema.dropTableIfExists('users');

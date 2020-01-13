@@ -14,7 +14,7 @@ exports.up = knex =>
     table.text('description');
     table.text('avatar');
     table.text('location');
-  })
+  });
 
 exports.down = knex =>
   knex.schema.dropTableIfExists('mechanics');

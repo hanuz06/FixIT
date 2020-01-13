@@ -1,20 +1,21 @@
-const express = require('express');
-const router  = express.Router();
-// Stripe
-const stripe = require("stripe")(process.env.STRIPE_SK);
+const Express = require('express');
+const App = Express();
+const router  = Express.Router();
+App.use(require("body-parser").text());
 
 
-module.exports = () => {
+
+module.exports = (stripe) => {
   router.post("/", async(req, res) => {
-    const stripeInfo = req.body;
-    console.log("POST", req.body);
-    // console.log(stripeInfo.options.amount)
+    const stripeInfo = JSON.parse(req.body);
+    console.log("POST", stripeInfo.charge, stripeInfo.generatedToken);
+    
     try {
       let {status} = await stripe.charges.create({
-        amount: stripeInfo.headers.amount,
+        amount: stripeInfo.charge,
         currency: "cad",
         description: "FixIt client Charge",
-        source: stripeInfo.headers.token
+        source: stripeInfo.generatedToken
       });
       console.log(status);
       res.json({status});
@@ -25,4 +26,5 @@ module.exports = () => {
       res.status(500).end();
     }
   });
+  return router;
 };

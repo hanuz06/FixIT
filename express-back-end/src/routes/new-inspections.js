@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 
-module.exports = (db, client) => {
+module.exports = (db, client, Twilio) => {
   router.post('/', async(req, res) => {
     res.header('Content-Type', 'application/json');
     await db('mechanics').where('id', req.body.mechanic_id).update({active: false});
@@ -21,11 +21,9 @@ module.exports = (db, client) => {
             body: `New Inspection Request #${response[0].id} Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
           })
           .then((res) => {
-          // console.log(res.body)
             res.send(JSON.stringify({ success: true }));
           })
           .catch(err => {
-          // console.log(err);
             res.send(JSON.stringify({ success: false }));
           });
   
