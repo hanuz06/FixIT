@@ -76,8 +76,11 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
         <form className="form-inline my-2 my-lg-0">
           <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
           <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={clearSearch}>Clear</button>
-        </form>           
+        </form> 
       </Container>
+      {!userId && <div className={classes.loginRequest}>
+        Please login or signup to start using FixIT now
+      </div>}         
     </div>
         <Divider variant="middle" />       
      
@@ -107,7 +110,10 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                         Request {mechanic.first_name}
                       </Button> }                             
                     </CardActions>        
-                    {mechanic.active && <UserBadge />}         
+                    {mechanic.active? <UserBadge /> : 
+                    <Typography gutterBottom variant="subtitle1" component="subtitle1" className={classes.cardContent} style={{color:'red', opacity: '0.4'}}>                    
+                    {mechanic.first_name} is currently unavailable 
+                    </Typography>}                       
                   </div>                                   
                   </Card> 
                 { modalOpen && 

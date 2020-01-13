@@ -19,8 +19,7 @@ class CheckoutForm extends Component {
   
   mechanicObj = this.props.mechanic
 
-   submit = async (ev) => {
-     console.log(ev)
+   submit = async (ev) => {     
     let {token} = await this.props.stripe.createToken({name: "Name"});
     const charge = (this.mechanicObj.hourly_rate * 100)
     const generatedToken = token.id
