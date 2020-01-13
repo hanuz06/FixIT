@@ -3,15 +3,11 @@ const App = Express();
 const http = require("http");
 const BodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
-const ENV = process.env.ENV || "development";
-const knex = require('knex');
 const {check, validationResult} = require('express-validator');
 const server = http.createServer(App);
 const io = require('socket.io')(server);
-
-
+const router = Express.Router();
 const cors = require("cors");
-
 App.set();
 
 // Stripe
@@ -23,6 +19,7 @@ App.use(cors());
 App.use(BodyParser.json());
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static('public'));
+
 //DB
 const db = require("./src/db/db.js");
 
@@ -53,176 +50,200 @@ io.on("connection", async socket => {
   });
 });
 
+// Separated Routes
+const usersRoutes = require("./src/routes/users");
+const mechanicsRoutes = require("./src/routes/mechanics");
+const inspectionsRoutes = require("./src/routes/inspections");
+const ratingsRoutes = require("./src/routes/ratings");
+const smsResponseRoutes = require("./src/routes/sms-response");
+const setRatingRoutes = require("./src/routes/set_rating");
+// const chargeRoutes = require("./src/routes/charge");
+const lastInspectionRoutes = require("./src/routes/last-inspection");
+const newInspectionRoutes = require("./src/routes/new-inspections");
+const userLoginRoutes = require("./src/routes/user-login");
+const userSignUpRoutes = require("./src/routes/user-signup");
+
+// Mount all resource routes
+App.use("/api/users", usersRoutes(db));
+App.use("/api/mechanics", mechanicsRoutes(db));
+App.use("/api/inspections", inspectionsRoutes(db));
+App.use("/api/ratings", ratingsRoutes(db));
+App.use("/api/sms-response", smsResponseRoutes(client, db));
+App.use("/api/set_rating", setRatingRoutes(db));
+// App.use("/api/charge", chargeRoutes(stripe));
+App.use("/api/last-inspection", lastInspectionRoutes(db));
+App.use("/api/new-inspections", newInspectionRoutes(db, client, Twilio));
+App.use("/api/user-login", userLoginRoutes(db));
+App.use("/api/user-signup", userSignUpRoutes(db, check, validationResult));
+
+
+
 // Sample GET route
-App.get('/api/data', (req, res) => res.json({
-  message: "Seems to work!",
+App.get('/', (req, res) => res.json({
+  message: "This is the backend of Grant and Andrey's FixIT project!",
 }));
 
 // Path
-App.get('/api/mechanics', async(req, res) => {
+// App.get('/api/mechanics', async(req, res) => {
 
-  const mechanicsOBJ = await db.raw('SELECT mechanics.id, first_name, last_name, email, password_digest, phone, location, hourly_rate, active, description, avatar, AVG(inspection_rating) FROM mechanics LEFT JOIN ratings ON mechanics.id = mechanic_id GROUP BY mechanics.id;');
-  let mechanics = mechanicsOBJ.rows;
-  res.json({ mechanics });
+//   const mechanicsOBJ = await db.raw('SELECT mechanics.id, first_name, last_name, email, password_digest, phone, location, hourly_rate, active, description, avatar, AVG(inspection_rating) FROM mechanics LEFT JOIN ratings ON mechanics.id = mechanic_id GROUP BY mechanics.id;');
+//   let mechanics = mechanicsOBJ.rows;
+//   res.json({ mechanics });
 
-  //const mechanics = await db("mechanics")
+//   //const mechanics = await db("mechanics")
   
-  // .leftJoin('ratings', 'mechanics.id', 'ratings.mechanic_id').select(knex.raw('avg(rating)'));
-  // making a query to get all todos
+//   // .leftJoin('ratings', 'mechanics.id', 'ratings.mechanic_id').select(knex.raw('avg(rating)'));
+//   // making a query to get all todos
   
-  // res.json({ mechanics });
-});
+//   // res.json({ mechanics });
+// });
 
-App.get('/api/users', async(req, res) => {
-  const users = await db("users"); // making a query to get all todos
-  res.json({ users });
-});
+// App.get('/api/users', async(req, res) => {
+//   const users = await db("users"); // making a query to get all todos
+//   res.json({ users });
+// });
 
-App.get('/api/ratings', async(req, res) => {
-  const ratings = await db("ratings"); // making a query to get all todos
-  //  const mechanicsRating = await db('mechanics').join('ratings', 'mechanics.id', 'ratings.mechanic_id').select('rating', 'mechanic_id')
+// App.get('/api/ratings', async(req, res) => {
+//   const ratings = await db("ratings"); // making a query to get all todos
+//   //  const mechanicsRating = await db('mechanics').join('ratings', 'mechanics.id', 'ratings.mechanic_id').select('rating', 'mechanic_id')
   
-  res.json({ ratings });
-});
+//   res.json({ ratings });
+// });
 
-App.get('/api/inspections', async(req, res) => {
+// App.get('/api/inspections', async(req, res) => {
  
-  const inspections = await db("inspections"); // making a query to get all todos
-  res.json({ inspections });
-});
+//   const inspections = await db("inspections"); // making a query to get all todos
+//   res.json({ inspections });
+// });
 
-App.post('/api/new-inspections', async(req, res) => {
-  res.header('Content-Type', 'application/json');
-  await db('mechanics').where('id', req.body.mechanic_id).update({active: false});
+// App.post('/api/new-inspections', async(req, res) => {
+//   res.header('Content-Type', 'application/json');
+//   await db('mechanics').where('id', req.body.mechanic_id).update({active: false});
   
-  db('inspections').insert(req.body)
-    .returning('*')
-  // START TWILIO MESSAGE
-    .then(async(response) => {
-      res.json({response});
-      // Helper function that finds the mechanics phone number
-      const mechanicNumber = await db('mechanics').where('id', response[0].mechanic_id).select('phone');
+//   db('inspections').insert(req.body)
+//     .returning('*')
+//   // START TWILIO MESSAGE
+//     .then(async(response) => {
+//       res.json({response});
+//       // Helper function that finds the mechanics phone number
+//       const mechanicNumber = await db('mechanics').where('id', response[0].mechanic_id).select('phone');
     
-      client.messages
-        .create({
-          to: mechanicNumber[0].phone,
-          from: '+15873276729',
-          body: `New Inspection Request #${response[0].id} Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
-        })
-        .then((res) => {
-        // console.log(res.body)
-          res.send(JSON.stringify({ success: true }));
-        })
-        .catch(err => {
-        // console.log(err);
-          res.send(JSON.stringify({ success: false }));
-        });
+//       client.messages
+//         .create({
+//           to: mechanicNumber[0].phone,
+//           from: '+15873276729',
+//           body: `New Inspection Request #${response[0].id} Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
+//         })
+//         .then((res) => {
+//         // console.log(res.body)
+//           res.send(JSON.stringify({ success: true }));
+//         })
+//         .catch(err => {
+//         // console.log(err);
+//           res.send(JSON.stringify({ success: false }));
+//         });
 
       
-    })
-    .catch((error)=> console.log('error ', error));
-});
+//     })
+//     .catch((error)=> console.log('error ', error));
+// });
 
-App.get('/api/last-inspection', async(req, res) => {
-  console.log('this is request to server ', req.query.id);
-  let inspectionId = req.query.id;
-  const currentInspection = await db('inspections').where('id', inspectionId); // making a query to get all todos
-  console.log(currentInspection);
-  res.json({ currentInspection });
-});
+// App.get('/api/last-inspection', async(req, res) => {
+//   console.log('this is request to server ', req.query.id);
+//   let inspectionId = req.query.id;
+//   const currentInspection = await db('inspections').where('id', inspectionId); // making a query to get all todos
+//   console.log(currentInspection);
+//   res.json({ currentInspection });
+// });
 
-App.post('/api/set-rating', async(req, res) => {
-  console.log('RATING REQUEST ', req.body);
-  const ratingRequest = await db('ratings').insert(req.body);
+// App.post('/api/set-rating', async(req, res) => {
+//   console.log('RATING REQUEST ', req.body);
+//   const ratingRequest = await db('ratings').insert(req.body);
   
-  console.log('ratingRequest ',ratingRequest);
-  res.json({ratingRequest});
+//   console.log('ratingRequest ',ratingRequest);
+//   res.json({ratingRequest});
+// });
 
-  //  ratingRequest.then(res => {res.status(200).json({ratingRequest})})
-  // .catch(error=> {error})
-});
+// App.post('/sms-response', async(req, res) => {
 
-App.post('/sms-response', async(req, res) => {
-
-  let parseMe = req.body.Body;
-  let words = parseMe.split(':');
-  console.log(words[0], words[1]);
-  console.log(words[0] == 'yes');
+//   let parseMe = req.body.Body;
+//   let words = parseMe.split(':');
+//   console.log(words[0], words[1]);
+//   console.log(words[0] === 'yes');
   
-  let twiml = new Twilio.twiml.MessagingResponse();
-  // ACTIVATE MECHANIC
-  if (words[0] == "activate") {
-    const activateMechanic = await db('mechanics').where('id', words[1]).update({active: true});
-    if (activateMechanic) {
-      twiml.message('You are now active!! Text us deactivate:<yourid> at anytime to stop working');
+//   let twiml = new Twilio.twiml.MessagingResponse();
+//   // ACTIVATE MECHANIC
+//   if (words[0] === "activate") {
+//     const activateMechanic = await db('mechanics').where('id', words[1]).update({active: true});
+//     if (activateMechanic) {
+//       twiml.message('You are now active!! Text us deactivate:<yourid> at anytime to stop working');
 
-    } else {
-      twiml.message('We could not activate your account! Please check your mechanic number');
-    }
-  // DEACTIVATE MECHANIC
-  } else if (words[0] == "deactivate") {
-    const deactivateMechanic = await db('mechanics').where('id', words[1]).update({active: false});
-    if (deactivateMechanic) {
-      twiml.message('You are now deactived!! Thanks for all your hard work!');
-    } else {
-      twiml.message('We could not deactivate your account! Please check your mechanic number!');
-    }
+//     } else {
+//       twiml.message('We could not activate your account! Please check your mechanic number');
+//     }
+//   // DEACTIVATE MECHANIC
+//   } else if (words[0] === "deactivate") {
+//     const deactivateMechanic = await db('mechanics').where('id', words[1]).update({active: false});
+//     if (deactivateMechanic) {
+//       twiml.message('You are now deactived!! Thanks for all your hard work!');
+//     } else {
+//       twiml.message('We could not deactivate your account! Please check your mechanic number!');
+//     }
     
-  // MECHANIC CONFIRMS INSPECTION
-  } else if (words[0] == 'yes') {
-    const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true});
-    if (inspectionConfirm) {
-      twiml.message('We have confirmed your appointment!!');
+//   // MECHANIC CONFIRMS INSPECTION
+//   } else if (words[0] === 'yes') {
+//     const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true});
+//     if (inspectionConfirm) {
+//       twiml.message('We have confirmed your appointment!!');
 
-    } else {
-      twiml.message('We could not confirm your appointment! Please check your inspection number');
-    }
-  // MECHANIC COMPLETES INSPECTION
-  } else if (words[0] == 'complete') {
-    const inspectionComplete = await db('inspections').where('id', words[1]).update({isCompleted: true});
-    if (inspectionComplete) {
-      twiml.message(`We have updated that you have completed the inspection. When you're ready text activate:<Your mechanic id> to Get back to work!`);
-    } else {
-      twiml.message('We could not confirm that you completed the inspection! Please check your inspection number');
-    }
-  // UNHANDLED TEXT RESPONSE
-  } else {
-    twiml.message(`Yikes. You didn't read our instructions close enough please refer to the previous text.`);
-  }
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-});
+//     } else {
+//       twiml.message('We could not confirm your appointment! Please check your inspection number');
+//     }
+//   // MECHANIC COMPLETES INSPECTION
+//   } else if (words[0] === 'complete') {
+//     const inspectionComplete = await db('inspections').where('id', words[1]).update({isCompleted: true});
+//     if (inspectionComplete) {
+//       twiml.message(`We have updated that you have completed the inspection. When you're ready text activate:<Your mechanic id> to Get back to work!`);
+//     } else {
+//       twiml.message('We could not confirm that you completed the inspection! Please check your inspection number');
+//     }
+//   // UNHANDLED TEXT RESPONSE
+//   } else {
+//     twiml.message(`Yikes. You didn't read our instructions close enough please refer to the previous text.`);
+//   }
+//   res.writeHead(200, {'Content-Type': 'text/xml'});
+//   res.end(twiml.toString());
+// });
 
-App.post('/api/user-login', async(req, res) => {
-  console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body);
+// App.post('/api/user-login', async(req, res) => {
+//   console.log('LOGIN REQUEST RECEIVED BY PG: ', req.body);
   
-  const {email, password} = req.body;
+//   const {email, password} = req.body;
   
-  const user = await db('users').where({email});
-  console.log('USER ', user);
+//   const user = await db('users').where({email});
+//   console.log('USER ', user);
 
-  if (!user[0]) {
-    return res.status(400).json({ message: 'User not found' });
-    console.log('USER NOT FOUND BY PG');
-  }
+//   if (!user[0]) {
+//     return res.status(400).json({ message: 'User not found' });
+//   }
  
-  let isMatch = false;
+//   let isMatch = false;
 
-  if (password === user[0].password_digest) {
-    isMatch = true;
-  }
+//   if (password === user[0].password_digest) {
+//     isMatch = true;
+//   }
 
   //console.log('ismatch ', isMatch)
-  if (isMatch === false) {
-    return res.status(404).json({ message: 'Password is incorrect' });
-  } else {
-    return res.status(200).json({ user });
-  }
-});
+//   if (isMatch === false) {
+//     return res.status(404).json({ message: 'Password is incorrect' });
+//   } else {
+//     return res.status(200).json({ user });
+//   }
+// });
 
 // STRIPE
 App.post("/api/charge", async(req, res) => {
-  stripeInfo = req.body;
+  const stripeInfo = req.body;
   console.log("POST", req.body);
   // console.log(stripeInfo.options.amount)
   try {
@@ -230,8 +251,7 @@ App.post("/api/charge", async(req, res) => {
       amount: stripeInfo.headers.amount,
       currency: "cad",
       description: "FixIt client Charge",
-      source: stripeInfo.headers.token,
-      receipt_email: "granttaylor448@gmail.com"
+      source: stripeInfo.headers.token
     });
     console.log(status);
     res.json({status});
@@ -243,43 +263,43 @@ App.post("/api/charge", async(req, res) => {
   }
 });
 
-App.post('/api/user-signup',[
-  check('password_digest', 'Password 6 characters required')
-    .isLength({ min: 6 })
-], async(req, res) => {
-  try {
+// App.post('/api/user-signup',[
+//   check('password_digest', 'Password 6 characters required')
+//     .isLength({ min: 6 })
+// ], async(req, res) => {
+//   try {
     
-    const errors = validationResult(req);
+//     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(422).json({
-        errors: errors.array(),
-        message: 'Incorrect input data'
-      });
-    }
+//     if (!errors.isEmpty()) {
+//       return res.status(422).json({
+//         errors: errors.array(),
+//         message: 'Incorrect input data'
+//       });
+//     }
     
-    const findUser = await db('users').where({email: req.body.email});
+//     const findUser = await db('users').where({email: req.body.email});
   
-    console.log('findUser ', findUser.length);
-    if (findUser.length !== 0) {
-      console.log('EMAIL EXISTS');
-      return res.status(401).json({ message: 'Email exists' });
-    }
+//     console.log('findUser ', findUser.length);
+//     if (findUser.length !== 0) {
+//       console.log('EMAIL EXISTS');
+//       return res.status(401).json({ message: 'Email exists' });
+//     }
 
-    //console.log('user not found...')
-    const userSignUpData = await db('users').insert(req.body, (['id', 'first_name', 'last_name']));
+//     //console.log('user not found...')
+//     const userSignUpData = await db('users').insert(req.body, (['id', 'first_name', 'last_name']));
    
-    res.status(200).json({userSignUpData, message: 'User successfully signed up' });
-  } catch (e) {
-    res.status(500).json({ message: 'Something is wrong, please try again' });
-  }
-});
+//     res.status(200).json({userSignUpData, message: 'User successfully signed up' });
+//   } catch (e) {
+//     res.status(500).json({ message: 'Something is wrong, please try again' });
+//   }
+// });
 
 
 server.listen(PORT, () => {
-//App.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Express seems to be listening on port ${PORT} so that's pretty good 👍`);
 });
+
+
 
 
