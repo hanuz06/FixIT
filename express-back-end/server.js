@@ -40,7 +40,7 @@ io.on("connection", async socket => {
   console.log("Client connected");
   
   const interval = async() =>{
-    const mechanicsOBJ = await db.raw('SELECT mechanics.id, first_name, last_name, email, password_digest, phone, location, hourly_rate, active, description, avatar, AVG(inspection_rating) FROM mechanics LEFT JOIN ratings ON mechanics.id = mechanic_id GROUP BY mechanics.id;');
+    const mechanicsOBJ = await db.raw('SELECT mechanics.id, first_name, last_name, email, password_digest, phone, location, hourly_rate, active, description, avatar, AVG(inspection_rating) FROM mechanics LEFT JOIN ratings ON mechanics.id = mechanic_id GROUP BY mechanics.id ORDER BY active DESC;');
     let mechanics = mechanicsOBJ.rows;
     const inspections = await db("inspections");
     socket.emit('inspections', inspections);

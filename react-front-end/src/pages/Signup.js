@@ -258,7 +258,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password should have minimum 6 characters"                   
+                  label="Password should have minimum 3 characters"                   
                   onChange={changeHandler}
                   type="password"
                   id="password" 

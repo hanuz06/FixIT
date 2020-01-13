@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
   },
   heroContent: {
     backgroundColor: '#f8f9fa',
-    padding: theme.spacing(0, 0, 6)
+    padding: theme.spacing(0, 0, 4)
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -15,7 +15,10 @@ const useStyles = makeStyles(theme => ({
   },
   cardGrid: {
     paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(4),
+    paddingBottom: theme.spacing(4), 
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   card: {
     height: '100%',
@@ -68,7 +71,15 @@ const useStyles = makeStyles(theme => ({
     cursor:'pointer', 
     border: 'none', 
     outline:'none'   
-    }
+    },
+  loginRequest: {
+    display: 'flex',
+    justifyContent: 'center',    
+    padding: '5px 20px ',
+    margin: '20px auto 0',
+    fontSize: '1.6rem',
+    color: '#0f44a6'
+  }
  
 }));
 
