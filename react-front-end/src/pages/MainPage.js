@@ -109,7 +109,8 @@ const mechanicID = sessionStorage.getItem('mechanicId');
       }
     }) 
 
-  const socket = io('wss://fix-it-backend.herokuapp.com') || io('ws://localhost:8080');
+    // io('wss://fix-it-backend.herokuapp.com') || 
+  const socket = io('ws://localhost:8080');
   socket.on(
     'mechanics', function (data) {      
       setMechanics(data);      
@@ -142,7 +143,10 @@ const mechanicID = sessionStorage.getItem('mechanicId');
     .then(res => {       
       sessionStorage.setItem('RatingComplete', true)    
       transition(RATING)         
-    }) 
+    })
+    // .catch(error => {
+    //   show(error.response.data.message, 'danger');    
+    // })  
   }
   
   const userInspectionRequest = (data) => {    

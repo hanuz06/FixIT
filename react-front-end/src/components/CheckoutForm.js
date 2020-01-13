@@ -63,9 +63,9 @@ class CheckoutForm extends Component {
 }
 
 CheckoutForm.propTypes = {
-  complete: PropTypes.bool.isRequired,
+  complete: PropTypes.bool,
   mechanic: PropTypes.object.isRequired,
-  stripe: PropTypes.func.isRequired,
+  stripe: PropTypes.object.isRequired,
 };
 
 export default injectStripe(CheckoutForm);

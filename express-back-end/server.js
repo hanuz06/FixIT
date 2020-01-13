@@ -9,7 +9,7 @@ const {check, validationResult} = require('express-validator');
 const server = http.createServer(App);
 const io = require('socket.io')(server);
 
-var bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const cors = require("cors")
 
@@ -133,7 +133,7 @@ App.get('/api/last-inspection', async (req, res) => {
 App.post('/api/set-rating', async (req, res) => {   
   const ratingRequest = await db('ratings').insert(req.body)
   
-  return ratingRequest? res.status(200).json({ratingRequest}) : res.status(400).json({message:'Rating failed'})
+  res.status(200).json({ratingRequest}) 
 
   //  ratingRequest.then(res => {res.status(200).json({ratingRequest})})
   // .catch(error=> {error})   

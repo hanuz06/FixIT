@@ -36,9 +36,7 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
       inspection_rating: stars
     }
     setRating(rating)
-    .catch(error => {
-      show(error.response.data.message, 'danger');    
-    })  
+     
   }
 
   const completeSession = () => {
