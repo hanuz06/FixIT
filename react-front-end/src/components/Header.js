@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     color:'inherit',
     '&:hover': {
       color: 'white',
-      border: 'white solid 1px',
+      border: '#8b8e94 solid 1px',
     }
   },
   small: {
@@ -94,7 +94,7 @@ export default function ButtonAppBar() {
             
               {userId?
                   <>
-                 <Avatar src="/broken-image.jpg" style={{marginRight:'5px'}} className={classes.small}/>
+                 <Avatar src="/human.png" style={{marginRight:'5px'}} className={classes.small}/>
                   {uName}
                   <Tooltip title="Logout" aria-label="Logout button" TransitionComponent={Zoom} placement='bottom'>
                   <Button className={classes.buttonStyle} onClick={logoutFunction} href="/">Logout</Button></Tooltip>

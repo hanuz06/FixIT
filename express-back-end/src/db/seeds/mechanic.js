@@ -7,6 +7,7 @@ exports.seed = function(knex) {
       // We are aware that this is not a safe way to store passwords
       return knex('mechanics').insert([
         {
+
           "id": 1,
           "first_name": "Mike",
           "last_name": "Smith",
@@ -136,6 +137,7 @@ exports.seed = function(knex) {
           "description": "I've always loved getting my hands dirty and I'm happy to do that fixing your vehicle!",
           "avatar": "http://www.w-t-w.org/en/wp-content/uploads/2013/05/mechanics.jpg"
         }
+
       ]);
     });
 };

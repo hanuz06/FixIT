@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +10,9 @@ import RatingSize from '../../components/RatingSize';
 import classNames from 'classnames';
 import ConfirmTable from '../../components/ConfirmTable';
 import useStyles from './MechanicRatingStyles';
+import  {Alert} from '../../components/Alert';
+import {AlertContext} from '../../context/alert/alertContext';
+import PropTypes from 'prop-types';
 
 // STRIPE 
 import {Elements, StripeProvider} from 'react-stripe-elements';
@@ -21,7 +24,9 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
   const stripeComplete = sessionStorage.getItem("StripePayment")
   const ratingComplete = sessionStorage.getItem("RatingComplete")
 
-  const [stars, setStars] = useState(0);  
+  const [stars, setStars] = useState(0); 
+  
+  const {show, hide} = useContext(AlertContext);
 
   const setDataForRating = () => {
     const rating = {
@@ -30,7 +35,8 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
       inspection_id: Number(inspection.id),     
       inspection_rating: stars
     }
-    setRating(rating)   
+    setRating(rating)
+     
   }
 
   const completeSession = () => {
@@ -38,44 +44,14 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
     sessionStorage.removeItem("inspectionId")
     sessionStorage.removeItem("StripePayment")
     sessionStorage.removeItem("RatingComplete")
+    hide()
     backToHome()
   }
 
   return (
-    <Box component="div"  className={classes.root}>       
-<Container maxWidth="sm" className={classNames(classes.ContainerStyle, classes.secondOrder)}>
-    
-      {/* <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
-        <Card className={classes.card}>
-        <Typography gutterBottom variant="h5" component="h5">   
-          Please rate {mechanic.first_name}! 
-        </Typography>    4000001240000000
-          <CardMedia
-            className={classes.cardMedia}
-            image={mechanic.avatar}
-            title="Image title"
-          />          
-          < RatingSize stars={stars} setStars={setStars}/>               
-          <CardContent className={classes.cardContent}>
-            {/* <Typography gutterBottom variant="h5" component="h2">
-             { mechanic.first_name} {mechanic.last_name}
-            </Typography> */}
-            {/* <Typography>
-              mechanic.description
-            </Typography> */}
-          {/* </CardContent>
-          <CardActions>
-            <Button size="small" variant="contained" color="primary" onClick={setDataForRating}>
-              Submit
-            </Button> */}
-            {/* <Button size="small" color="primary">
-              Request mechanic.first_name
-            </Button>                      */}
-          {/* </CardActions>   */}
-      {/* //   </Card>               */}
-      {/* // </div> */} 
-
-      {/* <div style={{display: "flex", flexDirection: "column", border: "solid red 1px"}}> */}
+    <Box component="div" className={classes.root}>  
+    <Alert />     
+      <Container maxWidth="sm" className={classNames(classes.ContainerStyle, classes.secondOrder)}>  
         <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
           <Card className={classes.card}>
           <Typography gutterBottom variant="h5" component="h5">                
@@ -87,8 +63,7 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
               image={mechanic.avatar}
               title="Image title"
             />          
-            < RatingSize stars={stars} setStars={setStars}/>
-                           
+            < RatingSize stars={stars} setStars={setStars}/>                           
             <CardActions>
                { !ratingComplete && <Button size="small" variant="contained" color="primary" onClick={setDataForRating}>
                 Submit
@@ -99,10 +74,8 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
                   Finish
               </Button>
              </>}
-            </CardActions>
-              
-          </Card>  
-
+            </CardActions>              
+          </Card> 
         <div>  
           <Card className={classes.StripeCardStyle}> 
           <StripeProvider apiKey="pk_test_vzAvHy9DyOYmnXgn5fLZ3YEZ00xwGEz8Pv">
@@ -118,26 +91,24 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
             </StripeProvider>
           </Card>
         </div>
-        </div>
-      
-      {/* </div> */}
+        </div>    
       </Container>
-
       <Container maxWidth="sm" className={classNames(classes.ContainerStyle, classes.firstOrder)}>
         <div component="div" className={classes.boxDivide}>          
             <Typography component="h4" variant="h4" align="center" color="textPrimary" className={classes.heroContent} gutterBottom >
               One more thing!<br/>
               It's time to rate and pay your mechanic.
             </Typography>                           
-              <ConfirmTable inspection={inspection} mechanic={mechanic}/>    
-              {/* <div className={classes.buttonStyles}>          
-                <Button variant="contained" color="primary" href="/">
-                  Link
-                </Button>
-              </div>    */}        
+              <ConfirmTable inspection={inspection} mechanic={mechanic}/>                  
         </div>
       </Container>
     </Box>
   );
 }
 
+MechanicRating.propTypes = {  
+  mechanic: PropTypes.object.isRequired,
+  inspection: PropTypes.object.isRequired,
+  setRating: PropTypes.func.isRequired,
+  backToHome: PropTypes.func.isRequired,
+}

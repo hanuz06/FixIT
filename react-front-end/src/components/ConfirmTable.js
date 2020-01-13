@@ -11,6 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Fixit from "../Photos/Fixit_font.png";
 import GreyLogo from "../Photos/mechanic-grey.png";
+import PropTypes from 'prop-types';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -35,6 +36,10 @@ const useStyles = makeStyles({
 });
 
 export default function ConfirmTable({ inspection, mechanic }) {
+
+  const { car_make, year, location, description_of_problem, isConfirmed, isCompleted } = inspection;
+  const { first_name, last_name } = mechanic;
+
   const classes = useStyles();  
 
   const [open, setOpen] = React.useState(false);  
@@ -46,7 +51,7 @@ export default function ConfirmTable({ inspection, mechanic }) {
   } ,[]);
   const onlyOnce = function () {
 
-    if (inspection.isConfirmed) {
+    if (isConfirmed) {
       setOpen(true)
     } else {
       setOpen(false)
@@ -61,7 +66,7 @@ export default function ConfirmTable({ inspection, mechanic }) {
   return (
     <Fragment>
 
-    {inspection.isConfirmed && !inspection.isCompleted && <div >      
+    {isConfirmed && !isCompleted && <div >      
       <Snackbar open={open} onClose={handleClose}>
         <Alert onClose={handleClose} color="success">
           Your Mechanic is on the way!
@@ -69,7 +74,7 @@ export default function ConfirmTable({ inspection, mechanic }) {
       </Snackbar>      
     </div>}
 
-    {inspection.isConfirmed && inspection.isCompleted && <div >      
+    {isConfirmed && isCompleted && <div >      
       <Snackbar open={open} onClose={handleClose}>
         <Alert onClose={handleClose} color="success">
           Your Mechanic is all done! Time to rate and pay!
@@ -90,45 +95,45 @@ export default function ConfirmTable({ inspection, mechanic }) {
             <TableCell component="th" scope="row" className={classes.tableCell}>
             Your Mechanic
             </TableCell>
-            <TableCell className={classes.tableCell}>{mechanic.first_name} {mechanic.last_name}</TableCell>
+            <TableCell className={classes.tableCell}>{first_name} {last_name}</TableCell>
           </TableRow> 
 
           <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
            Your Car
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection.car_make}</TableCell>
+            <TableCell className={classes.tableCell}>{car_make}</TableCell>
           </TableRow> 
 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
             Car Year
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection.year}</TableCell>
+            <TableCell className={classes.tableCell}>{year}</TableCell>
           </TableRow>  
 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
             Your Location
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection.location}</TableCell>
+            <TableCell className={classes.tableCell}>{location}</TableCell>
           </TableRow>
 
           <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
           Your Problem
             </TableCell>
-            <TableCell className={classes.tableCell}>{inspection.description_of_problem}</TableCell>
+            <TableCell className={classes.tableCell}>{description_of_problem}</TableCell>
           </TableRow> 
 
-          {inspection.isConfirmed && <TableRow> 
+          {isConfirmed && <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
           Confirmed
             </TableCell>
             <TableCell className={classes.tableCell}>Your request is confirmed</TableCell>
           </TableRow>} 
 
-          {inspection.isCompleted && <TableRow> 
+          {isCompleted && <TableRow> 
           <TableCell component="th" scope="row" className={classes.tableCell}>
           Completed
             </TableCell>
@@ -140,3 +145,16 @@ export default function ConfirmTable({ inspection, mechanic }) {
     </Fragment>
   );
 }
+  
+ConfirmTable.propTypes = {
+  inspection: PropTypes.object.isRequired,
+  car_make: PropTypes.string,
+  year: PropTypes.number,
+  location: PropTypes.string,
+  description_of_problem: PropTypes.string,
+  isCompleted: PropTypes.bool,
+  isConfirmed: PropTypes.bool,
+  mechanic: PropTypes.object.isRequired,
+  first_name: PropTypes.string,
+  last_name: PropTypes.string
+};
