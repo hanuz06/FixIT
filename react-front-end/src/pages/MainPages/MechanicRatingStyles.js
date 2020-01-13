@@ -26,10 +26,15 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     padding: '20px',    
     [`@media (max-width:380px)`]:{
-        minHeight: '70vh'
+        minHeight: '70vh',
+        padding: '0px'
       }       
   },
-  
+  heroContent:{
+    [`@media (max-width:380px)`]:{
+      fontSize: '1.6rem'
+    }
+  },  
   card: {
     height: 'auto',
     width: '400px',

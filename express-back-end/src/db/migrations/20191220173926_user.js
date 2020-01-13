@@ -10,7 +10,5 @@ exports.up = knex =>
     table.text('location');
   });
 
-
-
 exports.down = knex =>
   knex.schema.dropTableIfExists('users');

@@ -4,8 +4,7 @@ exports.seed = function(knex) {
   return knex('ratings').del()
     .then(function() {
       // Inserts seed entries
-      return knex('ratings').insert([
-       
+      return knex('ratings').insert([       
       // {id: 2, 
       //   user_id: 1,
       //   mechanic_id: 1,
