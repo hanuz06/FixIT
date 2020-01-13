@@ -1,6 +1,3 @@
-
-
-
 exports.up = knex =>
   knex.schema.createTable('mechanics', table => {
     table.increments();

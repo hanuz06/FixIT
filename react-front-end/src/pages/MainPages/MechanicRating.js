@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -10,8 +10,6 @@ import RatingSize from '../../components/RatingSize';
 import classNames from 'classnames';
 import ConfirmTable from '../../components/ConfirmTable';
 import useStyles from './MechanicRatingStyles';
-import  {Alert} from '../../components/Alert';
-import {AlertContext} from '../../context/alert/alertContext';
 import PropTypes from 'prop-types';
 
 // STRIPE 
@@ -24,9 +22,7 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
   const stripeComplete = sessionStorage.getItem("StripePayment")
   const ratingComplete = sessionStorage.getItem("RatingComplete")
 
-  const [stars, setStars] = useState(0); 
-  
-  const {show, hide} = useContext(AlertContext);
+  const [stars, setStars] = useState(0);   
 
   const setDataForRating = () => {
     const rating = {
@@ -43,14 +39,12 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
     sessionStorage.removeItem("Completed")
     sessionStorage.removeItem("inspectionId")
     sessionStorage.removeItem("StripePayment")
-    sessionStorage.removeItem("RatingComplete")
-    hide()
+    sessionStorage.removeItem("RatingComplete")   
     backToHome()
   }
 
   return (
-    <Box component="div" className={classes.root}>  
-    <Alert />     
+    <Box component="div" className={classes.root}>        
       <Container maxWidth="sm" className={classNames(classes.ContainerStyle, classes.secondOrder)}>  
         <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
           <Card className={classes.card}>

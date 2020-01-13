@@ -171,7 +171,7 @@ const mechanicID = sessionStorage.getItem('mechanicId');
       transition(CONFIRM)         
     })
     .catch(error => {
-      console.log('ERROR ', error);   
+      console.log('error ', error);   
     }) 
   }     
   

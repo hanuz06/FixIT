@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,7 +19,7 @@ function Alert(props) {
 
 const useStyles = makeStyles({
   table: {
-    width: '100%',  
+    maxWidth: '100%',  
     padding: '5px',  
     border: 'solid grey 2px',     
     tableLayout: 'auto',  
@@ -42,14 +42,15 @@ export default function ConfirmTable({ inspection, mechanic }) {
 
   const classes = useStyles();  
 
-  const [open, setOpen] = React.useState(false);  
+  const [open, setOpen] = useState(false);  
    
   useEffect(() => {
    
       onlyOnce()      
 
-  } ,[]);
-  const onlyOnce = function () {
+  },[]);
+
+  const onlyOnce = () => {
 
     if (isConfirmed) {
       setOpen(true)
@@ -65,83 +66,82 @@ export default function ConfirmTable({ inspection, mechanic }) {
 
   return (
     <Fragment>
+      {isConfirmed && !isCompleted && <div >      
+        <Snackbar open={open} onClose={handleClose}>
+          <Alert onClose={handleClose} color="success">
+            Your Mechanic is on the way!
+          </Alert>
+        </Snackbar>      
+      </div>}
 
-    {isConfirmed && !isCompleted && <div >      
-      <Snackbar open={open} onClose={handleClose}>
-        <Alert onClose={handleClose} color="success">
-          Your Mechanic is on the way!
-        </Alert>
-      </Snackbar>      
-    </div>}
+      {isConfirmed && isCompleted && <div >      
+        <Snackbar open={open} onClose={handleClose}>
+          <Alert onClose={handleClose} color="success">
+            Your Mechanic is all done! Time to rate and pay!
+          </Alert>
+        </Snackbar>      
+      </div>}
 
-    {isConfirmed && isCompleted && <div >      
-      <Snackbar open={open} onClose={handleClose}>
-        <Alert onClose={handleClose} color="success">
-          Your Mechanic is all done! Time to rate and pay!
-        </Alert>
-      </Snackbar>      
-    </div>}
+      <TableContainer component={Paper} style={{"overflowX":"auto"}}>
+        <Table className={classes.table} aria-label="simple table" >
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.tableCell} style={{ 'width':'150px'}}><img src={Fixit} alt="site logo" height={40}   /> <img src={GreyLogo} alt="site logo" height={40}   /></TableCell>
+              <TableCell className={classes.tableCell} style={{ 'fontSize':'1.5rem'}}> Inspection Summary</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>          
+            <TableRow>  
+              <TableCell component="th" scope="row" className={classes.tableCell}>
+              Your Mechanic
+              </TableCell>
+              <TableCell className={classes.tableCell}>{first_name} {last_name}</TableCell>
+            </TableRow> 
 
-    <TableContainer component={Paper} style={{"overflowX":"auto"}}>
-      <Table className={classes.table} aria-label="simple table" >
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.tableCell} style={{ 'width':'150px'}}><img src={Fixit} alt="site logo" height={40}   /> <img src={GreyLogo} alt="site logo" height={40}   /></TableCell>
-            <TableCell className={classes.tableCell} style={{ 'fontSize':'1.6rem'}}> Inspection Summary</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>          
-          <TableRow>  
+            <TableRow> 
+              <TableCell component="th" scope="row" className={classes.tableCell}>
+            Your Car
+              </TableCell>
+              <TableCell className={classes.tableCell}>{car_make}</TableCell>
+            </TableRow> 
+
+            <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
-            Your Mechanic
-            </TableCell>
-            <TableCell className={classes.tableCell}>{first_name} {last_name}</TableCell>
-          </TableRow> 
+              Car Year
+              </TableCell>
+              <TableCell className={classes.tableCell}>{year}</TableCell>
+            </TableRow>  
 
-          <TableRow> 
+            <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
-           Your Car
-            </TableCell>
-            <TableCell className={classes.tableCell}>{car_make}</TableCell>
-          </TableRow> 
+              Your Location
+              </TableCell>
+              <TableCell className={classes.tableCell}>{location}</TableCell>
+            </TableRow>
 
-          <TableRow> 
-          <TableCell component="th" scope="row" className={classes.tableCell}>
-            Car Year
-            </TableCell>
-            <TableCell className={classes.tableCell}>{year}</TableCell>
-          </TableRow>  
+            <TableRow> 
+            <TableCell component="th" scope="row" className={classes.tableCell}>
+            Your Problem
+              </TableCell>
+              <TableCell className={classes.tableCell}>{description_of_problem}</TableCell>
+            </TableRow> 
 
-          <TableRow> 
-          <TableCell component="th" scope="row" className={classes.tableCell}>
-            Your Location
-            </TableCell>
-            <TableCell className={classes.tableCell}>{location}</TableCell>
-          </TableRow>
+            {isConfirmed && <TableRow> 
+            <TableCell component="th" scope="row" className={classes.tableCell}>
+            Confirmed
+              </TableCell>
+              <TableCell className={classes.tableCell}>Your request is confirmed</TableCell>
+            </TableRow>} 
 
-          <TableRow> 
-          <TableCell component="th" scope="row" className={classes.tableCell}>
-          Your Problem
-            </TableCell>
-            <TableCell className={classes.tableCell}>{description_of_problem}</TableCell>
-          </TableRow> 
-
-          {isConfirmed && <TableRow> 
-          <TableCell component="th" scope="row" className={classes.tableCell}>
-          Confirmed
-            </TableCell>
-            <TableCell className={classes.tableCell}>Your request is confirmed</TableCell>
-          </TableRow>} 
-
-          {isCompleted && <TableRow> 
-          <TableCell component="th" scope="row" className={classes.tableCell}>
-          Completed
-            </TableCell>
-            <TableCell className={classes.tableCell}>Your mechanic is all done</TableCell>
-          </TableRow>} 
-        </TableBody>
-      </Table>
-    </TableContainer>
+            {isCompleted && <TableRow> 
+            <TableCell component="th" scope="row" className={classes.tableCell}>
+            Completed
+              </TableCell>
+              <TableCell className={classes.tableCell}>Your mechanic is all done</TableCell>
+            </TableRow>} 
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Fragment>
   );
 }

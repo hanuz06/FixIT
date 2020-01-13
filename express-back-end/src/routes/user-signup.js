@@ -18,12 +18,11 @@ module.exports = (db, check, validationResult, bcrypt) => {
       });
     }    
 
-  const findUser = await db('users').where({email: req.body.email})  
-   
-   if (findUser.length !== 0) {     
+  const findUser = await db('users').where({email: req.body.email})     
+  
+   if (findUser[0]) {     
      return res.status(401).json({ message: 'User exists' })
     } 
-
   const hashedPassword = await bcrypt.hash(req.body.password_digest, 12)
 
   const signUpData = {    

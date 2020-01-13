@@ -78,10 +78,7 @@ export default function ButtonAppBar() {
     <Box className={classes.root} maxWidth="xs">
       <HideOnScroll >
         <AppBar >
-          <Toolbar>
-            {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />          
-            </IconButton> */}
+          <Toolbar>            
             <Typography>
             <img src={logo} alt="site logo" height={40}   />
           </Typography>
@@ -90,8 +87,7 @@ export default function ButtonAppBar() {
             </Tooltip>
             <Typography variant="h6" className={classes.title}>
               
-            </Typography>
-            
+            </Typography>            
               {userId?
                   <>
                  <Avatar src="/human.png" style={{marginRight:'5px'}} className={classes.small}/>
@@ -108,11 +104,7 @@ export default function ButtonAppBar() {
                     <Button className={classes.buttonStyle} href="/signup">Signup</Button> 
                 </Tooltip>
                   </>                  
-                }
-
-
-            
-                     
+                }                     
           </Toolbar>
         </AppBar>
       </HideOnScroll>

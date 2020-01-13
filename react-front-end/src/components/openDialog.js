@@ -54,7 +54,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRequest, setMechanicInfo }) {
-  const [open, setOpen] = React.useState(false); 
+  const [open, setOpen] = React.useState(false);
+  const userId = sessionStorage.getItem('userId') 
 
   const { first_name, last_name, avatar, avg, description, active } = mechanic;
 
@@ -73,12 +74,10 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
   };
 
   const mechanicRequest = (mechanic) => {
-    // event.stopPropagation(); 
+    
     onRequest();
     setMechanicInfo(mechanic)
-  }
-  // Check if user is longed in
-  const userId = sessionStorage.getItem('userId')
+  } 
 
   return (    
   
@@ -110,8 +109,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             </Button> }                     
           </CardActions> 
         </Card>
-    </Dialog>
-  
+    </Dialog>  
   );
 }
 

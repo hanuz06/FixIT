@@ -188,8 +188,8 @@ export default function SignUp() {
                 sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
                 window.location.reload();          
               })
-              .catch(error => {                         
-                show(error.response.data.errors[0].msg, 'danger');                    
+              .catch(error => {                                       
+                show(error.response.data.message, 'danger');                    
               }) 
            }      
     }    

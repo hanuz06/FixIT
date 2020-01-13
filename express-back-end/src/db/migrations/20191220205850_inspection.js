@@ -1,4 +1,3 @@
-
 exports.up = knex =>
   knex.schema.createTable('inspections', table => {
     table.increments();
@@ -11,8 +10,6 @@ exports.up = knex =>
     table.text('description_of_problem');
     table.boolean('isConfirmed');
     table.boolean('isCompleted');
-
-
   });
 
 exports.down = knex =>

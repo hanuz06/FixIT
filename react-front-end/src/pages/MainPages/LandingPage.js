@@ -81,9 +81,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     </div>
         <Divider variant="middle" />       
      
-        <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */} 
-                  
+        <Container className={classes.cardGrid} maxWidth="md">                  
           <Grid container spacing={4}>
             {[...mechanicList].map(mechanic => (                            
               <Grid item key={mechanic.id} xs={12} sm={6} md={4} >                          
