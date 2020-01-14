@@ -1,7 +1,8 @@
 const express = require('express');
 const router  = express.Router();
+const Twilio = require('twilio');
 
-module.exports = (db, Twilio) => {
+module.exports = (db) => {
   router.post('/', async(req, res) => {
  
     let parseMe = req.body.Body;
@@ -11,7 +12,7 @@ module.exports = (db, Twilio) => {
     
     let twiml = new Twilio.twiml.MessagingResponse();
     // ACTIVATE MECHANIC
-    if (words[0] === "activate") {
+    if (words[0].toLowerCase() === "activate") {
       const activateMechanic = await db('mechanics').where('id', words[1]).update({active: true});
       if (activateMechanic) {
         twiml.message('You are now active!! Text us deactivate:<yourid> at anytime to stop working');
@@ -20,7 +21,7 @@ module.exports = (db, Twilio) => {
         twiml.message('We could not activate your account! Please check your mechanic number');
       }
     // DEACTIVATE MECHANIC
-    } else if (words[0] === "deactivate") {
+    } else if (words[0].toLowerCase() === "deactivate") {
       const deactivateMechanic = await db('mechanics').where('id', words[1]).update({active: false});
       if (deactivateMechanic) {
         twiml.message('You are now deactived!! Thanks for all your hard work!');
@@ -29,7 +30,7 @@ module.exports = (db, Twilio) => {
       }
       
     // MECHANIC CONFIRMS INSPECTION
-    } else if (words[0] === 'yes') {
+    } else if (words[0].toLowerCase() === 'yes') {
       const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true});
       if (inspectionConfirm) {
         twiml.message('We have confirmed your appointment!!');
@@ -38,7 +39,7 @@ module.exports = (db, Twilio) => {
         twiml.message('We could not confirm your appointment! Please check your inspection number');
       }
     // MECHANIC COMPLETES INSPECTION
-    } else if (words[0] === 'complete') {
+    } else if (words[0].toLowerCase() === 'complete') {
       const inspectionComplete = await db('inspections').where('id', words[1]).update({isCompleted: true});
       if (inspectionComplete) {
         twiml.message(`We have updated that you have completed the inspection. When you're ready text activate:<Your mechanic id> to Get back to work!`);

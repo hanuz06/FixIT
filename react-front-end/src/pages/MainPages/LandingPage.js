@@ -112,7 +112,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                       </Button> }                             
                     </CardActions>        
                     {mechanic.active? <UserBadge /> : 
-                    <Typography gutterBottom variant="subtitle1" component="subtitle1" className={classNames(classes.cardContent,classes.userUnavailableText)} >                    
+                    <Typography gutterBottom variant="body1" className={classNames(classes.cardContent,classes.userUnavailableText)} >                    
                     {mechanic.first_name} is currently unavailable 
                     </Typography>}                       
                   </div>                                   

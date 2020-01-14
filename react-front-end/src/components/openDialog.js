@@ -104,7 +104,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
               {description}
             </Typography>
           </CardContent>
-          {!active && <Typography gutterBottom variant="subtitle1" component="subtitle1" className={classes.cardContent} style={{color:'red', opacity: '0.4'}}>                    
+          {!active && <Typography gutterBottom variant="subtitle1" className={classes.cardContent} style={{color:'red', opacity: '0.4'}}>                    
                     {mechanic.first_name} is currently unavailable 
                     </Typography>}
           <CardActions>            
