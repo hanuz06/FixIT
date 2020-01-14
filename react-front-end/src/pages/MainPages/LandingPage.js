@@ -18,6 +18,7 @@ import UserBadge from '../../components/UserBadge';
 import FixitLogo from "../../Photos/Fixit_font.png"
 import Avatar from "../../Photos/mechanic-grey.png"
 import MechanicCardRating from '../../components/MechanicCardRating';
+import classNames from 'classnames';
  
 export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {  
   const [modalOpen, setModalOpen] = useState(false)
@@ -111,7 +112,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                       </Button> }                             
                     </CardActions>        
                     {mechanic.active? <UserBadge /> : 
-                    <Typography gutterBottom variant="subtitle1" component="subtitle1" className={classes.cardContent} style={{color:'red', opacity: '0.4'}}>                    
+                    <Typography gutterBottom variant="subtitle1" component="subtitle1" className={classNames(classes.cardContent,classes.userUnavailableText)} >                    
                     {mechanic.first_name} is currently unavailable 
                     </Typography>}                       
                   </div>                                   

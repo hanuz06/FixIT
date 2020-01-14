@@ -79,8 +79,13 @@ const useStyles = makeStyles(theme => ({
     margin: '20px auto 0',
     fontSize: '1.6rem',
     color: '#0f44a6'
-  }
- 
+  },
+  userUnavailableText: {
+    color:'red', 
+    opacity: '0.4', 
+    margin:'auto', 
+    marginBottom: '15px'
+  } 
 }));
 
 export default useStyles;

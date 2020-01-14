@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
     opacity: '1'
   },  
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginBottom: '30px'
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -103,6 +104,9 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
               {description}
             </Typography>
           </CardContent>
+          {!active && <Typography gutterBottom variant="subtitle1" component="subtitle1" className={classes.cardContent} style={{color:'red', opacity: '0.4'}}>                    
+                    {mechanic.first_name} is currently unavailable 
+                    </Typography>}
           <CardActions>            
             { userId && active &&<Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
               Request {first_name}
