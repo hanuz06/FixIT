@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
     opacity: '1'
   },  
   cardContent: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginBottom: '30px'
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -54,7 +55,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRequest, setMechanicInfo }) {
-  const [open, setOpen] = React.useState(false); 
+  const [open, setOpen] = React.useState(false);
+  const userId = sessionStorage.getItem('userId') 
 
   const { first_name, last_name, avatar, avg, description, active } = mechanic;
 
@@ -73,12 +75,10 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
   };
 
   const mechanicRequest = (mechanic) => {
-    // event.stopPropagation(); 
+    
     onRequest();
     setMechanicInfo(mechanic)
-  }
-  // Check if user is longed in
-  const userId = sessionStorage.getItem('userId')
+  } 
 
   return (    
   
@@ -104,14 +104,16 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
               {description}
             </Typography>
           </CardContent>
+          {!active && <Typography gutterBottom variant="subtitle1" className={classes.cardContent} style={{color:'red', opacity: '0.4'}}>                    
+                    {mechanic.first_name} is currently unavailable 
+                    </Typography>}
           <CardActions>            
             { userId && active &&<Button size="small" type="button" color="primary" onClick={() => mechanicRequest(mechanic) }>
               Request {first_name}
             </Button> }                     
           </CardActions> 
         </Card>
-    </Dialog>
-  
+    </Dialog>  
   );
 }
 

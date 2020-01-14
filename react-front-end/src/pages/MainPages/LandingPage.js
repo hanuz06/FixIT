@@ -18,6 +18,7 @@ import UserBadge from '../../components/UserBadge';
 import FixitLogo from "../../Photos/Fixit_font.png"
 import Avatar from "../../Photos/mechanic-grey.png"
 import MechanicCardRating from '../../components/MechanicCardRating';
+import classNames from 'classnames';
  
 export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {  
   const [modalOpen, setModalOpen] = useState(false)
@@ -76,14 +77,15 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
         <form className="form-inline my-2 my-lg-0">
           <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
           <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={clearSearch}>Clear</button>
-        </form>           
+        </form> 
       </Container>
+      {!userId && <div className={classes.loginRequest}>
+        Please login or signup to start using FixIT now
+      </div>}         
     </div>
         <Divider variant="middle" />       
      
-        <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */} 
-                  
+        <Container className={classes.cardGrid} maxWidth="md">                  
           <Grid container spacing={4}>
             {[...mechanicList].map(mechanic => (                            
               <Grid item key={mechanic.id} xs={12} sm={6} md={4} >                          
@@ -109,7 +111,10 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                         Request {mechanic.first_name}
                       </Button> }                             
                     </CardActions>        
-                    {mechanic.active && <UserBadge />}         
+                    {mechanic.active? <UserBadge /> : 
+                    <Typography gutterBottom variant="body1" className={classNames(classes.cardContent,classes.userUnavailableText)} >                    
+                    {mechanic.first_name} is currently unavailable 
+                    </Typography>}                       
                   </div>                                   
                   </Card> 
                 { modalOpen && 

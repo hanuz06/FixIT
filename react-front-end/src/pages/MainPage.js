@@ -110,8 +110,11 @@ const mechanicID = sessionStorage.getItem('mechanicId');
     }) 
 
 
+
   const socket = io('ws://localhost:8080') 
   //  io('wss://fix-it-backend.herokuapp.com');
+
+
   socket.on(
     'mechanics', function (data) {      
       setMechanics(data);      
@@ -132,8 +135,7 @@ const mechanicID = sessionStorage.getItem('mechanicId');
           sessionStorage.setItem('Completed', inspection.isCompleted )
           transition(RATING)
         }
-      }
-        
+      }        
       )       
     }
   )    
@@ -172,7 +174,7 @@ const mechanicID = sessionStorage.getItem('mechanicId');
       transition(CONFIRM)         
     })
     .catch(error => {
-      console.log('ERROR ', error);   
+      console.log('error ', error);   
     }) 
   }     
   

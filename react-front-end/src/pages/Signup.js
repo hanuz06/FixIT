@@ -188,8 +188,8 @@ export default function SignUp() {
                 sessionStorage.setItem('uName', `${response.data.userSignUpData[0].first_name} ${response.data.userSignUpData[0].last_name}`);  
                 window.location.reload();          
               })
-              .catch(error => {                         
-                show(error.response.data.errors[0].msg, 'danger');                    
+              .catch(error => {                                       
+                show(error.response.data.message, 'danger');                    
               }) 
            }      
     }    
@@ -258,7 +258,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password should have minimum 6 characters"                   
+                  label="Password should have minimum 3 characters"                   
                   onChange={changeHandler}
                   type="password"
                   id="password" 
