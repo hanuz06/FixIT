@@ -38,7 +38,7 @@ jobs:
             git push https://github.com/hanuz06/FixIT.git master:production
 
 workflows:
-  build:
+  test_and_deploy:
     jobs:
       - cypress/run:
           start: npm start
