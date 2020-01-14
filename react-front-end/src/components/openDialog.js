@@ -14,15 +14,16 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MechanicCardRating from '../components/MechanicCardRating';
+import classNames from 'classnames';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: blue[100],
     color: blue[600],
-  },
+  },  
   card: {
     height: '500px',
-    width: '500px',
+    maxWidth: '500px',
     display: 'flex',
     flexDirection: 'column',
     padding: '5px',
@@ -32,7 +33,11 @@ const useStyles = makeStyles(theme => ({
   },  
   cardContent: {
     flexGrow: 1,
-    marginBottom: '30px'
+    marginBottom: '30px', 
+    [`@media (max-width:555px)`]:{
+     marginBottom:'7px',
+     padding: '8px'
+    } 
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -45,12 +50,20 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grey[500],
   },  
   image: {  
-    display: 'block',   
-    width: '500px',
-    maxWidth: '100%',
-    height: '300px',
+    display: 'block',
+    width: '100%',   
+    maxWidth: '500px',   
     maxHeight:'250px', 
     objectFit: 'cover'  
+  },
+  dialogTitile: {
+    textAlign:'center', 
+    marginRight: '15px'
+  },
+  descriptionStyle: {
+    wordWrap:'break-word', 
+    maxWidth:'100%', 
+    height: 'auto'
   }
 }));
 
@@ -87,7 +100,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
       <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
         <CloseIcon />
       </IconButton>
-      <DialogTitle id="simple-dialog-title" style={{textAlign:'center'}}>Best mechanic ever!</DialogTitle>
+      <DialogTitle id="simple-dialog-title" className={classes.dialogTitile} >Best mechanic ever!</DialogTitle>
         <Card className={classes.card}>                        
           <CardMedia
             className={classes.cardMedia}    
@@ -100,7 +113,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             <Typography gutterBottom variant="h5" component="h2">
               {first_name} {last_name}
             </Typography>
-            <Typography>               
+            <Typography className={classes.descriptionStyle}>              
               {description}
             </Typography>
           </CardContent>
