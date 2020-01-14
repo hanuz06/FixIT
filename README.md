@@ -1,6 +1,6 @@
 # React + Express No-Fluff Boilerplate
 
-npm run cypress
+npm run cypress..
 
 psql -h ec2-174-129-33-230.compute-1.amazonaws.com -p 5432 -U odhaiescgyvsej -d d71d6dvvq99sm1
 
