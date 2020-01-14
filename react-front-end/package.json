@@ -10,6 +10,7 @@
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "concurrently": "^5.0.2",
+    "cypress": "^3.8.2",
     "http-proxy-middleware": "^0.20.0",
     "jquery": "^1.9.1",
     "material-ui-search-bar": "^0.4.2",
