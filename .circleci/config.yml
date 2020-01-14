@@ -55,5 +55,4 @@ workflows:
             branches:
               ignore: production
           requires:
-            - build
-            - cypress/run
+            - build           
