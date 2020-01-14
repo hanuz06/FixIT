@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - checkout:
-        path: ~/FixIT
+          path: ~/FixIT
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
