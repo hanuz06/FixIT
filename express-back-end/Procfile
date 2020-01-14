@@ -1,1 +1,3 @@
-web: knex migrate:rollback && knex migrate:latest && knex seed:run --specific=user.js && knex seed:run --specific=mechanic.js && knex seed:run --specific=inspection.js && knex seed:run --specific=rating.js && node server.js 
+web:  node server.js 
+
+#knex migrate:rollback && knex migrate:latest && knex seed:run --specific=user.js && knex seed:run #--specific=mechanic.js && knex seed:run --specific=inspection.js && knex seed:run --specific=rating.js &&
