@@ -65,7 +65,9 @@ unzip ^0.1.11
 npm run go
 ```
 
+## Screenshot of FixIT app in action
 
+!["Screenshot of FixIT app in action"](https://media.giphy.com/media/ZBbs2P4a8zPsKFGM9m/giphy.gif)
 
 
 ## Screenshot of a frontend diagram

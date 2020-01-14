@@ -48,5 +48,6 @@ workflows:
           filters:
             branches:
               ignore: production
+              only: master
           requires:
             - cypress/run           
