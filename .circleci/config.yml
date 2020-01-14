@@ -28,3 +28,4 @@ workflows:
       - cypress/run:
           start: npm start
           wait-on: 'https://fix-it-backend.herokuapp.com/'
+          working_directory: ~/FixIT/react-front-end
