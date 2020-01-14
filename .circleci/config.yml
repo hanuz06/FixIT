@@ -44,15 +44,9 @@ workflows:
           start: npm start
           wait-on: 'https://fix-it-backend.herokuapp.com/'
           working_directory: react-front-end
-      - build:
-          filters:
-            branches:
-              ignore: production
-          requires:
-            - cypress/run
       - deploy:
           filters:
             branches:
               ignore: production
           requires:
-            - build           
+            - cypress/run           
