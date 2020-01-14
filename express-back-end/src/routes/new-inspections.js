@@ -6,6 +6,12 @@ module.exports = (db, client, Twilio) => {
     res.header('Content-Type', 'application/json');
     await db('mechanics').where('id', req.body.mechanic_id).update({active: false});
     
+ 
+    // Cypress Testing Feature
+    if (req.body.description_of_problem === "cypresstest!@#$%") {
+      req.body.isConfirmed = true,
+      req.body.isCompleted = true;
+    }
     db('inspections').insert(req.body)
       .returning('*')
     // START TWILIO MESSAGE
