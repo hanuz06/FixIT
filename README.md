@@ -1,4 +1,93 @@
-# React + Express No-Fluff Boilerplate
+# FixIT app bringing together car mechanics and car drivers
+
+This mobile-friendly app was built by Grant Taylor and Andrey Li as a final project @Lighthouse Labs coding bootcamp.
+
+To see a production version on Netlify please click 👉 [FixIT](https://fix-it-lhl.netlify.com/)
+
+## Synopsis
+
+Suppose a car owner has some problems with his car. He goes to our website to order a request for inspection. He logs in to web site (or sign up if he has no account), chooses between available mechanics, fills up a request form and presses "Confirm the request" button. After that he waits for confirmation which is reflected on the confirmation page. As soon as status changed to 'completion', the website redirects to payment page where the customer will make a payment for service.
+
+-------------------------
+
+## Dependencies
+
+bcryptjs ^2.4.3
+body-parser ^1.18.3"
+cors": ^2.8.5"
+dotenv ^8.2.0"
+express ^4.17.1
+express-validator ^6.3.1
+knex ^0.20.6
+npx ^10.2.0
+pg ^7.17.0
+socket.io ^2.3.0
+stripe ^8.0.1
+twilio ^3.33.0
+Node 12.x or above
+NPM 5.x or above
+@material-ui/core ^4.8.0
+@material-ui/icons ^4.5.1
+@material-ui/lab ^4.0.0-alpha.39
+axios ^0.18.1
+bootstrap ^4.4.1
+classnames ^2.2.6
+concurrently ^5.0.2
+cypress ^3.8.2
+http-proxy-middleware ^0.20.0
+jquery ^1.9.1
+material-ui-search-bar ^0.4.2
+mui-autocomplete ^1.0.7
+node-sass ^4.13.0
+popper.js ^1.16.0
+query-string-object ^0.2.5
+react ^16.8.6
+react-dom ^16.8.6
+react-google-autocomplete ^1.1.2
+react-load-script 0.0.6
+react-router ^5.1.2
+react-router-dom ^5.1.2
+react-scripts 2.1.8
+react-stripe-elements ^6.0.1
+react-transition-group ^4.3.0
+react-typed ^1.2.0
+socket.io ^2.3.0
+socket.io-client ^2.3.0
+twilio ^3.33.0
+typed.js ^2.0.11
+unzip ^0.1.11
+
+-----------------------
+
+## Running backend server
+
+```sh
+npm run go
+```
+
+
+
+
+## Screenshot of a frontend diagram
+
+!["Screenshot of a frontend diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-App-Diagram.png?raw=true)
+
+## Screenshot of a backend Entity Relationship Diagram
+
+!["Screenshot of a backend Entity Relationship Diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-ERD.png?raw=true)
+
+## Short video of CircleCI test of the FixIT app
+
+!["Short video of CircleCI test of the FixIT app"](https://media.giphy.com/media/YmzFekCKwhD3s5x6bo/giphy.gif)
+
+## Screenshot with CircleCI test report
+
+!["Screenshot of CircleCI test report"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/CI-test.png?raw=true)
+
+
+
+
+
 
 npm run cypress
 
