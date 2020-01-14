@@ -21,6 +21,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
+      - cypress/run:
+            start: npm start
+            wait-on: 'https://fix-it-backend.herokuapp.com/'
+            working_directory: react-front-end
   deploy:
     machine:
       enabled: true
@@ -40,10 +44,10 @@ jobs:
 workflows:
   test_and_deploy:
     jobs:
-      - cypress/run:
-          start: npm start
-          wait-on: 'https://fix-it-backend.herokuapp.com/'
-          working_directory: react-front-end
+      # - cypress/run:
+      #     start: npm start
+      #     wait-on: 'https://fix-it-backend.herokuapp.com/'
+      #     working_directory: react-front-end
       - build:
           filters:
             branches:
