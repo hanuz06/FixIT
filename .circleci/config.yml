@@ -26,5 +26,5 @@ workflows:
   build:
     jobs:
       - cypress/run:
-        start: npm start
-        wait-on: 'https://fix-it-backend.herokuapp.com/'
+          start: npm start
+          wait-on: 'https://fix-it-backend.herokuapp.com/'
