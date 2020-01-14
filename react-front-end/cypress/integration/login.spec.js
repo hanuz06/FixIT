@@ -11,5 +11,7 @@ describe("Login", () => {
       .type('123')
       .get('[type=submit]')
       .click()
+    .wait(1000)
+    cy.get("[title=Logout]").click()
   })
 });
