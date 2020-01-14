@@ -58,7 +58,7 @@ it("User can login, click on a mechanic and make a request for a service", () =>
       cy.get('[type=button]').first().click()
       .wait(12000)
       cy.get('[type=button]').first().click()
-      .wait(1000)
+      .wait(2000)
       cy.get("[title=Logout]").click()
 
  })
