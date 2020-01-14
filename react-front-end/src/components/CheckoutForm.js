@@ -25,7 +25,7 @@ class CheckoutForm extends Component {
     const generatedToken = token.id
     const data = JSON.stringify({charge, generatedToken})
     if (token) {
-    let response = await fetch("/api/charge", {
+    let response = await fetch("https://fix-it-backend.herokuapp.com/api/charge", {
       method: "POST",
       headers: {"Content-Type": "text/plain"},
       body: data
