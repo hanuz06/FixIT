@@ -18,8 +18,8 @@ it("User can login, click on a mechanic and make a request for a service", () =>
     .get('[id=outlined-car-select]').select('2009')
     .get('[id=autocomplete]').type("Calgary AB, Canada").wait(1000).type('{downarrow}{enter}')
     
-    .get('[id=description_of_problem]').type("cypresstest!@#$%")
-    .get('[type=submit]').click()
+    .get('[id=description_of_problem]').type("cypresstest!@#$%").wait(1000)
+    .get('[type=submit]').click().wait(1000)
     cy.contains("cypresstest!@#$%").should('be.visible')
     cy.visit('/')
     cy.contains("Inspection Summary").should('be.visible')
@@ -54,9 +54,9 @@ it("User can login, click on a mechanic and make a request for a service", () =>
         });
       
       
+      cy.get('[type=button]').first().click().wait(1000)
       cy.get('[type=button]').first().click()
-      cy.get('[type=button]').first().click()
-      .wait(10000)
+      .wait(12000)
       cy.get('[type=button]').first().click()
       .wait(1000)
       cy.get("[title=Logout]").click()

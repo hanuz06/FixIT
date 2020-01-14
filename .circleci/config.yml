@@ -27,5 +27,5 @@ workflows:
     jobs:
       - cypress/run:
           start: npm start
-          wait-on: 'https://fix-it-backend.herokuapp.com/'
+          wait-on: 'localhost:8080'
           working_directory: react-front-end
