@@ -21,6 +21,21 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
+  deploy:
+    machine:
+      enabled: true
+
+    working_directory: ~/FixIT
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "dc:c6:9e:81:51:b5:a8:6f:bc:d7:53:ab:b6:fc:eb:82"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push https://github.com/hanuz06/FixIT.git master:production
 
 workflows:
   build:
@@ -29,3 +44,13 @@ workflows:
           start: npm start
           wait-on: 'https://fix-it-backend.herokuapp.com/'
           working_directory: react-front-end
+      - build:
+          filters:
+            branches:
+              ignore: production
+      - deploy:
+          filters:
+            branches:
+              ignore: production
+          requires:
+            - build
