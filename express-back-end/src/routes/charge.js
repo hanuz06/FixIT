@@ -3,8 +3,6 @@ const App = Express();
 const router  = Express.Router();
 App.use(require("body-parser").text());
 
-
-
 module.exports = (stripe) => {
   router.post("/", async(req, res) => {
     const stripeInfo = JSON.parse(req.body);

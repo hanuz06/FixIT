@@ -21,13 +21,11 @@ class PlacesAutoFill extends Component {
 
   handlePlaceChanged(){
     const place = this.autocomplete.getPlace();
-    this.props.onPlaceLoaded(place.formatted_address);
-   
+    this.props.onPlaceLoaded(place.formatted_address);   
   }
 
   render() {
     return (
-
       <TextField
       variant="outlined"
       margin="normal"

@@ -7,7 +7,6 @@ exports.seed = function(knex) {
       // We are aware that this is not a safe way to store passwords
       return knex('mechanics').insert([
         {
-
           "id": 1,
           "first_name": "Mike",
           "last_name": "Smith",
