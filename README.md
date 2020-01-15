@@ -22,7 +22,11 @@ npm start
 
 ## Screenshot of FixIT app in action
 
-!["Screenshot of a FixIT app in action"](https://media.giphy.com/media/ZBbs2P4a8zPsKFGM9m/giphy.gif)
+!["Screenshot of a FixIT app in action"](https://media.giphy.com/media/LQ2NcAVRu2EH4dQz8W/giphy.gif)
+
+!["Screenshot of a FixIT app in action"](https://media.giphy.com/media/L3R4PYkrExTxdxNgeq/giphy.gif)
+
+!["Screenshot of a FixIT app in action"](https://media.giphy.com/media/eMP0gnT7CNsFOOfKjD/giphy.gif)
 
 ## Screenshot of an app development schema
 
@@ -36,7 +40,7 @@ When Netlify detects changes in Github repository production branch it automatic
 
 ## Short video of CircleCI test of the FixIT app
 
-!["Short video of CircleCI test of the FixIT app"](https://media.giphy.com/media/YmzFekCKwhD3s5x6bo/giphy.gif)
+!["Short video an app development schema"](https://media.giphy.com/media/YmzFekCKwhD3s5x6bo/giphy.gif)
 
 ## Screenshot with CircleCI test report
 

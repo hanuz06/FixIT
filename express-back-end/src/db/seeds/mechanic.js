@@ -136,7 +136,6 @@ exports.seed = function(knex) {
           "description": "I've always loved getting my hands dirty and I'm happy to do that fixing your vehicle! Have a mechanic come to you.",
           "avatar": "http://www.w-t-w.org/en/wp-content/uploads/2013/05/mechanics.jpg"
         }
-
       ]);
     });
 };
