@@ -49,11 +49,11 @@ When Netlify detects changes in Github repository production branch it automatic
 
 ## Screenshot of a mobile-friendly landing page
 
-!["Screenshot of a mobile-friendly landing page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-2.png)
+!["Screenshot of a mobile-friendly landing page"](https://github.com/hanuz06/FixIT/blob/readme-branch/readme-pictures/fix-it-mobile-2.png)
 
 ## Screenshot of a mobile-friendly order page
 
-!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-3.png)
+!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/readme-pictures/fix-it-mobile-3.png)
 
 ## Screenshot of a mobile-friendly order page
 
@@ -61,11 +61,11 @@ When Netlify detects changes in Github repository production branch it automatic
 
 ## Screenshot of a mobile-friendly confirmation page
 
-!["Screenshot of a mobile-friendly confirmation page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-5.png)
+!["Screenshot of a mobile-friendly confirmation page"](https://github.com/hanuz06/FixIT/blob/readme-branch/readme-pictures/fix-it-mobile-5.png)
 
 ## Screenshot of a mobile-friendly payment page
 
-!["Screenshot of a mobile-friendly payment page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-6.png)
+!["Screenshot of a mobile-friendly payment page"](https://github.com/hanuz06/FixIT/blob/readme-branch/readme-pictures/fix-it-mobile-6.png)
 
 ## Screenshot of a a frontend diagram
 
