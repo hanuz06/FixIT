@@ -100,7 +100,8 @@ export default function SignUp() {
 
   const clearData = () => { 
     setForm(previouseValues => (
-      { ...previouseValues, firstName: '',
+      { ...previouseValues, 
+        firstName: '',
         lastName: '',
         email: '',
         password: '',
@@ -210,6 +211,7 @@ export default function SignUp() {
                 <TextField
                   autoComplete="fname"
                   name="firstName"
+                  value={form.firstName}
                   variant="outlined"
                   required
                   fullWidth
@@ -228,6 +230,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
+                  value={form.lastName}
                   label="Last Name"                 
                   onChange={changeHandler}
                   name="lastName"  
@@ -243,6 +246,7 @@ export default function SignUp() {
                   fullWidth
                   type="email"
                   id="email"
+                  value={form.email}
                   label="Email Address"                 
                   value={form.email}
                   onChange={changeHandler}
@@ -258,7 +262,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password should have minimum 3 characters"                   
+                  label="Password should have minimum 3 characters"      value={form.password}             
                   onChange={changeHandler}
                   type="password"
                   id="password" 
@@ -273,6 +277,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="passwordConfirmation"
+                  value={form.passwordConfirmation}  
                   label="Password Confirmation"        
                   onChange={changeHandler}
                   type="password"
@@ -288,7 +293,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="phone"
-                  label="Phone number without spaces and hyphens"                  
+                  label="Phone number without spaces and hyphens"       
                   value={form.phone}
                   onChange={changeHandler}
                   type="phone"
@@ -305,6 +310,7 @@ export default function SignUp() {
                   margin="normal"
                   required
                   fullWidth
+                  value={form.location}  
                   name="location"
                   label="Location"                 
                   onChange={changeHandler}
@@ -342,8 +348,7 @@ export default function SignUp() {
             <Button
               type="button"
               fullWidth
-              variant="contained"
-              //color="secondary"
+              variant="contained"              
               className={classes.submit}
               onClick= {clearData}
               style={{backgroundColor:'grey', outline: 'none'}}
