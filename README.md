@@ -57,7 +57,7 @@ When Netlify detects changes in Github repository production branch it automatic
 
 ## Screenshot of a mobile-friendly order page
 
-!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-4.png)
+!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/readme-pictures/fix-it-mobile-4.png)
 
 ## Screenshot of a mobile-friendly confirmation page
 
