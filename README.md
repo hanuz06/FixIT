@@ -6,7 +6,7 @@ To see a production version on Netlify please click 👉 [FixIT](https://fix-it-
 
 ## Synopsis
 
-A car owner has an issue with his car. Tired of his local mechanic, he visits FixIT's website to find a mechanic. The new customer can create a free account, then choose between available mechanics, based on their ratings and descriptions. When they decide on a mechanic they can fill out an inspection request. When they send the request the mechanic is notified through Twilio. Once the mechanic confirms the inspection the users page updates to the confirmation page. With the mechanic on the way the user can sit tight. Once the mechanic completes the inspection, again through a Twilio text, the website automatically redirects to a payment page where the customer will make a payment for service and can rate their mechanic. 
+A car owner has an issue with his car. Tired of his local mechanic, he visits FixIT's website to find a new mechanic. The new customer can create a free account or login. Once logged in they can choose between available mechanics, based on their ratings and descriptions. When they decide on a mechanic, they can fill out an inspection request. When they send the request the mechanic is notified through Twilio. Once the mechanic confirms the inspection the users page updates to the confirmation page. With the mechanic on the way the user can sit tight. Once the mechanic completes the inspection, again through a Twilio text, the website automatically redirects to a payment page where the customer will make a payment for service and can rate their mechanic. 
 
 # Downloading the project
   Fork and clone this repo

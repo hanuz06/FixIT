@@ -101,7 +101,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                       {mechanic.first_name} {mechanic.last_name}
                     </Typography>
                     <Typography gutterBottom variant="h6" component="h6">                    
-                      Inspecion Fee: ${mechanic.hourly_rate} 
+                      Inspection Fee: ${mechanic.hourly_rate} 
                     </Typography>                    
                   </CardContent>
                   <div className={classes.buttonStyle}>
