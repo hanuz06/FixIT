@@ -11,6 +11,7 @@ module.exports = (db, client, Twilio) => {
     if (req.body.description_of_problem === "cypresstest!@#$%") {
       req.body.isConfirmed = true,
       req.body.isCompleted = true;
+      await db('mechanics').where('id', req.body.mechanic_id).update({active: true});
     }
     db('inspections').insert(req.body)
       .returning('*')
@@ -25,7 +26,7 @@ module.exports = (db, client, Twilio) => {
             to: mechanicNumber[0].phone,
             // from: '+15873276729',
             from: '+15873276728',
-            body: `New Inspection Request #${response[0].id} Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes" if you would like to conifirm their appointment!`
+            body: `New Inspection Request #${response[0].id} Hello! We have a new service request for you. One of our clients who lives at ${response[0].location}, has a service request for their ${response[0].car_make}. Here is their description of the problem: ${response[0].description_of_problem}. Please text back only "yes:${response[0].id}" if you would like to conifirm their appointment!`
           })
           .then((res) => {
             res.send(JSON.stringify({ success: true }));
