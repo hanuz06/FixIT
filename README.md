@@ -1,44 +1,65 @@
-# Bringing car mechanics and car owners together
+# Connecting you with your next mechanic
 
-This mobile-friendly app was built by Grant Taylor and Andrey Li as a final project @Lighthouse Labs coding bootcamp.
+FixIT is a single-page (not including Login and Signup) web app  built by Grant Taylor and Andrey Li. It is mobile friendly and was built as a final project for LighthouseLabs coding bootcamp.
 
 To see a production version on Netlify please click 👉 [FixIT](https://fix-it-lhl.netlify.com/)
 
 ## Synopsis
 
-Suppose a car owner has some issues with his car. He visits FixIT website to make a request for inspection. He logs in to web site (or sign up if he has no account), chooses between available mechanics, fills up a request form and presses "Confirm the request" button. After that he waits for confirmation which is reflected on the confirmation page. As soon as status changed to 'completion', the website automatically redirects to a payment page where the customer will make a payment for service and can rate a mechanic. 
+A car owner has an issue with his car. Tired of his local mechanic, he visits FixIT's website to find a mechanic. The new customer can create a free account, then choose between available mechanics, based on their ratings and descriptions. When they decide on a mechanic they can fill out an inspection request. When they send the request the mechanic is notified through Twilio. Once the mechanic confirms the inspection the users page updates to the confirmation page. With the mechanic on the way the user can sit tight. Once the mechanic completes the inspection, again through a Twilio text, the website automatically redirects to a payment page where the customer will make a payment for service and can rate their mechanic. 
 
-## Running backend server
+# Downloading the project
+  Fork and clone this repo
+  
 
+# Running the project localy
+## The back-end server
 ```sh
+cd express-back-end
+npm install
 npm run go
 ```
 
-## Running frontend server
+## Frontend server
 
 ```sh
+cd react-front-end
+npm install
 npm start
 ```
 
+## Testing
+ The react front end has cypress e2e testing. to run you have to run the Frontend and Backend servers then a third cypress terminal.
+
+```sh
+cd react-front-end
+npm run cypress
+```
+
+
 ## Screenshot of FixIT app in action
 
-!["Screenshot of a FixIT app in action"](https://media.giphy.com/media/LQ2NcAVRu2EH4dQz8W/giphy.gif)
+### Landing Page to Mechanic Request and back
+!["Screenshot of a FixIT app in action"](https://media.giphy.com/media/ZBbs2P4a8zPsKFGM9m/giphy.gif)
 
+### Example of a mechanic request
+!["Screenshot of the FixIT app in action"](https://media.giphy.com/media/LQ2NcAVRu2EH4dQz8W/giphy.gif)
+
+### After a mechanic request, the page transitions to a rate and payment page
 !["Screenshot of a FixIT app in action"](https://media.giphy.com/media/L3R4PYkrExTxdxNgeq/giphy.gif)
 
+### After the customer rates and pays they return to the landing page
 !["Screenshot of a FixIT app in action"](https://media.giphy.com/media/eMP0gnT7CNsFOOfKjD/giphy.gif)
 
-## Screenshot of an app development schema
+## Fixit Development Pipeline
 
-Web developer pushes changes to Github repository master branch. 
+The project uses continuous integration through Github, Circle Ci, and Netlify.
 
-When CircleCI detects changes it automatically tests the app. If the app test fails it notifies the developer(either on CircleCI site, or via email). If the test is successful the app changes are pushed to Github repository production branch. 
-
-When Netlify detects changes in Github repository production branch it automatically reflects those changes in its own repository.
+When any updates are pushed to master, Circle Ci runs the app's Cypress tests, if they pass, Circle Ci then updates the production branch in Github. Listening for updates to the production branch, Netlify will update when Circle Ci completes the tests, giving the app continous tested integration.
 
 !["Screenshot of a production schema"](https://github.com/hanuz06/scheduler/blob/master/public/images/scheduler-production-schema.png?raw=true)
 
-## Short video of CircleCI test of the FixIT app
+## Cypress Signup test of the FixIT app
 
 !["Short video an app development schema"](https://media.giphy.com/media/YmzFekCKwhD3s5x6bo/giphy.gif)
 
