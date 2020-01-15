@@ -32,7 +32,7 @@ When CircleCI detects changes it automatically tests the app. If the app test fa
 
 When Netlify detects changes in Github repository production branch it automatically reflects those changes in its own repository.
 
-!["Screenshot of a production schema"](https://github.com/hanuz06/scheduler/blob/master/public/images/scheduler-production-schema.png?raw=true)
+!["Screenshot of a production schema"](https://github.com/hanuz06/scheduler/blob/master/public/images/scheduler-production-schema.png)
 
 ## Short video of CircleCI test of the FixIT app
 
@@ -40,40 +40,40 @@ When Netlify detects changes in Github repository production branch it automatic
 
 ## Screenshot with CircleCI test report
 
-!["Screenshot of a CircleCI test report"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/CI-test.png?raw=true)
+!["Screenshot of a CircleCI test report"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/CI-test.png)
 
 
 ## Screenshot of a mobile-friendly landing page
 
-!["Screenshot of a mobile-friendly landing page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-1.png?raw=true)
+!["Screenshot of a mobile-friendly landing page"](https://raw.githubusercontent.com/hanuz06/FixIT/readme-branch/readme-pictures/fix-it-mobile-1.png)
 
 ## Screenshot of a mobile-friendly landing page
 
-!["Screenshot of a mobile-friendly landing page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-2.png?raw=true)
+!["Screenshot of a mobile-friendly landing page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-2.png)
 
 ## Screenshot of a mobile-friendly order page
 
-!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-3.png?raw=true)
+!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-3.png)
 
 ## Screenshot of a mobile-friendly order page
 
-!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-4.png?raw=true)
+!["Screenshot of a mobile-friendly order page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-4.png)
 
 ## Screenshot of a mobile-friendly confirmation page
 
-!["Screenshot of a mobile-friendly confirmation page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-5.png?raw=true)
+!["Screenshot of a mobile-friendly confirmation page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-5.png)
 
 ## Screenshot of a mobile-friendly payment page
 
-!["Screenshot of a mobile-friendly payment page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-6.png?raw=true)
+!["Screenshot of a mobile-friendly payment page"](https://github.com/hanuz06/FixIT/blob/readme-branch/Readme-pictures/fix-it-mobile-6.png)
 
 ## Screenshot of a a frontend diagram
 
-!["Screenshot of a a frontend diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-App-Diagram.png?raw=true)
+!["Screenshot of a a frontend diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-App-Diagram.png)
 
 ## Screenshot of a a backend Entity Relationship Diagram
 
-!["Screenshot of a a backend Entity Relationship Diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-ERD.png?raw=true)
+!["Screenshot of a a backend Entity Relationship Diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-ERD.png)
 
 
 ## Dependencies
