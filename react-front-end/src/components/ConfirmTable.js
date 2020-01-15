@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 export default function ConfirmTable({ inspection, mechanic }) {
 
   const { car_make, year, location, description_of_problem, isConfirmed, isCompleted } = inspection;
-  const { first_name, last_name } = mechanic;
+  const { first_name, last_name, hourly_rate } = mechanic;
 
   const classes = useStyles();  
 
@@ -126,6 +126,13 @@ export default function ConfirmTable({ inspection, mechanic }) {
               <TableCell className={classes.tableCell}>{description_of_problem}</TableCell>
             </TableRow> 
 
+            <TableRow> 
+            <TableCell component="th" scope="row" className={classes.tableCell}>
+            Your Fee
+              </TableCell>
+              <TableCell className={classes.tableCell}>${hourly_rate}</TableCell>
+            </TableRow> 
+
             {isConfirmed && <TableRow> 
             <TableCell component="th" scope="row" className={classes.tableCell}>
             Confirmed
@@ -152,6 +159,7 @@ ConfirmTable.propTypes = {
   year: PropTypes.number,
   location: PropTypes.string,
   description_of_problem: PropTypes.string,
+  hourly_rate: PropTypes.number,
   isCompleted: PropTypes.bool,
   isConfirmed: PropTypes.bool,
   mechanic: PropTypes.object.isRequired,
