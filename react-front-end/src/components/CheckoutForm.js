@@ -45,7 +45,7 @@ class CheckoutForm extends Component {
 
     return (
       <div className="checkout">        
-        <p> Pay your inspection fee with with Stripe and we'll let you and your mechanic figure out the rest! 4000001240000000</p>
+        <p> Pay your inspection fee of ${this.mechanicObj.hourly_rate} with Stripe and we'll let you and your mechanic figure out the rest! 4000001240000000</p>
         <CardElement  />        
         <Button size="small" variant="contained" color="primary" onClick={this.submit} style={{marginTop:'3px'}}>
         Purchase

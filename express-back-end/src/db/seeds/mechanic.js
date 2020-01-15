@@ -29,7 +29,7 @@ exports.seed = function(knex) {
           "location": "Calgary",
           "hourly_rate": 50,
           "active": true,
-          "description": "Check out my rating! I've been called the best mechanic in the city",
+          "description": "Check out my rating! I've been called the best mechanic in the city. We are raising the standard of service you should expect from any service provider - especially your mechanic.",
           "avatar": "https://www.kijiji.ca/kijijicentral/app/uploads/2017/10/5-Buyers_inspection_1280x692-1280x692-c-default.jpg"
         },
         {
@@ -81,7 +81,7 @@ exports.seed = function(knex) {
           "location": "Calgary",
           "hourly_rate": 45,
           "active": true,
-          "description": "I specailize in older vehicles, but don't worry I can check out your 2019 F150 too!",
+          "description": "I specailize in older vehicles, but don't worry I can check out your 2019 F150 too! Warranty approved.",
           "avatar": "https://media.gettyimages.com/photos/at-car-service-picture-id846734982?s=612x612"
         },
         {
@@ -120,7 +120,7 @@ exports.seed = function(knex) {
           "location": "Calgary",
           "hourly_rate": 65,
           "active": true,
-          "description": "Striving everyday to provide you with the best possible service.",
+          "description": "Striving everyday to provide you with the best possible service.Save time & money on auto repair.",
           "avatar": "http://knowhow.napaonline.com/wp-content/uploads/2017/02/routine_oil_change.jpg"
         },
         {
@@ -133,10 +133,9 @@ exports.seed = function(knex) {
           "location": "Calgary",
           "hourly_rate": 50,
           "active": true,
-          "description": "I've always loved getting my hands dirty and I'm happy to do that fixing your vehicle!",
+          "description": "I've always loved getting my hands dirty and I'm happy to do that fixing your vehicle! Have a mechanic come to you.",
           "avatar": "http://www.w-t-w.org/en/wp-content/uploads/2013/05/mechanics.jpg"
         }
-
       ]);
     });
 };
