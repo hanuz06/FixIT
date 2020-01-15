@@ -1,4 +1,4 @@
-# Bringing together car mechanics and car owners
+# Bringing car mechanics and car owners together
 
 This mobile-friendly app was built by Grant Taylor and Andrey Li as a final project @Lighthouse Labs coding bootcamp.
 
@@ -20,11 +20,11 @@ npm run go
 npm start
 ```
 
-## Screenshot of a FixIT app in action
+## Screenshot of FixIT app in action
 
 !["Screenshot of a FixIT app in action"](https://media.giphy.com/media/ZBbs2P4a8zPsKFGM9m/giphy.gif)
 
-## Screenshot of a app development schema
+## Screenshot of an app development schema
 
 Web developer pushes changes to Github repository master branch. 
 
@@ -67,14 +67,13 @@ When Netlify detects changes in Github repository production branch it automatic
 
 !["Screenshot of a mobile-friendly payment page"](https://github.com/hanuz06/FixIT/blob/readme-branch/readme-pictures/fix-it-mobile-6.png)
 
-## Screenshot of a a frontend diagram
+## Screenshot of a frontend diagram
 
-!["Screenshot of a a frontend diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-App-Diagram.png)
+!["Screenshot of afrontend diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-App-Diagram.png)
 
-## Screenshot of a a backend Entity Relationship Diagram
+## Screenshot of a backend Entity Relationship Diagram
 
-!["Screenshot of a a backend Entity Relationship Diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-ERD.png)
-
+!["Screenshot of a backend Entity Relationship Diagram"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/FixIT-ERD.png)
 
 ## Dependencies
 
