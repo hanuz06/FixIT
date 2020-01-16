@@ -49,7 +49,7 @@ export default function MechanicRating({ mechanic, inspection, setRating, backTo
         <div component="div" className={classNames(classes.boxDivide, classes.cardHeightAdjustment)} >  
           <Card className={classes.card}>
           <Typography gutterBottom variant="h5" component="h5">                
-          { !ratingComplete && `Please rate" ${mechanic.first_name}!` } 
+          { !ratingComplete && `Please rate ${mechanic.first_name}!` } 
           { ratingComplete && `You rated ${mechanic.first_name}!` } 
           </Typography>   
             <CardMedia
