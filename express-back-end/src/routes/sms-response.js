@@ -33,7 +33,7 @@ module.exports = (db) => {
     } else if (words[0].toLowerCase() === 'yes') {
       const inspectionConfirm = await db('inspections').where('id', words[1]).update({isConfirmed: true});
       if (inspectionConfirm) {
-        twiml.message('We have confirmed your appointment!!');
+        twiml.message('We have confirmed your inspection! When you finish the inspection text us "complete:<yourinspection#>" to complete the transaction');
   
       } else {
         twiml.message('We could not confirm your appointment! Please check your inspection number');
