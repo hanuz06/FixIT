@@ -33,8 +33,7 @@ class CheckoutForm extends Component {
   
     if (response.ok) {
       this.setState({complete:true})
-      sessionStorage.setItem('StripePayment', true)
-      console.log("Purchase Complete!")
+      sessionStorage.setItem('StripePayment', true)      
     }
     }
   }
