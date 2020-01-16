@@ -4,67 +4,67 @@ export const cars = [
     label: 'Select car make',
   },
   {
-    value: 'audi',
+    value: 'Audi',
     label: 'Audi',
   },  
   {
-    value: 'bmw',
+    value: 'BMW',
     label: 'BMW',
   },
   {
-    value: 'chrysler',
+    value: 'Chrysler',
     label: 'Chrysler',
   },
   {
-    value: 'dodge',
+    value: 'Dodge',
     label: 'Dodge',
   },
   {
-    value: 'gm',
+    value: 'GM',
     label: 'General Motors',
   },
   {
-    value: 'ford',
+    value: 'Ford',
     label: 'Ford',
   },
   {
-    value: 'kia',
+    value: 'Kia',
     label: 'Kia',
   },
   {
-    value: 'honda',
+    value: 'Honda',
     label: 'Honda',
   },
   {
-    value: 'mahindra',
+    value: 'Mahindra',
     label: 'Mahindra',
   },
   {
-    value: 'mazda',
+    value: 'Mazda',
     label: 'Mazda',
   },
   {
-    value: 'mercedes',
+    value: 'Mercedes Benz',
     label: 'Mercedes Benz',
   },
   {
-    value: 'nissan',
+    value: 'Nissan',
     label: 'Nissan',
   },
   {
-    value: 'toyota',
+    value: 'Toyota',
     label: 'Toyota',
   },
   {
-    value: 'volkswager',
+    value: 'Volkswagen',
     label: 'Volkswagen',
   },
   {
-    value: 'jaguar',
+    value: 'Jaguar',
     label: 'Jaguar',
   },
   {
-    value: 'hyundai',
+    value: 'Hyundai',
     label: 'Hyundai',
   },
 ];

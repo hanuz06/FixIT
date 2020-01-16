@@ -75,7 +75,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
         <TypeSentence /> 
         <Alert />             
         <form className="form-inline my-2 my-lg-0">
-          <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
+          <input id="searchMechanic" value={select} className="form-control mr-2 mx-sm-auto" onChange={selectMechanic} type="search" placeholder="Search for a Mechanic" aria-label="Search" style={{minWidth:'125px', width:'85%'}}/>
           <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={clearSearch}>Clear</button>
         </form> 
       </Container>
