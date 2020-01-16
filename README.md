@@ -1,19 +1,21 @@
 # Connecting you with your next mechanic
 
-FixIT is a single-page (not including Login and Signup) web app  built by Grant Taylor and Andrey Li. It is mobile friendly and was built as a final project for LighthouseLabs coding bootcamp.
+FixIT is a single-page (not including Login and Signup) web app built by Grant Taylor and Andrey Li. It is mobile friendly and was built as a final project for LighthouseLabs coding bootcamp.
 
 To see a production version on Netlify please click 👉 [FixIT](https://fix-it-lhl.netlify.com/)
 
 ## Synopsis
 
-A car owner has an issue with his car. Tired of his local mechanic, he visits FixIT's website to find a new mechanic. The new customer can create a free account or login. Once logged in they can choose between available mechanics, based on their ratings and descriptions. When they decide on a mechanic, they can fill out an inspection request. When they send the request the mechanic is notified through Twilio. Once the mechanic confirms the inspection the users page updates to the confirmation page. With the mechanic on the way the user can sit tight. Once the mechanic completes the inspection, again through a Twilio text, the website automatically redirects to a payment page where the customer will make a payment for service and can rate their mechanic. 
+A car owner has an issue with his car. Tired of his local mechanic, he visits FixIT's website to find a new mechanic. The new customer can create a free account or login. Once logged in they can choose between available mechanics, based on their ratings and descriptions. When they decide on a mechanic, they can fill out an inspection request. When they send the request the mechanic is notified through Twilio. Once the mechanic confirms the inspection the users page updates to the confirmation page. With the mechanic on the way the user can sit tight. Once the mechanic completes the inspection, again through a Twilio text, the website automatically redirects to a payment page where the customer will make a payment for service and can rate their mechanic.
 
 # Downloading the project
-  Fork and clone this repo
-  
+
+Fork and clone this repo
 
 # Running the project localy
+
 ## The back-end server
+
 ```sh
 cd express-back-end
 npm install
@@ -29,26 +31,30 @@ npm start
 ```
 
 ## Testing
- The react front end has cypress e2e testing. to run you have to run the Frontend and Backend servers then a third cypress terminal.
+
+The react front end has cypress e2e testing. to run you have to run the Frontend and Backend servers then a third cypress terminal.
 
 ```sh
 cd react-front-end
 npm run cypress
 ```
 
-
 ## Screenshot of FixIT app in action
 
 ### Landing Page to Mechanic Request and back
+
 !["Screenshot of a FixIT app in action"](https://media.giphy.com/media/ZBbs2P4a8zPsKFGM9m/giphy.gif)
 
 ### Example of a mechanic request
+
 !["Screenshot of the FixIT app in action"](https://media.giphy.com/media/LQ2NcAVRu2EH4dQz8W/giphy.gif)
 
 ### After a mechanic request, the page transitions to a rate and payment page
+
 !["Screenshot of a FixIT app in action"](https://media.giphy.com/media/L3R4PYkrExTxdxNgeq/giphy.gif)
 
 ### After the customer rates and pays they return to the landing page
+
 !["Screenshot of a FixIT app in action"](https://media.giphy.com/media/eMP0gnT7CNsFOOfKjD/giphy.gif)
 
 ## Fixit Development Pipeline
@@ -65,8 +71,7 @@ When any updates are pushed to master, Circle Ci runs the app's Cypress tests, i
 
 ## Screenshot with CircleCI test report
 
-!["Screenshot of a CircleCI test report"](https://github.com/hanuz06/FixIT/blob/master/Readme-pictures/CI-test.png)
-
+!["Screenshot of a CircleCI test report"](https://github.com/hanuz06/FixIT/blob/master/readme-pictures/CI-test.png?raw=true)
 
 ## Screenshot of a mobile-friendly landing page
 
