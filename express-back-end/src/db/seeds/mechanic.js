@@ -43,7 +43,7 @@ exports.seed = function(knex) {
           "hourly_rate": 65,
           "active": true,
           "description": "Experienced, reliable mechanic ready to do almost any job in your driveway that doesn't require an engine hoist.",
-          "avatar": "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"
+          "avatar": "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg"
         },
         {
           "id": 4,

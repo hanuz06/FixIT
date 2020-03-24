@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme  => ({
   }
 }));
 
-export function ScrollTop(props) {
+export function (props) {
   const { children, window } = props;
   const classes = useStyles();
 
