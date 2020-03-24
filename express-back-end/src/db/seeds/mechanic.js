@@ -35,7 +35,7 @@ exports.seed = function(knex) {
         {
           "id": 3,
           "first_name": "Dustin",
-          "last_name": "Hoyt",
+          "last_name": "Brown",
           "email": "granttaylor448@gmail.com",
           "password_digest": "123",
           "phone": 4037000357,
