@@ -62,7 +62,7 @@ export default function SignIn() {
 
   const loginValidation = e => {
     let dataValid = true;
-    e.preventDefault();preventDefault();
+    e.preventDefault();
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;     
     if (!form.email){       
       setForm(previouseValues => ({ ...previouseValues, emailHelperText: "Email required", emailError: true }));
