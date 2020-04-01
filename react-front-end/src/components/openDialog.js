@@ -93,6 +93,8 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
     setMechanicInfo(mechanic)
   } 
 
+  const mechanicAvatar = avatarAddress => avatarAddress === "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"? "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg" : avatarAddress;
+
   return (    
   
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={classes.dialog} transitionDuration={600}>
@@ -106,7 +108,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             className={classes.cardMedia}    
             title="Best mechanic"
           > 
-          <img src={avatar || "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg"} alt="Best mechanic" className={classes.image} />
+          <img src={mechanicAvatar(avatar)} alt="Best mechanic" className={classes.image} />
           </CardMedia>          
           < MechanicCardRating stars={avg} />               
           <CardContent className={classes.cardContent}>

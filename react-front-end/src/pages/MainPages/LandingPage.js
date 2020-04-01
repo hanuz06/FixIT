@@ -64,6 +64,8 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     
     const userId = sessionStorage.getItem('userId')
 
+    const mechanicAvatar = avatarAddress => avatarAddress === "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"? "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg" : avatarAddress;
+
   return (
     <Fragment>       
     <div className={classes.heroContent}>
@@ -92,7 +94,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                 <Card className={classes.card} onClick={()=>openModal(mechanic.id)} >           
                   <CardMedia
                     className={classes.cardMedia}
-                    image = {mechanic.avatar || "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg"}
+                    image = {mechanicAvatar(mechanic.avatar)}
                     title="Image title"                    
                     />
                   < MechanicCardRating stars={mechanic.avg}/>               
