@@ -106,7 +106,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
             className={classes.cardMedia}    
             title="Best mechanic"
           > 
-          <img src={avatar} alt="Best mechanic" className={classes.image} />
+          <img src={avatar || "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg"} alt="Best mechanic" className={classes.image} />
           </CardMedia>          
           < MechanicCardRating stars={avg} />               
           <CardContent className={classes.cardContent}>

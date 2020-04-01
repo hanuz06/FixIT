@@ -92,7 +92,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
                 <Card className={classes.card} onClick={()=>openModal(mechanic.id)} >           
                   <CardMedia
                     className={classes.cardMedia}
-                    image = {mechanic.avatar}
+                    image = {mechanic.avatar || "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg"}
                     title="Image title"                    
                     />
                   < MechanicCardRating stars={mechanic.avg}/>               
