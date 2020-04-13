@@ -64,7 +64,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
     
     const userId = sessionStorage.getItem('userId')
 
-    const mechanicAvatar = avatarAddress => avatarAddress === "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"? "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg" : avatarAddress;
+    const mechanicAvatar = avatarAddress => avatarAddress === "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"? "https://images.wheels.ca/wp-content/uploads/2015/05/mechanic.jpg" : avatarAddress;
 
   return (
     <Fragment>       
