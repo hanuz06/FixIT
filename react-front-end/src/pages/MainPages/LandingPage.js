@@ -76,12 +76,7 @@ export default function LandingPage({ mechanics, onRequest, setMechanicInfo }) {
       default:
         return avatarAddress;
     }
-  };
-
-  // avatarAddress ===
-  // "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"
-  //   ? "https://images.wheels.ca/wp-content/uploads/2015/05/mechanic.jpg"
-  //   : avatarAddress;
+  };  
 
   return (
     <Fragment>
