@@ -14,7 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MechanicCardRating from '../components/MechanicCardRating';
-import classNames from 'classnames';
+import mechanicAvatar from '../helpers/mechanicAvatar';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -92,9 +92,7 @@ export default function SimpleDialogDemo({ mechanic, closeModal, modalOpen, onRe
     onRequest();
     setMechanicInfo(mechanic)
   } 
-
-  const mechanicAvatar = avatarAddress => avatarAddress === "https://cdn.trade-schools.net/static/graphics/auto-mechanic-top.jpg"? "https://www.autoguru.com.au/Content/images/mechanics/mechanics.jpg" : avatarAddress;
-
+  
   return (    
   
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={classes.dialog} transitionDuration={600}>
